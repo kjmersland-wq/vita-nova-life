@@ -36,9 +36,9 @@ export function langParam(lang: Lang): string | undefined {
   return lang === "en" ? undefined : lang;
 }
 
-type RouteTo = `/{-$lang}${"/" | Exclude<AppPath, "/">}`;
+type RouteTo = "/{-$lang}" | `/{-$lang}${Exclude<AppPath, "/">}`;
 function routeTo(path: AppPath): RouteTo {
-  return (path === "/" ? "/{-$lang}/" : `/{-$lang}${path}`) as RouteTo;
+  return (path === "/" ? "/{-$lang}" : `/{-$lang}${path}`) as RouteTo;
 }
 
 export function LangLink({
