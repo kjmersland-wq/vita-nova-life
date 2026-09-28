@@ -11,14 +11,14 @@ const T = {
     meta: {
       title: "Your profile — Vita Nova Life",
       description:
-        "Age, body, activity, daylight and diet. Coarse buckets only — enough context to weight your lab results.",
-      ogDescription: "The context we use to weight your lab results. No account needed.",
+        "Age, body, activity, daylight and diet. A few simple choices — enough context to weigh your lab results fairly.",
+      ogDescription: "The context we use to weigh your lab results. No account needed.",
     },
     step: "Step 1 of 3",
-    title: "A little context",
+    title: "A little about you",
     intro:
-      "Coarse buckets are enough. We use this to decide which out-of-range value matters most for you — nothing else.",
-    demoFill: "Fill with a demo person",
+      "Rough answers are fine. We use this only to work out which out-of-range value matters most for you.",
+    demoFill: "Fill in a demo person",
     age: "Age",
     height: "Height (cm)",
     weight: "Weight (kg)",
@@ -58,8 +58,8 @@ const T = {
       winter: "Dark half of the year",
       summer: "Light half of the year",
     },
-    flagsTitle: "Health flags",
-    flagsIntro: "Yes or no only. These can stop a suggestion from being shown at all.",
+    flagsTitle: "A few health checks",
+    flagsIntro: "Just yes or no. Any of these can mean we hold back a suggestion.",
     flags: {
       pregnantOrBreastfeeding: "Pregnant or breastfeeding",
       kidneyDisease: "Known kidney disease",
@@ -71,7 +71,7 @@ const T = {
     },
     distressTitle: "Please talk to someone today",
     distressBody:
-      "We will not generate a lifestyle program for this. Contact your local emergency number, your doctor, or a crisis line:",
+      "We won't build a lifestyle program around this. Please contact your local emergency number, your doctor, or a crisis line:",
     distressLines: [
       "Emergency (EU): 112",
       "Norway — Mental Helse: 116 123",
@@ -79,20 +79,20 @@ const T = {
       "US — 988 Suicide & Crisis Lifeline: 988",
       "International directory: findahelpline.com",
     ],
-    continue: "Continue to goals",
-    fillHint: "Fill the fields above to continue.",
+    continue: "Continue to your goal",
+    fillHint: "Fill in the fields above to continue.",
   },
   no: {
     meta: {
       title: "Din profil — Vita Nova Life",
       description:
-        "Alder, kropp, aktivitet, dagslys og kosthold. Grove kategorier — nok kontekst til å vekte prøvesvarene dine.",
+        "Alder, kropp, aktivitet, dagslys og kosthold. Noen enkle valg — nok til å vekte prøvesvarene dine rettferdig.",
       ogDescription: "Konteksten vi bruker til å vekte prøvesvarene dine. Ingen konto nødvendig.",
     },
     step: "Steg 1 av 3",
-    title: "Litt kontekst",
+    title: "Litt om deg",
     intro:
-      "Grove kategorier er nok. Vi bruker dette til å avgjøre hvilken avvikende verdi som betyr mest for deg — ikke noe annet.",
+      "Omtrentlige svar holder. Vi bruker dette bare til å finne ut hvilken avvikende verdi som betyr mest for deg.",
     demoFill: "Fyll inn en demoperson",
     age: "Alder",
     height: "Høyde (cm)",
@@ -133,8 +133,8 @@ const T = {
       winter: "Den mørke halvdelen av året",
       summer: "Den lyse halvdelen av året",
     },
-    flagsTitle: "Helsemarkeringer",
-    flagsIntro: "Bare ja eller nei. Disse kan hindre at et forslag vises i det hele tatt.",
+    flagsTitle: "Noen helsespørsmål",
+    flagsIntro: "Bare ja eller nei. Ett av disse kan gjøre at vi holder tilbake et forslag.",
     flags: {
       pregnantOrBreastfeeding: "Gravid eller ammer",
       kidneyDisease: "Kjent nyresykdom",
@@ -146,7 +146,7 @@ const T = {
     },
     distressTitle: "Snakk med noen i dag",
     distressBody:
-      "Vi vil ikke lage et livsstilsprogram for dette. Kontakt nødnummeret der du bor, legen din, eller en hjelpetelefon:",
+      "Vi lager ikke et livsstilsprogram rundt dette. Ta kontakt med nødnummeret der du bor, legen din, eller en hjelpetelefon:",
     distressLines: [
       "Nødnummer (EU): 112",
       "Norge — Mental Helse hjelpetelefon: 116 123",
@@ -154,20 +154,20 @@ const T = {
       "Polen — Telefon zaufania: 116 123",
       "Internasjonal oversikt: findahelpline.com",
     ],
-    continue: "Gå videre til mål",
+    continue: "Gå videre til målet ditt",
     fillHint: "Fyll inn feltene over for å fortsette.",
   },
   pl: {
     meta: {
       title: "Twój profil — Vita Nova Life",
       description:
-        "Wiek, ciało, aktywność, światło dzienne i dieta. Tylko przybliżone kategorie — wystarczy, by nadać wagę wynikom badań.",
-      ogDescription: "Kontekst, którego używamy do nadania wagi wynikom badań. Bez konta.",
+        "Wiek, ciało, aktywność, światło dzienne i dieta. Kilka prostych wyborów — tyle, by uczciwie ocenić Twoje wyniki.",
+      ogDescription: "Kontekst, którego używamy, żeby uczciwie ocenić Twoje wyniki. Bez konta.",
     },
     step: "Krok 1 z 3",
-    title: "Trochę kontekstu",
+    title: "Kilka słów o Tobie",
     intro:
-      "Wystarczą przybliżone kategorie. Używamy tego, by ustalić, która nieprawidłowa wartość ma dla Ciebie największe znaczenie — nic więcej.",
+      "Wystarczą przybliżone odpowiedzi. Używamy ich tylko po to, żeby ustalić, która nieprawidłowa wartość liczy się dla Ciebie najbardziej.",
     demoFill: "Wypełnij przykładową osobą",
     age: "Wiek",
     height: "Wzrost (cm)",
@@ -208,8 +208,8 @@ const T = {
       winter: "Ciemna połowa roku",
       summer: "Jasna połowa roku",
     },
-    flagsTitle: "Flagi zdrowotne",
-    flagsIntro: "Tylko tak lub nie. Mogą całkowicie zablokować pokazanie sugestii.",
+    flagsTitle: "Kilka pytań o zdrowie",
+    flagsIntro: "Tylko tak lub nie. Każde z nich może sprawić, że wstrzymamy sugestię.",
     flags: {
       pregnantOrBreastfeeding: "Ciąża lub karmienie piersią",
       kidneyDisease: "Znana choroba nerek",
@@ -219,9 +219,9 @@ const T = {
       bloodThinners: "Leki przeciwzakrzepowe",
       severeDistress: "Silne cierpienie psychiczne lub myśli samobójcze",
     },
-    distressTitle: "Porozmawiaj z kimś dziś",
+    distressTitle: "Porozmawiaj dziś z kimś",
     distressBody:
-      "Nie wygenerujemy dla tego programu stylu życia. Skontaktuj się z lokalnym numerem alarmowym, lekarzem lub telefonem zaufania:",
+      "Nie ułożymy wokół tego programu stylu życia. Skontaktuj się z lokalnym numerem alarmowym, lekarzem lub telefonem zaufania:",
     distressLines: [
       "Numer alarmowy (UE): 112",
       "Polska — Telefon zaufania: 116 123",
@@ -229,7 +229,7 @@ const T = {
       "Norwegia — Mental Helse: 116 123",
       "Międzynarodowy katalog: findahelpline.com",
     ],
-    continue: "Przejdź do celów",
+    continue: "Przejdź do swojego celu",
     fillHint: "Wypełnij pola powyżej, aby kontynuować.",
   },
 };

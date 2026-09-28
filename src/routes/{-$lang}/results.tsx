@@ -17,8 +17,8 @@ const T = {
       ogDescription: "One conclusion, three actions, and a clear line on what not to buy.",
     },
     noValuesTitle: "No values yet",
-    noValuesBody: "Enter at least one lab value and we will read it against your own lab's range.",
-    goToLabs: "Go to labs",
+    noValuesBody: "Enter at least one lab value and we'll read it against your own lab's range.",
+    goToLabs: "Go to my labs",
     talkToPerson: "Talk to a person today",
     emergency: "Emergency (EU): 112",
     norwayHelp: "Norway — Mental Helse: 116 123",
@@ -35,10 +35,10 @@ const T = {
       Finding["status"],
       string
     >,
-    saveAndSee: "Save and see my 4-week program",
+    saveAndSee: "Save it and see my 4-week plan",
     editValues: "Edit my values",
     disclaimer:
-      "This is not medical advice, not a diagnosis and not a treatment plan. Ranges are the ones you typed from your own lab.",
+      "This isn't medical advice, a diagnosis or a treatment plan. The ranges are the ones you typed in from your own lab.",
   },
   no: {
     meta: {
@@ -50,7 +50,7 @@ const T = {
     noValuesTitle: "Ingen verdier ennå",
     noValuesBody:
       "Skriv inn minst én blodprøveverdi, så vurderer vi den mot ditt eget laboratoriums område.",
-    goToLabs: "Gå til blodprøver",
+    goToLabs: "Gå til prøvene mine",
     talkToPerson: "Snakk med noen i dag",
     emergency: "Nødnummer (EU): 112",
     norwayHelp: "Norge — Mental Helse: 116 123",
@@ -67,10 +67,10 @@ const T = {
       Finding["status"],
       string
     >,
-    saveAndSee: "Lagre og se 4-ukersprogrammet mitt",
+    saveAndSee: "Lagre og se fireukersplanen min",
     editValues: "Rediger verdiene mine",
     disclaimer:
-      "Dette er ikke medisinske råd, ikke en diagnose og ikke en behandlingsplan. Områdene er de du skrev inn fra ditt eget laboratorium.",
+      "Dette er ikke medisinsk rådgivning, ikke en diagnose og ikke en behandlingsplan. Områdene er de du skrev inn fra ditt eget laboratorium.",
   },
   pl: {
     meta: {
@@ -82,7 +82,7 @@ const T = {
     noValuesTitle: "Brak wartości",
     noValuesBody:
       "Wprowadź co najmniej jedną wartość badania, a odczytamy ją względem zakresu Twojego laboratorium.",
-    goToLabs: "Przejdź do wyników badań",
+    goToLabs: "Przejdź do moich badań",
     talkToPerson: "Porozmawiaj dziś z kimś",
     emergency: "Numer alarmowy (UE): 112",
     norwayHelp: "Norwegia — Mental Helse: 116 123",
@@ -99,7 +99,7 @@ const T = {
       Finding["status"],
       string
     >,
-    saveAndSee: "Zapisz i zobacz mój 4-tygodniowy program",
+    saveAndSee: "Zapisz i zobacz mój 4-tygodniowy plan",
     editValues: "Edytuj moje wartości",
     disclaimer:
       "To nie jest porada medyczna, diagnoza ani plan leczenia. Zakresy to te, które wpisałeś/aś z własnego laboratorium.",

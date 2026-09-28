@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { LangLink, toLang, useDict, useLang } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { RunGate, Page, StepHeader } from "@/components/site";
+import walkImg from "@/assets/vita-walk.jpg";
 import { useAppState, useHydrated } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { buildProgram } from "@/lib/engine/program";
@@ -21,7 +22,7 @@ const T = {
     keepThis: "Keep this, and compare your next test",
     withAccount: "Your runs are saved in History. Add new labs later to regenerate this program.",
     withoutAccount:
-      "Your run is stored on this device. An account adds history across devices, check-ins and a PDF export of your own summary.",
+      "Your run is stored on this device for now. An account adds history across devices, check-ins and a PDF of your own summary.",
     history: "History",
     seePro: "See Pro",
     disclaimer:
@@ -41,7 +42,7 @@ const T = {
     keepThis: "Behold dette, og sammenlign neste prøve",
     withAccount: "Testene dine lagres i Historikk. Legg til nye prøver senere for å lage programmet på nytt.",
     withoutAccount:
-      "Testen din lagres på denne enheten. En konto legger til historikk på tvers av enheter, oppfølginger og PDF-eksport av eget sammendrag.",
+      "Testen din er lagret på denne enheten foreløpig. En konto gir deg historikk på tvers av enheter, oppfølging og en PDF av ditt eget sammendrag.",
     history: "Historikk",
     seePro: "Se Pro",
     disclaimer:
@@ -61,7 +62,7 @@ const T = {
     keepThis: "Zachowaj to i porównaj kolejne badanie",
     withAccount: "Twoje testy są zapisane w Historii. Dodaj nowe badania później, aby wygenerować program na nowo.",
     withoutAccount:
-      "Twój test jest zapisany na tym urządzeniu. Konto dodaje historię na wielu urządzeniach, kontrole i eksport PDF własnego podsumowania.",
+      "Twój test jest na razie zapisany na tym urządzeniu. Konto dodaje historię na kilku urządzeniach, kontrole postępów i PDF Twojego podsumowania.",
     history: "Historia",
     seePro: "Zobacz Pro",
     disclaimer:
@@ -117,6 +118,8 @@ function ProgramPage() {
     <Page>
       <div className="container-page max-w-4xl py-12">
         <StepHeader step={t.step} title={program.title} intro={program.rationale} />
+
+        <img src={walkImg} alt="" loading="lazy" width={1280} height={864} className="mb-8 aspect-[21/9] w-full rounded-xl object-cover" />
 
         {program.overridden ? (
           <div className="mb-8 rounded-xl border border-accent/50 bg-accent/10 p-5">

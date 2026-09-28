@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import daylightImg from "@/assets/vita-daylight.jpg";
 import { ArrowRight, ArrowUpRight, HeartPulse, Menu } from "lucide-react";
 import { useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
@@ -6,9 +7,9 @@ import { Button } from "@/components/ui/button";
 import { LANGS, LANG_LABEL, LangLink, useDict, useLang, type AppPath } from "@/lib/i18n";
 
 const SITE_T = {
-  en: { method: "Our approach", history: "My history", pricing: "Pricing", legal: "Legal", start: "Get started", menu: "Toggle menu", tagline: "Make sense of your labs. Make a plan for everyday life.", disclaimer: "Vita Nova Life is not a doctor, a clinic or a lab. Nothing here is medical advice, diagnosis or treatment.", terms: "Terms & privacy", lang: "Language" },
-  no: { method: "Vår metode", history: "Min historikk", pricing: "Priser", legal: "Juridisk", start: "Kom i gang", menu: "Åpne meny", tagline: "Forstå blodprøvene dine. Lag en plan for hverdagen.", disclaimer: "Vita Nova Life er ikke en lege, en klinikk eller et laboratorium. Ingenting her er medisinske råd, diagnose eller behandling.", terms: "Vilkår og personvern", lang: "Språk" },
-  pl: { method: "Nasze podejście", history: "Moja historia", pricing: "Cennik", legal: "Informacje prawne", start: "Zacznij", menu: "Otwórz menu", tagline: "Zrozum swoje wyniki. Zaplanuj codzienność.", disclaimer: "Vita Nova Life nie jest lekarzem, kliniką ani laboratorium. Nic tutaj nie jest poradą medyczną, diagnozą ani leczeniem.", terms: "Regulamin i prywatność", lang: "Język" },
+  en: { method: "Our approach", history: "My history", pricing: "Pricing", legal: "Legal", start: "Get started", menu: "Toggle menu", tagline: "Make sense of your labs. Build a plan for your everyday life.", disclaimer: "Vita Nova Life isn't a doctor, a clinic or a lab. Nothing here is medical advice, a diagnosis or treatment.", terms: "Terms & privacy", lang: "Language" },
+  no: { method: "Metoden vår", history: "Historikken min", pricing: "Priser", legal: "Juridisk", start: "Kom i gang", menu: "Åpne meny", tagline: "Forstå blodprøvene dine. Legg en plan for hverdagen din.", disclaimer: "Vita Nova Life er ikke en lege, en klinikk eller et laboratorium. Ingenting her er medisinsk rådgivning, diagnose eller behandling.", terms: "Vilkår og personvern", lang: "Språk" },
+  pl: { method: "Nasze podejście", history: "Moja historia", pricing: "Cennik", legal: "Informacje prawne", start: "Zacznij", menu: "Otwórz menu", tagline: "Zrozum swoje badania. Ułóż plan na co dzień.", disclaimer: "Vita Nova Life nie jest lekarzem, kliniką ani laboratorium. Nic tutaj nie jest poradą medyczną, diagnozą ani leczeniem.", terms: "Regulamin i prywatność", lang: "Język" },
 };
 
 function currentPath(pathname: string): AppPath {
@@ -186,9 +187,9 @@ export function Toggle({
 }
 
 const GATE_T = {
-  en: { title: "Pick your goal first", body: "Your result and program are built around the goal you choose. Nothing is assumed.", cta: "Choose a goal" },
-  no: { title: "Velg målet ditt først", body: "Resultatet og programmet bygges rundt målet du velger. Ingenting antas.", cta: "Velg et mål" },
-  pl: { title: "Najpierw wybierz cel", body: "Wynik i program są budowane wokół wybranego celu. Niczego nie zakładamy.", cta: "Wybierz cel" },
+  en: { title: "Let's pick your goal first", body: "Your result and program are built around the goal you choose — nothing here is a guess.", cta: "Choose a goal" },
+  no: { title: "La oss velge målet ditt først", body: "Resultatet og programmet bygges rundt målet du velger — ingenting her er gjetning.", cta: "Velg et mål" },
+  pl: { title: "Najpierw wybierz swój cel", body: "Twój wynik i program budujemy wokół celu, który wybierzesz — nic tu nie jest zgadywane.", cta: "Wybierz cel" },
 };
 
 /** Renders a placeholder until stored state is loaded, and a prompt when no primary goal is set. */
@@ -199,6 +200,7 @@ export function RunGate({ hydrated, hasGoal }: { hydrated: boolean; hasGoal: boo
       <div className="container-page max-w-2xl py-20 text-center">
         {hydrated && !hasGoal ? (
           <>
+            <img src={daylightImg} alt="" loading="lazy" width={1280} height={864} className="mb-8 aspect-[16/9] w-full rounded-xl object-cover" />
             <h1 className="text-4xl">{t.title}</h1>
             <p className="mt-3 text-muted-foreground">{t.body}</p>
             <LangLink to="/goals" className="mt-6 inline-block rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground">{t.cta}</LangLink>
