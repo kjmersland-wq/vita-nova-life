@@ -1,33 +1,124 @@
 import { useState } from "react";
-import { LangLink, useLangNavigate } from "@/lib/i18n";
+import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { Page, StepHeader, inputClass } from "@/components/site";
 import { deleteRun, setState, useAppState } from "@/lib/store";
-import { MARKERS } from "@/lib/engine/markers";
+import { MARKERS, markerLabel } from "@/lib/engine/markers";
+import type { Lang } from "@/lib/i18n";
+
+const LOCALE: Record<Lang, string> = { en: "en-GB", no: "nb-NO", pl: "pl-PL" };
+
+const T = {
+  en: {
+    meta: {
+      title: "History and comparison — Vita Nova Life",
+      description:
+        "Saved runs, a side-by-side comparison of two tests, and a regenerated program after new labs.",
+      ogDescription: "Compare test one against test two and see what actually moved.",
+    },
+    accountStep: "Account",
+    accountTitle: "History needs an account",
+    accountIntro:
+      "Your guest run stays on this device. Create a free account to keep runs, compare two tests and regenerate a program after new labs.",
+    emailPlaceholder: "you@example.com",
+    createAccount: "Create a free account",
+    demoNote: "Demo sign-in. Nothing leaves this device in this version.",
+    step: "History",
+    title: "Your saved runs",
+    signedIn: (email: string, pro: boolean) => `Signed in as ${email}${pro ? " · Pro" : ""}.`,
+    noRuns: "No saved runs yet.",
+    runFirst: "Run your first analysis",
+    action: (n: number) => `${n} action${n === 1 ? "" : "s"}`,
+    delete: "Delete",
+    compareTwo: "Compare two tests",
+    test1: "Test 1",
+    test2: "Test 2",
+    marker: "Marker",
+    change: "Change",
+    addNewLabs: "Add new labs and regenerate",
+    signOut: "Sign out",
+  },
+  no: {
+    meta: {
+      title: "Historikk og sammenligning — Vita Nova Life",
+      description:
+        "Lagrede tester, en sammenligning av to tester side om side, og et program laget på nytt etter nye blodprøver.",
+      ogDescription: "Sammenlign test én mot test to og se hva som faktisk endret seg.",
+    },
+    accountStep: "Konto",
+    accountTitle: "Historikk krever en konto",
+    accountIntro:
+      "Gjestetesten din forblir på denne enheten. Opprett en gratis konto for å beholde tester, sammenligne to tester og lage et program på nytt etter nye blodprøver.",
+    emailPlaceholder: "deg@eksempel.no",
+    createAccount: "Opprett gratis konto",
+    demoNote: "Demo-innlogging. Ingenting forlater denne enheten i denne versjonen.",
+    step: "Historikk",
+    title: "Dine lagrede tester",
+    signedIn: (email: string, pro: boolean) => `Innlogget som ${email}${pro ? " · Pro" : ""}.`,
+    noRuns: "Ingen lagrede tester ennå.",
+    runFirst: "Kjør din første analyse",
+    action: (n: number) => `${n} tiltak`,
+    delete: "Slett",
+    compareTwo: "Sammenlign to tester",
+    test1: "Test 1",
+    test2: "Test 2",
+    marker: "Markør",
+    change: "Endring",
+    addNewLabs: "Legg til nye prøver og lag på nytt",
+    signOut: "Logg ut",
+  },
+  pl: {
+    meta: {
+      title: "Historia i porównanie — Vita Nova Life",
+      description:
+        "Zapisane testy, porównanie dwóch badań obok siebie oraz zregenerowany program po nowych wynikach.",
+      ogDescription: "Porównaj test pierwszy z testem drugim i zobacz, co się naprawdę zmieniło.",
+    },
+    accountStep: "Konto",
+    accountTitle: "Historia wymaga konta",
+    accountIntro:
+      "Twój test gościa pozostaje na tym urządzeniu. Załóż darmowe konto, aby zachować testy, porównywać dwa badania i regenerować program po nowych wynikach.",
+    emailPlaceholder: "ty@przyklad.pl",
+    createAccount: "Załóż darmowe konto",
+    demoNote: "Logowanie demonstracyjne. W tej wersji nic nie opuszcza tego urządzenia.",
+    step: "Historia",
+    title: "Twoje zapisane testy",
+    signedIn: (email: string, pro: boolean) => `Zalogowano jako ${email}${pro ? " · Pro" : ""}.`,
+    noRuns: "Brak zapisanych testów.",
+    runFirst: "Uruchom swoją pierwszą analizę",
+    action: (n: number) => `${n} działani${n === 1 ? "e" : "a"}`,
+    delete: "Usuń",
+    compareTwo: "Porównaj dwa testy",
+    test1: "Test 1",
+    test2: "Test 2",
+    marker: "Marker",
+    change: "Zmiana",
+    addNewLabs: "Dodaj nowe badania i wygeneruj ponownie",
+    signOut: "Wyloguj się",
+  },
+};
 
 export const Route = createFileRoute("/{-$lang}/history")({
-  head: () => ({
-    meta: [
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { title: "History and comparison — Vita Nova Life" },
-      {
-        name: "description",
-        content:
-          "Saved runs, a side-by-side comparison of two tests, and a regenerated program after new labs.",
-      },
-      { property: "og:title", content: "History and comparison — Vita Nova Life" },
-      {
-        property: "og:description",
-        content: "Compare test one against test two and see what actually moved.",
-      },
-    ],
-  }),
+  head: ({ params }) => {
+    const m = T[toLang(params.lang)].meta;
+    return {
+      meta: [
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary" },
+        { title: m.title },
+        { name: "description", content: m.description },
+        { property: "og:title", content: m.title },
+        { property: "og:description", content: m.ogDescription },
+      ],
+    };
+  },
   component: HistoryPage,
 });
 
 function HistoryPage() {
   const { runs, account } = useAppState();
+  const lang = useLang();
+  const t = useDict(T);
   const [email, setEmail] = useState("");
   const [a, setA] = useState(0);
   const [b, setB] = useState(1);
@@ -36,15 +127,11 @@ function HistoryPage() {
     return (
       <Page>
         <div className="container-page max-w-xl py-16">
-          <StepHeader
-            step="Account"
-            title="History needs an account"
-            intro="Your guest run stays on this device. Create a free account to keep runs, compare two tests and regenerate a program after new labs."
-          />
+          <StepHeader step={t.accountStep} title={t.accountTitle} intro={t.accountIntro} />
           <div className="card-surface space-y-3 p-6">
             <input
               className={inputClass}
-              placeholder="you@example.com"
+              placeholder={t.emailPlaceholder}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -54,11 +141,9 @@ function HistoryPage() {
               onClick={() => setState({ account: { email, pro: false } })}
               className="w-full rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-40"
             >
-              Create a free account
+              {t.createAccount}
             </button>
-            <p className="text-xs text-muted-foreground">
-              Demo sign-in. Nothing leaves this device in this version.
-            </p>
+            <p className="text-xs text-muted-foreground">{t.demoNote}</p>
           </div>
         </div>
       </Page>
@@ -67,24 +152,21 @@ function HistoryPage() {
 
   const runA = runs[a];
   const runB = runs[b];
+  const locale = LOCALE[lang];
 
   return (
     <Page>
       <div className="container-page max-w-4xl py-12">
-        <StepHeader
-          step="History"
-          title="Your saved runs"
-          intro={`Signed in as ${account.email}${account.pro ? " · Pro" : ""}.`}
-        />
+        <StepHeader step={t.step} title={t.title} intro={t.signedIn(account.email, account.pro)} />
 
         {runs.length === 0 ? (
           <div className="card-surface p-8 text-center">
-            <p className="text-muted-foreground">No saved runs yet.</p>
+            <p className="text-muted-foreground">{t.noRuns}</p>
             <LangLink
               to="/start"
               className="mt-4 inline-block rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
             >
-              Run your first analysis
+              {t.runFirst}
             </LangLink>
           </div>
         ) : (
@@ -98,9 +180,7 @@ function HistoryPage() {
                   <div>
                     <p className="font-medium">{r.analysis.headline}</p>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(r.createdAt).toLocaleString()} ·{" "}
-                      {r.analysis.actions.length} action
-                      {r.analysis.actions.length === 1 ? "" : "s"}
+                      {new Date(r.createdAt).toLocaleString(locale)} · {t.action(r.analysis.actions.length)}
                     </p>
                   </div>
                   <button
@@ -108,7 +188,7 @@ function HistoryPage() {
                     onClick={() => deleteRun(r.id)}
                     className="text-xs text-muted-foreground underline hover:text-destructive"
                   >
-                    Delete
+                    {t.delete}
                   </button>
                 </div>
               ))}
@@ -116,10 +196,10 @@ function HistoryPage() {
 
             {runs.length > 1 ? (
               <section className="mt-12">
-                <h2 className="text-3xl">Compare two tests</h2>
+                <h2 className="text-3xl">{t.compareTwo}</h2>
                 <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   <label className="text-xs">
-                    Test 1
+                    {t.test1}
                     <select
                       className={inputClass}
                       value={a}
@@ -127,13 +207,13 @@ function HistoryPage() {
                     >
                       {runs.map((r, i) => (
                         <option key={r.id} value={i}>
-                          {new Date(r.createdAt).toLocaleDateString()}
+                          {new Date(r.createdAt).toLocaleDateString(locale)}
                         </option>
                       ))}
                     </select>
                   </label>
                   <label className="text-xs">
-                    Test 2
+                    {t.test2}
                     <select
                       className={inputClass}
                       value={b}
@@ -141,7 +221,7 @@ function HistoryPage() {
                     >
                       {runs.map((r, i) => (
                         <option key={r.id} value={i}>
-                          {new Date(r.createdAt).toLocaleDateString()}
+                          {new Date(r.createdAt).toLocaleDateString(locale)}
                         </option>
                       ))}
                     </select>
@@ -153,10 +233,10 @@ function HistoryPage() {
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b border-border text-left text-xs text-muted-foreground">
-                          <th className="py-2">Marker</th>
-                          <th className="py-2">Test 1</th>
-                          <th className="py-2">Test 2</th>
-                          <th className="py-2">Change</th>
+                          <th className="py-2">{t.marker}</th>
+                          <th className="py-2">{t.test1}</th>
+                          <th className="py-2">{t.test2}</th>
+                          <th className="py-2">{t.change}</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -170,7 +250,7 @@ function HistoryPage() {
                               : null;
                           return (
                             <tr key={m.key} className="border-b border-border/60">
-                              <td className="py-2">{m.label}</td>
+                              <td className="py-2">{markerLabel(m.key, lang)}</td>
                               <td className="py-2 tabular-nums">{va ?? "—"}</td>
                               <td className="py-2 tabular-nums">{vb ?? "—"}</td>
                               <td className="py-2 tabular-nums">
@@ -193,14 +273,14 @@ function HistoryPage() {
             to="/labs"
             className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
           >
-            Add new labs and regenerate
+            {t.addNewLabs}
           </LangLink>
           <button
             type="button"
             onClick={() => setState({ account: null })}
             className="rounded-full border border-border px-6 py-3 text-sm"
           >
-            Sign out
+            {t.signOut}
           </button>
         </div>
       </div>
