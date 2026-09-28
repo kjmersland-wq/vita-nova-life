@@ -172,13 +172,13 @@ function GoalsPage() {
               onClick={() =>
                 setState({ goals: { primary: g, secondary: goals.secondary === g ? null : goals.secondary } })
               }
-              className={`rounded-lg border p-4 text-left transition-colors ${
+              className={`h-auto min-h-20 w-full justify-start whitespace-normal rounded-md border p-4 text-left transition-colors ${
                 goals.primary === g
                   ? "border-primary bg-primary/10"
                   : "border-border bg-card hover:border-primary/40"
               }`}
             >
-              <span className="block font-medium">{labels[g]}</span>
+              <span className="block w-full font-medium">{labels[g]}</span>
               <span className="mt-1 block text-xs text-muted-foreground">{t.notes[g]}</span>
             </Button>
           ))}
