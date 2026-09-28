@@ -16,6 +16,18 @@ function foundationOverride(analysis: Analysis, lang: Lang): string | null {
   const serious = bad.find((f) =>
     ["ferritin", "hemoglobin", "tsh", "glucose", "hba1c"].includes(f.key),
   );
+  const glycemic = analysis.findings.find(
+    (f) => (f.key === "glucose" || f.key === "hba1c") && f.status === "high",
+  );
+  if (glycemic)
+    return t(
+      {
+        en: `${glycemic.label} is above your lab's range, so no calorie cut yet. Weeks 1–4 build the foundation. Talk to a doctor or nurse about the number, then start a modest deficit.`,
+        no: `${glycemic.label} er over laboratoriets område, så ingen kaloriekutt ennå. Uke 1–4 bygger grunnmuren. Snakk med lege eller sykepleier om tallet, og start deretter et moderat underskudd.`,
+        pl: `${glycemic.label} jest powyżej zakresu laboratorium, więc na razie bez cięcia kalorii. Tygodnie 1–4 budują podstawy. Porozmawiaj z lekarzem lub pielęgniarką o tym wyniku, a potem zacznij umiarkowany deficyt.`,
+      },
+      lang,
+    );
   if (serious)
     return t(
       {
@@ -424,9 +436,22 @@ export function buildProgram(
     );
   }
 
-  const title = override
+  const title = analysis.doctorGate
     ? t(
-        { en: "4 weeks — foundation first", no: "4 uker — grunnmur først", pl: "4 tygodnie — najpierw podstawy" },
+        {
+          en: "4 weeks — gentle basics while you see a doctor",
+          no: "4 uker — rolige grunnvaner mens du går til lege",
+          pl: "4 tygodnie — łagodne podstawy, zanim spotkasz się z lekarzem",
+        },
+        lang,
+      )
+    : override
+    ? t(
+        {
+          en: `4 weeks — ${goalLabel("loseWeight", "en").toLowerCase()}: foundation first`,
+          no: `4 uker — ${goalLabel("loseWeight", "no").toLowerCase()}: grunnmur først`,
+          pl: `4 tygodnie — ${goalLabel("loseWeight", "pl").toLowerCase()}: najpierw podstawy`,
+        },
         lang,
       )
     : t(
