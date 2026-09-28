@@ -1,59 +1,48 @@
 import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
+import { ArrowRight, ArrowUpRight, HeartPulse, Menu } from "lucide-react";
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 
 export function SiteHeader() {
+  const [open, setOpen] = useState(false);
+  const links = [{ to: "/method", label: "Our approach" }, { to: "/history", label: "My history" }, { to: "/pricing", label: "Pricing" }, { to: "/legal", label: "Legal" }] as const;
   return (
-    <header className="border-b border-border/70 bg-background/85 backdrop-blur sticky top-0 z-30">
-      <div className="container-page flex h-16 items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2">
-          <span className="h-2.5 w-2.5 rounded-full bg-accent" />
-          <span className="font-display text-xl leading-none">Vita Nova Life</span>
+    <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-xl">
+      <div className="container-page flex h-[76px] items-center justify-between gap-4">
+        <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+          <span className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground"><HeartPulse size={20} strokeWidth={2} /></span>
+          <span className="font-display text-[17px] font-bold leading-none">Vita Nova <span className="text-primary">Life</span></span>
         </Link>
-        <nav className="hidden items-center gap-6 text-sm text-muted-foreground md:flex">
-          <Link to="/method" className="hover:text-foreground">
-            Method
-          </Link>
-          <Link to="/history" className="hover:text-foreground">
-            History
-          </Link>
-          <Link to="/pricing" className="hover:text-foreground">
-            Pro
-          </Link>
-          <Link to="/legal" className="hover:text-foreground">
-            Legal
-          </Link>
+        <nav className="hidden items-center gap-9 text-[13px] font-semibold text-muted-foreground md:flex">
+          {links.map((link) => <Link key={link.to} to={link.to} className="hover:text-primary" activeProps={{ className: "text-primary" }}>{link.label}</Link>)}
         </nav>
-        <Link
-          to="/start"
-          className="rounded-full bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-opacity hover:opacity-90"
-        >
-          Start
-        </Link>
+        <div className="flex items-center gap-2">
+          <Button asChild className="h-10 rounded-md px-4 text-xs font-bold shadow-sm"><Link to="/start">Get started <ArrowRight size={15} /></Link></Button>
+          <Button variant="ghost" size="icon" className="md:hidden" aria-label="Toggle menu" onClick={() => setOpen(!open)}><Menu size={21} /></Button>
+        </div>
       </div>
+      {open ? <nav className="container-page flex flex-col gap-1 border-t border-border py-3 md:hidden">{links.map((link) => <Link key={link.to} to={link.to} onClick={() => setOpen(false)} className="py-3 text-sm font-semibold">{link.label}</Link>)}</nav> : null}
     </header>
   );
 }
 
 export function SiteFooter() {
   return (
-    <footer className="mt-24 border-t border-border/70 py-10 text-sm text-muted-foreground">
-      <div className="container-page flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-        <p className="max-w-xl">
-          Vita Nova Life is not a doctor, a clinic or a lab. Nothing here is medical advice,
-          diagnosis or treatment.
-        </p>
-        <div className="flex flex-wrap gap-4">
-          <Link to="/method" className="hover:text-foreground">
-            Method
-          </Link>
-          <Link to="/legal" className="hover:text-foreground">
-            Terms &amp; privacy
-          </Link>
-          <Link to="/pricing" className="hover:text-foreground">
-            Pro
-          </Link>
+    <footer className="mt-20 bg-deep py-14 text-sm text-primary-foreground/65">
+      <div className="container-page grid gap-10 md:grid-cols-[1fr_auto]">
+        <div>
+          <Link to="/" className="font-display text-xl font-semibold text-primary-foreground">Vita Nova Life</Link>
+          <p className="mt-4 max-w-md leading-relaxed">Make sense of your labs. Make a plan for everyday life.</p>
+          <p className="mt-5 max-w-xl text-xs leading-relaxed">Vita Nova Life is not a doctor, a clinic or a lab. Nothing here is medical advice, diagnosis or treatment.</p>
+        </div>
+        <div className="flex flex-col items-start gap-3 font-semibold text-primary-foreground">
+          <Link to="/method" className="hover:opacity-70">Our approach <ArrowUpRight className="inline size-3" /></Link>
+          <Link to="/legal" className="hover:opacity-70">Terms &amp; privacy <ArrowUpRight className="inline size-3" /></Link>
+          <Link to="/pricing" className="hover:opacity-70">Pricing <ArrowUpRight className="inline size-3" /></Link>
         </div>
       </div>
+      <div className="container-page mt-12 border-t border-primary-foreground/15 pt-6 text-xs">© Vita Nova Life</div>
     </footer>
   );
 }
@@ -78,10 +67,10 @@ export function StepHeader({
   intro?: string;
 }) {
   return (
-    <div className="mb-8">
+    <div className="mb-10 border-b border-border pb-8">
       <p className="eyebrow">{step}</p>
-      <h1 className="mt-2 text-4xl md:text-5xl">{title}</h1>
-      {intro ? <p className="mt-3 max-w-2xl text-muted-foreground">{intro}</p> : null}
+      <h1 className="mt-3 max-w-3xl text-3xl leading-tight md:text-[42px]">{title}</h1>
+      {intro ? <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">{intro}</p> : null}
     </div>
   );
 }
@@ -98,18 +87,19 @@ export function Choice({
   hint?: string | undefined;
 }) {
   return (
-    <button
+    <Button
+      variant="outline"
       type="button"
       onClick={onClick}
-      className={`rounded-lg border px-4 py-3 text-left text-sm transition-colors ${
+      className={`h-auto min-h-14 w-full justify-start rounded-md px-4 py-3 text-left text-sm whitespace-normal transition-colors ${
         selected
-          ? "border-primary bg-primary/10 text-foreground"
+          ? "border-primary bg-highlight text-foreground"
           : "border-border bg-card hover:border-primary/40"
       }`}
     >
-      <span className="block font-medium">{label}</span>
-      {hint ? <span className="mt-0.5 block text-xs text-muted-foreground">{hint}</span> : null}
-    </button>
+      <span><span className="block font-semibold">{label}</span>
+      {hint ? <span className="mt-0.5 block text-xs font-normal text-muted-foreground">{hint}</span> : null}</span>
+    </Button>
   );
 }
 
@@ -132,7 +122,7 @@ export function Field({
 }
 
 export const inputClass =
-  "mt-1 w-full rounded-md border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/25";
+  "mt-2 h-11 w-full rounded-md border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/25";
 
 export function Toggle({
   label,
