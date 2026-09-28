@@ -299,7 +299,7 @@ function LabsPage() {
                     />
                   </label>
                   <label className="text-xs">
-                    {t.testDate}
+                    {t.testDate} ({t.optional})
                     <input
                       type="date"
                       className={inputClass}

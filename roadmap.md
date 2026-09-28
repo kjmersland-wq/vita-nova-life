@@ -4,5 +4,5 @@
 - [x] Add quiet, consistent imagery to Home, Results, and Program only.
 - [x] Add restrained food examples within existing action cap and clinician priority; add translated Method paragraph.
 - [x] Verify scenarios and mobile/desktop presentation.
-- [ ] Clarify three-step guest flow, optional items, next actions, and blocked-state guidance in EN/NO/PL.
-- [ ] Preserve entered data and pending upload confirmations across language changes; verify guest flow.
+- [x] Clarify three-step guest flow, optional items, next actions, and blocked-state guidance in EN/NO/PL.
+- [x] Preserve entered data and pending upload confirmations across language changes; verify guest flow.

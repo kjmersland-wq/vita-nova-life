@@ -172,7 +172,7 @@ function GoalsPage() {
               onClick={() =>
                 setState({ goals: { primary: g, secondary: goals.secondary === g ? null : goals.secondary } })
               }
-              className={`h-auto min-h-20 w-full justify-start whitespace-normal rounded-md border p-4 text-left transition-colors ${
+              className={`h-auto min-h-20 w-full flex-col items-start whitespace-normal rounded-md border p-4 text-left transition-colors ${
                 goals.primary === g
                   ? "border-primary bg-primary/10"
                   : "border-border bg-card hover:border-primary/40"
