@@ -7,6 +7,8 @@ import { MARKERS } from "@/lib/engine/markers";
 export const Route = createFileRoute("/history")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "History and comparison — Vita Nova Life" },
       {
         name: "description",

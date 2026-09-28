@@ -4,6 +4,8 @@ import { Page, StepHeader } from "@/components/site";
 export const Route = createFileRoute("/method")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "Method — how Vita Nova Life decides" },
       {
         name: "description",

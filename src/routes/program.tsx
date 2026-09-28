@@ -8,6 +8,8 @@ import { buildProgram } from "@/lib/engine/program";
 export const Route = createFileRoute("/program")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "Your 4-week program — Vita Nova Life" },
       {
         name: "description",
