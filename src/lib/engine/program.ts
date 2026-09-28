@@ -261,7 +261,7 @@ export function buildProgram(
           no: "En karbohydratkilde rundt øktene",
           pl: "Źródło węglowodanów wokół treningów",
         }),
-        profile.activity === "regular" ? base[1] : everydayMove("break"),
+        base[1],
       ],
     );
     push(
@@ -422,17 +422,17 @@ export function buildProgram(
     push(2, t({ en: "Regular meals and a clinician", no: "Faste måltider og lege", pl: "Regularne posiłki i lekarz" }, lang), [
       h("measure", { en: "Book a doctor or nurse to go through the flagged value", no: "Bestill time hos lege eller sykepleier for å gå gjennom verdien", pl: "Umów lekarza lub pielęgniarkę, by omówić oznaczoną wartość" }),
       h("food", { en: "Three regular meals, protein at each, no skipping", no: "Tre faste måltider, protein til hvert, ingen hopping over", pl: "Trzy regularne posiłki, białko w każdym, bez pomijania" }),
-      h("lifestyle", { en: "A 10-minute walk after your largest meal", no: "En 10-minutters tur etter det største måltidet", pl: "10-minutowy spacer po największym posiłku" }),
+      easyWalk,
     ]);
     push(3, t({ en: "Make it repeatable", no: "Gjør det gjentakbart", pl: "Uczyń to powtarzalnym" }, lang), [
       h("lifestyle", { en: "Same wake time on five days", no: "Samme oppvåkningstid fem dager", pl: "Ta sama godzina wstawania przez pięć dni" }),
       h("food", { en: "No sugary drinks, water with meals", no: "Ingen søt drikke, vann til maten", pl: "Bez słodkich napojów, woda do posiłków" }),
-       easyWalk,
+      easyWalk,
     ]);
     push(4, t({ en: "Decide with your clinician", no: "Bestem sammen med legen", pl: "Zdecyduj razem z lekarzem" }, lang), [
       h("measure", { en: "Retest the flagged marker as your clinician advises", no: "Ta ny prøve av markøren slik legen anbefaler", pl: "Powtórz badanie markera zgodnie z zaleceniem lekarza" }),
       h("lifestyle", { en: "Only after that talk: start a modest deficit, if weight loss is still the goal", no: "Først etter den samtalen: start et moderat underskudd, hvis vektnedgang fortsatt er målet", pl: "Dopiero po tej rozmowie: zacznij umiarkowany deficyt, jeśli odchudzanie wciąż jest celem" }),
-       easyWalk,
+      easyWalk,
     ]);
     }
   }

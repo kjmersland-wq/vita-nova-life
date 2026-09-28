@@ -146,7 +146,7 @@ function ProgramPage() {
           ))}
         </div>
 
-        {!analysis.doctorGate && !program.overrideReason?.includes("range") ? <img src={sofaImg} alt="" loading="lazy" width={1440} height={960} className="mt-8 aspect-[21/9] w-full rounded-md object-cover" /> : null}
+        <img src={sofaImg} alt="" loading="lazy" width={1440} height={960} className="mt-8 aspect-[21/9] w-full rounded-md object-cover" />
 
         <div className="card-surface mt-8 flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
           <div>

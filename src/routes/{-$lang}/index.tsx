@@ -190,8 +190,10 @@ function Home() {
             </div>
           ))}
         </div>
-        <img src={tableImg} alt="" loading="lazy" width={1440} height={960} className="mt-12 aspect-[21/9] w-full rounded-md object-cover" />
-        <img src={stairsImage} alt="" loading="lazy" width={1440} height={960} className="mt-4 aspect-[21/9] w-full rounded-md object-cover" />
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
+          <img src={tableImg} alt="" loading="lazy" width={1440} height={960} className="aspect-[3/2] w-full rounded-md object-cover" />
+          <img src={stairsImage} alt="" loading="lazy" width={1440} height={960} className="aspect-[3/2] w-full rounded-md object-cover" />
+        </div>
       </section>
 
       <section className="bg-secondary/50 py-20 md:py-24">
