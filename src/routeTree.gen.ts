@@ -11,6 +11,9 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GoalsRouteImport } from './routes/goals'
+import { Route as LabsRouteImport } from './routes/labs'
+import { Route as ProgramRouteImport } from './routes/program'
+import { Route as ResultsRouteImport } from './routes/results'
 import { Route as StartRouteImport } from './routes/start'
 
 const IndexRoute = IndexRouteImport.update({
@@ -23,6 +26,21 @@ const GoalsRoute = GoalsRouteImport.update({
   path: '/goals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LabsRoute = LabsRouteImport.update({
+  id: '/labs',
+  path: '/labs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ProgramRoute = ProgramRouteImport.update({
+  id: '/program',
+  path: '/program',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResultsRoute = ResultsRouteImport.update({
+  id: '/results',
+  path: '/results',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const StartRoute = StartRouteImport.update({
   id: '/start',
   path: '/start',
@@ -32,30 +50,42 @@ const StartRoute = StartRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/goals': typeof GoalsRoute
+  '/labs': typeof LabsRoute
+  '/program': typeof ProgramRoute
+  '/results': typeof ResultsRoute
   '/start': typeof StartRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/goals': typeof GoalsRoute
+  '/labs': typeof LabsRoute
+  '/program': typeof ProgramRoute
+  '/results': typeof ResultsRoute
   '/start': typeof StartRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/goals': typeof GoalsRoute
+  '/labs': typeof LabsRoute
+  '/program': typeof ProgramRoute
+  '/results': typeof ResultsRoute
   '/start': typeof StartRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/goals' | '/start'
+  fullPaths: '/' | '/goals' | '/labs' | '/program' | '/results' | '/start'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/goals' | '/start'
-  id: '__root__' | '/' | '/goals' | '/start'
+  to: '/' | '/goals' | '/labs' | '/program' | '/results' | '/start'
+  id: '__root__' | '/' | '/goals' | '/labs' | '/program' | '/results' | '/start'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GoalsRoute: typeof GoalsRoute
+  LabsRoute: typeof LabsRoute
+  ProgramRoute: typeof ProgramRoute
+  ResultsRoute: typeof ResultsRoute
   StartRoute: typeof StartRoute
 }
 
@@ -75,6 +105,27 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/labs': {
+      id: '/labs'
+      path: '/labs'
+      fullPath: '/labs'
+      preLoaderRoute: typeof LabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/program': {
+      id: '/program'
+      path: '/program'
+      fullPath: '/program'
+      preLoaderRoute: typeof ProgramRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/results': {
+      id: '/results'
+      path: '/results'
+      fullPath: '/results'
+      preLoaderRoute: typeof ResultsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/start': {
       id: '/start'
       path: '/start'
@@ -88,6 +139,9 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GoalsRoute: GoalsRoute,
+  LabsRoute: LabsRoute,
+  ProgramRoute: ProgramRoute,
+  ResultsRoute: ResultsRoute,
   StartRoute: StartRoute,
 }
 export const routeTree = rootRouteImport
