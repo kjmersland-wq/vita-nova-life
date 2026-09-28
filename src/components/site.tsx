@@ -138,18 +138,16 @@ export function Toggle({
       <span className="text-sm">{label}</span>
       <div className="flex gap-1">
         {[false, true].map((v) => (
-          <button
+          <Button
             key={String(v)}
             type="button"
+            size="sm"
+            variant={value === v ? "default" : "secondary"}
             onClick={() => onChange(v)}
-            className={`rounded-md px-3 py-1 text-xs font-medium transition-colors ${
-              value === v
-                ? "bg-primary text-primary-foreground"
-                : "bg-secondary text-secondary-foreground"
-            }`}
+            className="h-7 rounded-sm px-3 text-xs font-semibold"
           >
             {v ? "Yes" : "No"}
-          </button>
+          </Button>
         ))}
       </div>
     </div>

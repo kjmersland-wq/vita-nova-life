@@ -151,7 +151,7 @@ function StartPage() {
           </Group>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <Group title="Where you live">
+            <Group title="Where you live" compact>
               <Choice
                 label="Northern Europe"
                 selected={profile.region === "northernEurope"}
@@ -163,7 +163,7 @@ function StartPage() {
                 onClick={() => set({ region: "other" })}
               />
             </Group>
-            <Group title="Season right now">
+            <Group title="Season right now" compact>
               <Choice
                 label="Dark half of the year"
                 selected={profile.season === "winter"}
@@ -256,11 +256,11 @@ function StartPage() {
   );
 }
 
-function Group({ title, children }: { title: string; children: React.ReactNode }) {
+function Group({ title, children, compact = false }: { title: string; children: React.ReactNode; compact?: boolean }) {
   return (
     <div>
       <h2 className="mb-3 text-2xl">{title}</h2>
-      <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">{children}</div>
+      <div className={`grid gap-2 ${compact ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3"}`}>{children}</div>
     </div>
   );
 }
