@@ -12,16 +12,16 @@ const T = {
     meta: {
       title: "Enter your lab values — Vita Nova Life",
       description:
-        "Type each value with the reference range your own lab printed. Upload is only a prefill — you confirm every number before anything is analysed.",
-      ogDescription: "Manual entry is the source of truth. Empty fields stay empty; we never guess.",
+        "Type in each value with the reference range your own lab printed. An upload is only a starting point — you confirm every number before we look at anything.",
+      ogDescription: "What you type is what counts. Empty fields stay empty; we never guess.",
     },
     step: "Step 3 of 3",
     title: "Your lab values",
     intro:
-      "Type the value, the unit and the low/high range your lab printed. We score against your lab's range, not ours. Leave a field empty and we say insufficient data — we never guess.",
+      "Type in the value, the unit and the low/high range your lab printed. We check it against your lab's range, not ours. Leave a field empty and we'll say insufficient data — we never guess.",
     prefillTitle: "Optional: prefill from a PDF or photo",
     prefillDesc:
-      "Anything extracted is a suggestion in yellow. You must confirm or edit every value before analysis.",
+      "Anything we pull out shows up in yellow, as a suggestion. Confirm or edit every value before we go further.",
     chooseFile: "Choose a file",
     readFile: (name: string) => `Read ${name}.`,
     pendingValues: (n: number) => `${n} value${n === 1 ? "" : "s"} still need your confirmation.`,
@@ -38,23 +38,23 @@ const T = {
     testDate: "Test date",
     seeResult: "See my result",
     confirmFirst: "Confirm every extracted value first.",
-    enterOne: "Enter at least one marker.",
+    enterOne: "Enter at least one marker to continue.",
   },
   no: {
     meta: {
       title: "Skriv inn blodprøveverdiene dine — Vita Nova Life",
       description:
-        "Skriv inn hver verdi med referanseområdet ditt eget laboratorium oppga. Opplasting er kun en forhåndsutfylling — du bekrefter hvert tall før noe analyseres.",
+        "Skriv inn hver verdi med referanseområdet laboratoriet ditt oppga. Opplasting er bare et utgangspunkt — du bekrefter hvert tall før vi ser på noe som helst.",
       ogDescription:
-        "Manuell inntasting er sannheten. Tomme felt forblir tomme; vi gjetter aldri.",
+        "Det du skriver inn er det som teller. Tomme felt forblir tomme; vi gjetter aldri.",
     },
     step: "Steg 3 av 3",
     title: "Blodprøveverdiene dine",
     intro:
-      "Skriv inn verdien, enheten og lav/høy-området laboratoriet ditt oppga. Vi vurderer mot ditt laboratoriums område, ikke vårt. La et felt stå tomt, og vi sier utilstrekkelig data — vi gjetter aldri.",
+      "Skriv inn verdien, enheten og lav/høy-området laboratoriet ditt oppga. Vi vurderer mot ditt laboratoriums område, ikke vårt. Lar du et felt stå tomt, sier vi utilstrekkelig data — vi gjetter aldri.",
     prefillTitle: "Valgfritt: forhåndsutfyll fra en PDF eller et bilde",
     prefillDesc:
-      "Alt som hentes ut vises som et gult forslag. Du må bekrefte eller endre hver verdi før analyse.",
+      "Alt vi henter ut, vises gult, som et forslag. Bekreft eller rett hver verdi før vi går videre.",
     chooseFile: "Velg en fil",
     readFile: (name: string) => `Leste ${name}.`,
     pendingValues: (n: number) => `${n} verdi${n === 1 ? "" : "er"} trenger fortsatt bekreftelse.`,
@@ -71,23 +71,23 @@ const T = {
     testDate: "Prøvedato",
     seeResult: "Se resultatet mitt",
     confirmFirst: "Bekreft alle uthentede verdier først.",
-    enterOne: "Skriv inn minst én markør.",
+    enterOne: "Skriv inn minst én markør for å fortsette.",
   },
   pl: {
     meta: {
       title: "Wprowadź swoje wyniki badań — Vita Nova Life",
       description:
-        "Wpisz każdą wartość wraz z zakresem referencyjnym podanym przez Twoje laboratorium. Wgrywanie pliku to tylko wstępne wypełnienie — potwierdzasz każdą liczbę przed analizą.",
+        "Wpisz każdą wartość razem z zakresem referencyjnym podanym przez Twoje laboratorium. Wgranie pliku to tylko punkt wyjścia — potwierdzasz każdą liczbę, zanim na cokolwiek spojrzymy.",
       ogDescription:
-        "Ręczne wprowadzanie danych jest źródłem prawdy. Puste pola pozostają puste; nigdy nie zgadujemy.",
+        "Liczy się to, co wpiszesz. Puste pola zostają puste; nigdy nie zgadujemy.",
     },
     step: "Krok 3 z 3",
     title: "Twoje wyniki badań",
     intro:
-      "Wpisz wartość, jednostkę i zakres niski/wysoki podany przez Twoje laboratorium. Oceniamy względem zakresu Twojego laboratorium, nie naszego. Zostaw pole puste, a napiszemy niewystarczające dane — nigdy nie zgadujemy.",
+      "Wpisz wartość, jednostkę i zakres niski/wysoki podany przez Twoje laboratorium. Oceniamy względem zakresu Twojego laboratorium, nie naszego. Zostawisz pole puste — napiszemy niewystarczające dane. Nigdy nie zgadujemy.",
     prefillTitle: "Opcjonalnie: wstępne wypełnienie z PDF-a lub zdjęcia",
     prefillDesc:
-      "Wszystko, co zostanie wyodrębnione, jest sugestią oznaczoną na żółto. Musisz potwierdzić lub poprawić każdą wartość przed analizą.",
+      "Wszystko, co uda nam się odczytać, pojawia się na żółto, jako sugestia. Potwierdź lub popraw każdą wartość, zanim pójdziemy dalej.",
     chooseFile: "Wybierz plik",
     readFile: (name: string) => `Odczytano ${name}.`,
     pendingValues: (n: number) => `${n} wartość${n === 1 ? "" : "ci"} nadal wymaga Twojego potwierdzenia.`,
@@ -104,7 +104,7 @@ const T = {
     testDate: "Data badania",
     seeResult: "Zobacz mój wynik",
     confirmFirst: "Najpierw potwierdź wszystkie wyodrębnione wartości.",
-    enterOne: "Wprowadź co najmniej jeden marker.",
+    enterOne: "Wprowadź co najmniej jeden marker, aby kontynuować.",
   },
 };
 

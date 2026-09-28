@@ -22,18 +22,18 @@ function foundationOverride(analysis: Analysis, lang: Lang): string | null {
   if (glycemic)
     return t(
       {
-        en: `${glycemic.label} is above your lab's range, so no calorie cut yet. Weeks 1–4 build the foundation. Talk to a doctor or nurse about the number, then start a modest deficit.`,
-        no: `${glycemic.label} er over laboratoriets område, så ingen kaloriekutt ennå. Uke 1–4 bygger grunnmuren. Snakk med lege eller sykepleier om tallet, og start deretter et moderat underskudd.`,
-        pl: `${glycemic.label} jest powyżej zakresu laboratorium, więc na razie bez cięcia kalorii. Tygodnie 1–4 budują podstawy. Porozmawiaj z lekarzem lub pielęgniarką o tym wyniku, a potem zacznij umiarkowany deficyt.`,
+        en: `Your ${glycemic.label.toLowerCase()} is above your lab's range, so we hold off on cutting calories for now. Weeks 1–4 build your foundation instead. Talk to a doctor or nurse about the number, then start a modest deficit.`,
+        no: `${glycemic.label} din er over laboratoriets område, så vi venter med kaloriekutt nå. Uke 1–4 bygger grunnmuren i stedet. Snakk med lege eller sykepleier om tallet, og start så et moderat underskudd.`,
+        pl: `Twoja wartość „${glycemic.label}” jest powyżej zakresu laboratorium, więc na razie wstrzymujemy się z cięciem kalorii. Tygodnie 1–4 budują za to Twoje podstawy. Porozmawiaj z lekarzem lub pielęgniarką o tym wyniku, a potem zacznij umiarkowany deficyt.`,
       },
       lang,
     );
   if (serious)
     return t(
       {
-        en: `${serious.label} is meaningfully outside your range, so a weight-loss deficit waits. Weeks 1–4 build the foundation instead.`,
-        no: `${serious.label} er tydelig utenfor området ditt, så et vektnedgangsunderskudd venter. Uke 1–4 bygger i stedet grunnmuren.`,
-        pl: `${serious.label} wyraźnie wykracza poza Twój zakres, więc deficyt kaloryczny na razie poczeka. Tygodnie 1–4 budują zamiast tego podstawy.`,
+        en: `Your ${serious.label.toLowerCase()} is clearly outside your range, so a weight-loss deficit can wait. Weeks 1–4 build your foundation instead.`,
+        no: `${serious.label} din er tydelig utenfor området, så et vektnedgangsunderskudd kan vente. Uke 1–4 bygger i stedet grunnmuren.`,
+        pl: `Twoja wartość „${serious.label}” wyraźnie wykracza poza zakres, więc deficyt kaloryczny może poczekać. Tygodnie 1–4 budują za to Twoje podstawy.`,
       },
       lang,
     );
@@ -46,14 +46,14 @@ function baseHabits(profile: Profile, lang: Lang): [Habit, Habit, Habit] {
     text: t(
       profile.season === "winter"
         ? {
-            en: "20 minutes outside in daylight before 11:00",
-            no: "20 minutter ute i dagslys før klokken 11:00",
-            pl: "20 minut na zewnątrz w świetle dziennym przed 11:00",
+            en: "20 minutes of daylight before 11:00",
+            no: "20 minutter dagslys før klokken 11:00",
+            pl: "20 minut światła dziennego przed 11:00",
           }
         : {
-            en: "20 minutes outside in daylight each day",
-            no: "20 minutter ute i dagslys hver dag",
-            pl: "20 minut na zewnątrz w świetle dziennym każdego dnia",
+            en: "20 minutes of daylight, every day",
+            no: "20 minutter dagslys, hver dag",
+            pl: "20 minut światła dziennego każdego dnia",
           },
       lang,
     ),
@@ -63,18 +63,18 @@ function baseHabits(profile: Profile, lang: Lang): [Habit, Habit, Habit] {
     text: t(
       profile.activity === "regular"
         ? {
-            en: "Keep your two hardest sessions, drop the junk volume",
-            no: "Behold de to hardeste øktene dine, kutt unødvendig volum",
-            pl: "Zachowaj dwa najcięższe treningi, zrezygnuj ze zbędnej objętości",
+            en: "Keep your two hardest sessions, skip the rest that's just filler",
+            no: "Behold de to hardeste øktene dine, dropp resten som bare fyller opp uka",
+            pl: "Zachowaj dwa najcięższe treningi, odpuść resztę, która tylko zapycha tydzień",
           }
         : profile.activity === "some"
           ? {
-              en: "A 25-minute walk on five days",
-              no: "En 25-minutters spasertur fem dager i uken",
-              pl: "25-minutowy spacer przez pięć dni w tygodniu",
+              en: "A 25-minute walk, five days a week",
+              no: "En 25-minutters spasertur, fem dager i uken",
+              pl: "25-minutowy spacer, pięć dni w tygodniu",
             }
           : {
-              en: "A 15-minute walk after your largest meal",
+              en: "A 15-minute walk after your biggest meal",
               no: "En 15-minutters spasertur etter det største måltidet ditt",
               pl: "15-minutowy spacer po Twoim największym posiłku",
             },
@@ -86,20 +86,20 @@ function baseHabits(profile: Profile, lang: Lang): [Habit, Habit, Habit] {
     text: t(
       profile.diet === "ultraProcessed"
         ? {
-            en: "Replace one packaged meal a day with something you cooked",
-            no: "Erstatt ett ferdigmåltid om dagen med noe du har laget selv",
-            pl: "Zamień jeden gotowy posiłek dziennie na coś ugotowanego samodzielnie",
+            en: "Swap one packaged meal a day for something you cooked yourself",
+            no: "Bytt ut ett ferdigmåltid om dagen med noe du har laget selv",
+            pl: "Zamień jeden gotowy posiłek dziennie na coś, co ugotujesz sam/sama",
           }
         : profile.diet === "lowProtein"
           ? {
-              en: "Add a protein source to breakfast",
-              no: "Legg til en proteinkilde til frokosten",
+              en: "Add a source of protein to breakfast",
+              no: "Legg en proteinkilde til frokosten din",
               pl: "Dodaj źródło białka do śniadania",
             }
           : {
               en: "Vegetables or beans at two meals a day",
-              no: "Grønnsaker eller bønner til to måltider om dagen",
-              pl: "Warzywa lub fasola przy dwóch posiłkach dziennie",
+              no: "Grønnsaker eller bønner til to av måltidene dine",
+              pl: "Warzywa lub fasola w dwóch posiłkach dziennie",
             },
       lang,
     ),
@@ -116,14 +116,14 @@ export function buildProgram(
   if (analysis.blocked) {
     return {
       title: t(
-        { en: "No program generated", no: "Ingen program generert", pl: "Nie wygenerowano programu" },
+        { en: "No program, on purpose", no: "Ingen program, med vilje", pl: "Bez programu, celowo" },
         lang,
       ),
       rationale: t(
         {
-          en: "You told us you are in severe distress. We do not answer that with habits. Please use the support numbers shown on your results.",
-          no: "Du fortalte oss at du er i alvorlig krise. Vi svarer ikke på det med vaner. Bruk støttenumrene som vises på resultatene dine.",
-          pl: "Powiedziałeś/aś nam, że przeżywasz poważny kryzys. Nie odpowiadamy na to nawykami. Skorzystaj z numerów wsparcia podanych przy Twoich wynikach.",
+          en: "You told us you're in serious distress right now. Habits aren't the right answer to that. Please reach out using the support numbers on your results page.",
+          no: "Du fortalte oss at du er i en alvorlig krise akkurat nå. Vaner er ikke riktig svar på det. Bruk støttenumrene på resultatsiden din og ta kontakt.",
+          pl: "Powiedziałeś/aś nam, że przeżywasz teraz poważny kryzys. Nawyki nie są na to odpowiedzią. Skorzystaj z numerów wsparcia podanych przy Twoich wynikach.",
         },
         lang,
       ),
@@ -138,9 +138,9 @@ export function buildProgram(
     lowD && profile.season === "winter" && profile.sun !== "lots"
       ? t(
           {
-            en: "Winter plus low sun plus low vitamin D: daylight comes before adding another supplement.",
-            no: "Vinter pluss lite sol pluss lav vitamin D: dagslys kommer før du legger til nok et kosttilskudd.",
-            pl: "Zima plus mało słońca plus niska witamina D: światło dzienne jest ważniejsze niż kolejny suplement.",
+            en: "It's winter, you get little sun, and your vitamin D is low. Daylight comes first, before another supplement.",
+            no: "Det er vinter, du får lite sol, og vitamin D-en din er lav. Dagslys kommer først, før nok et kosttilskudd.",
+            pl: "Jest zima, masz mało słońca, a Twoja witamina D jest niska. Światło dzienne jest ważniejsze niż kolejny suplement.",
           },
           lang,
         )
@@ -172,33 +172,33 @@ export function buildProgram(
     const kg = profile.weightKg ? Math.round(profile.weightKg * 1.6) : 100;
     const steps =
       profile.activity === "regular"
-        ? h("lifestyle", { en: "Keep your training, add a 30-minute walk on rest days", no: "Behold treningen, legg til en 30-minutters tur på hviledager", pl: "Zachowaj treningi, dodaj 30-minutowy spacer w dni wolne" })
+        ? h("lifestyle", { en: "Keep your training, add a 30-minute walk on rest days", no: "Behold treningen din, legg til en 30-minutters tur på hviledagene", pl: "Zachowaj swoje treningi, dodaj 30-minutowy spacer w dni wolne" })
         : profile.activity === "some"
-          ? h("lifestyle", { en: "Daily step floor: 7,000", no: "Daglig skrittminimum: 7000", pl: "Codzienne minimum kroków: 7000" })
-          : h("lifestyle", { en: "A 10–15 minute walk after two meals a day", no: "En tur på 10–15 minutter etter to måltider om dagen", pl: "10–15 minut spaceru po dwóch posiłkach dziennie" });
+          ? h("lifestyle", { en: "A daily floor of 7,000 steps", no: "Et daglig minimum på 7000 skritt", pl: "Codzienne minimum 7000 kroków" })
+          : h("lifestyle", { en: "A 10–15 minute walk after two of your meals", no: "En tur på 10–15 minutter etter to av måltidene dine", pl: "10–15 minut spaceru po dwóch Twoich posiłkach" });
     const strength =
       profile.activity === "regular"
-        ? h("lifestyle", { en: "Keep two strength sessions, drop extra cardio you dread", no: "Behold to styrkeøkter, dropp ekstra kondisjon du gruer deg til", pl: "Zachowaj dwa treningi siłowe, zrezygnuj z cardio, którego nie znosisz" })
+        ? h("lifestyle", { en: "Keep two strength sessions, drop any cardio you dread", no: "Behold to styrkeøkter, dropp kondisen du gruer deg til", pl: "Zachowaj dwa treningi siłowe, odpuść cardio, którego nie znosisz" })
         : h("lifestyle", { en: "One simple strength session: squats, push-ups, rows", no: "Én enkel styrkeøkt: knebøy, armhevinger, roing", pl: "Jeden prosty trening siłowy: przysiady, pompki, wiosłowanie" });
-    push(1, t({ en: "A modest deficit, nothing drastic", no: "Et moderat underskudd, ingenting drastisk", pl: "Umiarkowany deficyt, nic drastycznego" }, lang), [
-      h("food", { en: "Eat a little less than usual: smaller second portions, not skipped meals", no: "Spis litt mindre enn vanlig: mindre påfyll, ikke droppede måltider", pl: "Jedz trochę mniej niż zwykle: mniejsze dokładki, bez pomijania posiłków" }),
+    push(1, t({ en: "A modest change, nothing drastic", no: "En moderat endring, ingenting drastisk", pl: "Umiarkowana zmiana, nic drastycznego" }, lang), [
+      h("food", { en: "Eat a little less than usual — smaller seconds, not skipped meals", no: "Spis litt mindre enn vanlig — mindre påfyll, ikke hoppe over måltider", pl: "Jedz trochę mniej niż zwykle — mniejsze dokładki, bez pomijania posiłków" }),
       proteinMeal(kg),
       steps,
     ]);
-    push(2, t({ en: "Add strength, cut liquid calories", no: "Legg til styrke, kutt flytende kalorier", pl: "Dodaj siłę, odstaw płynne kalorie" }, lang), [
+    push(2, t({ en: "Add some strength, cut liquid calories", no: "Legg til litt styrke, kutt flytende kalorier", pl: "Dodaj trochę siły, odstaw płynne kalorie" }, lang), [
       strength,
-      h("food", { en: "No sugary drinks or juice on weekdays", no: "Ingen søt drikke eller juice på hverdager", pl: "Bez słodkich napojów i soków w dni robocze" }),
-      h("food", { en: "Vegetables fill half the plate at dinner", no: "Grønnsaker fyller halve tallerkenen til middag", pl: "Warzywa zajmują pół talerza przy kolacji" }),
+      h("food", { en: "Skip sugary drinks and juice on weekdays", no: "Dropp søt drikke og juice på hverdager", pl: "Odpuść słodkie napoje i soki w dni robocze" }),
+      h("food", { en: "Let vegetables fill half your plate at dinner", no: "La grønnsaker fylle halve tallerkenen til middag", pl: "Niech warzywa zajmą pół talerza przy kolacji" }),
     ]);
-    push(3, t({ en: "Hold the line on bad days", no: "Hold stand på dårlige dager", pl: "Trzymaj kurs w gorsze dni" }, lang), [
-      h("lifestyle", { en: "A minimum walk even on bad days: 20 minutes", no: "En minimumstur også på dårlige dager: 20 minutter", pl: "Minimalny spacer nawet w gorsze dni: 20 minut" }),
-      h("food", { en: "Same protein breakfast on workdays, one less decision", no: "Samme proteinfrokost på arbeidsdager, én beslutning mindre", pl: "To samo białkowe śniadanie w dni robocze, jedna decyzja mniej" }),
-      h("measure", { en: "Weigh once a week, same morning, ignore single days", no: "Vei deg én gang i uken, samme morgen, se bort fra enkeltdager", pl: "Waż się raz w tygodniu, tego samego ranka, ignoruj pojedyncze dni" }),
+    push(3, t({ en: "Hold steady on the hard days", no: "Stå stødig på de tunge dagene", pl: "Trzymaj się w gorsze dni" }, lang), [
+      h("lifestyle", { en: "Even on a bad day, walk for at least 20 minutes", no: "Selv på en dårlig dag: gå minst 20 minutter", pl: "Nawet w gorszy dzień: idź na spacer minimum 20 minut" }),
+      h("food", { en: "The same protein breakfast on workdays — one less decision", no: "Samme proteinfrokost på arbeidsdager — én beslutning mindre å ta", pl: "To samo białkowe śniadanie w dni robocze — jedna decyzja mniej" }),
+      h("measure", { en: "Weigh in once a week, same morning, and ignore any single reading", no: "Vei deg én gang i uken, samme morgen, og se bort fra enkeltdager", pl: "Waż się raz w tygodniu, tego samego ranka, i nie przejmuj się pojedynczym wynikiem" }),
     ]);
-    push(4, t({ en: "Check the trend and decide", no: "Sjekk trenden og bestem", pl: "Sprawdź trend i zdecyduj" }, lang), [
-      h("measure", { en: "Aim for 0.3–0.5 kg a week; if faster, eat a bit more", no: "Sikt mot 0,3–0,5 kg i uken; går det raskere, spis litt mer", pl: "Celuj w 0,3–0,5 kg tygodniowo; jeśli szybciej, jedz trochę więcej" }),
-      h("lifestyle", { en: "Keep the two habits that were easiest, drop one", no: "Behold de to vanene som var lettest, dropp én", pl: "Zachowaj dwa najłatwiejsze nawyki, porzuć jeden" }),
-      h("measure", { en: "Plan a lab retest if a marker was out of range", no: "Planlegg ny prøve hvis en markør var utenfor området", pl: "Zaplanuj ponowne badanie, jeśli marker był poza zakresem" }),
+    push(4, t({ en: "Look at the trend, then decide", no: "Se på trenden, og bestem deg", pl: "Spójrz na trend i zdecyduj" }, lang), [
+      h("measure", { en: "Aim for 0.3–0.5 kg a week; going faster than that? Eat a little more", no: "Sikt mot 0,3–0,5 kg i uken; går det raskere, spis litt mer", pl: "Celuj w 0,3–0,5 kg tygodniowo; jeśli idzie szybciej, jedz trochę więcej" }),
+      h("lifestyle", { en: "Keep the two habits that felt easiest, let one go", no: "Behold de to vanene som føltes lettest, la én gå", pl: "Zachowaj dwa najłatwiejsze nawyki, jeden odpuść" }),
+      h("measure", { en: "If a marker was out of range, plan a retest", no: "Var en markør utenfor området? Planlegg en ny prøve", pl: "Jeśli jakiś marker był poza zakresem, zaplanuj ponowne badanie" }),
     ]);
   } else if (goal === "muscle") {
     push(
