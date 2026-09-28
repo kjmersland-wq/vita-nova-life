@@ -418,17 +418,17 @@ function actionForFinding(
           kind: "food",
           title: t(
             {
-              en: "Take the sugar load off your meals",
-              no: "Reduser sukkerbelastningen i måltidene",
-              pl: "Zmniejsz ładunek cukru w posiłkach",
+              en: "Discuss the high blood sugar with a clinician",
+              no: "Snakk med lege om det høye blodsukkeret",
+              pl: "Omów podwyższony cukier z lekarzem",
             },
             lang,
           ),
           detail: t(
             {
-              en: "Keep the plate, change the order: protein and vegetables first, starch last, and a 10-minute walk after your largest meal. Ask your doctor to confirm the result.",
-              no: "Behold tallerkenen, endre rekkefølgen: protein og grønnsaker først, stivelse sist, og en 10-minutters spasertur etter det største måltidet. Be legen din bekrefte resultatet.",
-              pl: "Zostaw ten sam talerz, zmień kolejność: najpierw białko i warzywa, na końcu skrobia, oraz 10-minutowy spacer po największym posiłku. Poproś lekarza o potwierdzenie wyniku.",
+              en: "Ask a doctor or nurse to review this result before changing your diet. Meanwhile, keep meals regular; a short walk after eating is an everyday habit, not a treatment.",
+              no: "Be lege eller sykepleier se på prøvesvaret før du endrer kostholdet. I mellomtiden kan du holde måltidene regelmessige; en kort tur etter maten er en hverdagsvane, ikke behandling.",
+              pl: "Poproś lekarza lub pielęgniarkę o ocenę wyniku, zanim zmienisz dietę. Na razie jedz regularnie; krótki spacer po posiłku to codzienny nawyk, nie leczenie.",
             },
             lang,
           ),
@@ -442,17 +442,17 @@ function actionForFinding(
           kind: "food",
           title: t(
             {
-              en: "Cut liquid calories for four weeks",
-              no: "Kutt flytende kalorier i fire uker",
-              pl: "Odetnij płynne kalorie na cztery tygodnie",
+              en: "Keep everyday drinks simple",
+              no: "Hold hverdagsdrikken enkel",
+              pl: "Postaw na proste napoje na co dzień",
             },
             lang,
           ),
           detail: t(
             {
-              en: "Triglycerides respond quickly to alcohol, sugary drinks and late large meals. Remove those three and retest.",
-              no: "Triglyserider reagerer raskt på alkohol, søte drikker og sene, store måltider. Fjern disse tre og ta ny prøve.",
-              pl: "Trójglicerydy szybko reagują na alkohol, słodkie napoje i późne, obfite posiłki. Wyeliminuj te trzy rzeczy i zrób ponowne badanie.",
+              en: "Water with meals is an easy place to start. If you already drink coffee, try it filtered and unsweetened. No need to start drinking coffee; discuss this result with a clinician, especially if blood sugar is also high.",
+              no: "Vann til måltidene er en enkel start. Drikker du allerede kaffe, kan du velge filterkaffe uten sukker. Du trenger ikke begynne med kaffe; ta opp prøvesvaret med lege, særlig hvis blodsukkeret også er høyt.",
+              pl: "Woda do posiłków to prosty początek. Jeśli już pijesz kawę, możesz wybrać filtrowaną, bez cukru. Nie musisz zaczynać pić kawy; omów wynik z lekarzem, zwłaszcza jeśli poziom cukru też jest wysoki.",
             },
             lang,
           ),
@@ -467,17 +467,17 @@ function actionForFinding(
           kind: "food",
           title: t(
             {
-              en: "Swap the fat sources in your everyday meals",
-              no: "Bytt ut fettkildene i hverdagsmåltidene",
-              pl: "Zamień źródła tłuszczu w codziennych posiłkach",
+              en: "A simple swap when you cook at home",
+              no: "Et enkelt bytte når du lager mat hjemme",
+              pl: "Prosta zamiana przy gotowaniu w domu",
             },
             lang,
           ),
           detail: t(
             {
-              en: "More fish, nuts, olive oil and beans; less processed meat and pastry. If it stays high after a retest, that is a doctor conversation, not a supplement one.",
-              no: "Mer fisk, nøtter, olivenolje og bønner; mindre bearbeidet kjøtt og bakevarer. Hvis det fortsatt er høyt etter ny prøve, er det en samtale med legen, ikke med et kosttilskudd.",
-              pl: "Więcej ryb, orzechów, oliwy z oliwek i fasoli; mniej przetworzonego mięsa i wypieków. Jeśli po ponownym badaniu nadal jest wysoki, to temat na rozmowę z lekarzem, nie na suplement.",
+              en: "When you cook at home, try olive oil in place of highly processed fats, alongside ordinary meals with beans, vegetables or fish. This is a food example, not a treatment. Discuss a persistently high result with a clinician.",
+              no: "Lager du mat hjemme, kan du prøve olivenolje i stedet for sterkt bearbeidet fett, sammen med vanlige måltider med bønner, grønnsaker eller fisk. Dette er et mateksempel, ikke behandling. Snakk med lege hvis verdien fortsatt er høy.",
+              pl: "Gdy gotujesz w domu, możesz sięgnąć po oliwę z oliwek zamiast wysoko przetworzonych tłuszczów, przy zwykłym posiłku z fasolą, warzywami lub rybą. To przykład jedzenia, nie leczenie. Jeśli wynik nadal jest wysoki, porozmawiaj z lekarzem.",
             },
             lang,
           ),
@@ -774,10 +774,16 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
     })
     .sort((a, b) => b.score - a.score);
 
+  const glycemicHigh = findings.some(
+    (f) => (f.key === "glucose" || f.key === "hba1c") && f.status === "high",
+  );
+
   const actions: Action[] = [];
   const seenIds = new Set<string>();
   for (const s of scored) {
     if (actions.length >= 3) break;
+    // The weight-loss override supplies the clinician action itself; avoid a second one.
+    if (goals.primary === "loseWeight" && glycemicHigh && (s.id === "glucose" || s.id === "hba1c")) continue;
     if (s.candidate && !seenIds.has(s.id) && !actions.some((x) => x.title === s.candidate!.action.title)) {
       seenIds.add(s.id);
       actions.push(s.candidate.action);
@@ -787,9 +793,6 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
   actions.sort((a, b) => (a.kind === "supplement" ? 1 : 0) - (b.kind === "supplement" ? 1 : 0));
 
   // Blood sugar above the user's own range + weight-loss goal: no calorie cut first.
-  const glycemicHigh = findings.some(
-    (f) => (f.key === "glucose" || f.key === "hba1c") && f.status === "high",
-  );
   if (goals.primary === "loseWeight" && glycemicHigh) {
     actions.unshift({
       kind: "measure",

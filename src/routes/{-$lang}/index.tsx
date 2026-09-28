@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import tableImg from "@/assets/vita-table.jpg";
+import tableImg from "@/assets/vita-food-coffee.jpg";
 import { LangLink, toLang, useDict, useLangNavigate } from "@/lib/i18n";
 import { Page } from "@/components/site";
 import { ArrowRight, Check, FileText, Fingerprint, HeartPulse, Leaf, ShieldCheck } from "lucide-react";
@@ -189,7 +189,7 @@ function Home() {
             </div>
           ))}
         </div>
-        <img src={tableImg} alt="" loading="lazy" width={1280} height={864} className="mt-12 aspect-[21/9] w-full rounded-xl object-cover" />
+        <img src={tableImg} alt="" loading="lazy" width={1440} height={960} className="mt-12 aspect-[21/9] w-full rounded-md object-cover" />
       </section>
 
       <section className="bg-secondary/50 py-20 md:py-24">

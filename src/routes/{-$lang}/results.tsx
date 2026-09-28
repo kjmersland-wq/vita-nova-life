@@ -6,6 +6,7 @@ import { saveRun, useAppState, useHydrated } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { markerLabel } from "@/lib/engine/markers";
 import { buildProgram } from "@/lib/engine/program";
+import daylightImg from "@/assets/vita-daylight-person.jpg";
 import type { Finding } from "@/lib/engine/types";
 
 const T = {
@@ -208,6 +209,8 @@ function ResultsPage() {
             </ul>
           </div>
         ) : null}
+
+        {!analysis.doctorGate ? <img src={daylightImg} alt="" loading="lazy" width={1440} height={960} className="mb-8 aspect-[21/9] w-full rounded-md object-cover" /> : null}
 
         <section className="mb-10">
           <h2 className="mb-4 text-3xl">{t.threeActions}</h2>

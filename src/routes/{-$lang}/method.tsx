@@ -26,6 +26,7 @@ const T = {
       { t: "Text comes from structured findings", b: "Conclusions are assembled from the facts the engine produced and filled into our own templates. No third-party medical article is pasted or paraphrased." },
     ],
     whatNotTitle: "What we are not",
+    foodNote: "Extra virgin olive oil and unsweetened filter coffee fit a normal food pattern for many people. They are examples, not a treatment. You do not need to start drinking coffee.",
     whatNotBody: "Not a doctor, not a clinic, not a lab. We do not diagnose, prescribe, or claim to treat any disease or condition. Nothing here replaces care from a health professional.",
     readDisclaimer: "Read the full disclaimer",
   },
@@ -52,6 +53,7 @@ const T = {
       { t: "Teksten kommer fra strukturerte funn", b: "Konklusjoner settes sammen fra fakta motoren har produsert, og fylles inn i våre egne maler. Ingen medisinsk artikkel fra tredjepart limes inn eller omskrives." },
     ],
     whatNotTitle: "Hva vi ikke er",
+    foodNote: "Extra virgin olivenolje og filterkaffe uten sukker kan passe inn i et vanlig kosthold for mange. Dette er eksempler, ikke behandling. Du trenger ikke begynne å drikke kaffe.",
     whatNotBody: "Ikke en lege, ikke en klinikk, ikke et laboratorium. Vi stiller ikke diagnoser, skriver ikke ut resepter, og hevder ikke å behandle noen sykdom eller tilstand. Ingenting her erstatter oppfølging fra helsepersonell.",
     readDisclaimer: "Les hele ansvarsfraskrivelsen",
   },
@@ -78,6 +80,7 @@ const T = {
       { t: "Tekst pochodzi ze strukturalnych ustaleń", b: "Wnioski są składane z faktów wygenerowanych przez silnik i wpisywane do naszych własnych szablonów. Żaden artykuł medyczny osób trzecich nie jest wklejany ani parafrazowany." },
     ],
     whatNotTitle: "Czym nie jesteśmy",
+    foodNote: "Oliwa extra virgin i niesłodzona kawa filtrowana mogą być częścią zwykłego sposobu odżywiania wielu osób. To przykłady, nie leczenie. Nie trzeba zaczynać pić kawy.",
     whatNotBody: "Nie jesteśmy lekarzem, kliniką ani laboratorium. Nie diagnozujemy, nie przepisujemy leków i nie twierdzimy, że leczymy jakąkolwiek chorobę czy stan. Nic tutaj nie zastępuje opieki specjalisty zdrowia.",
     readDisclaimer: "Przeczytaj pełne zastrzeżenie",
   },
@@ -118,6 +121,7 @@ function MethodPage() {
             </div>
           ))}
         </div>
+        <p className="mt-8 border-l-2 border-accent/60 pl-5 text-sm leading-relaxed text-muted-foreground">{t.foodNote}</p>
         <div className="card-surface mt-10 p-6">
           <h2 className="text-2xl">{t.whatNotTitle}</h2>
           <p className="mt-2 text-sm text-muted-foreground">
