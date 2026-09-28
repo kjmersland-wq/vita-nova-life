@@ -3,6 +3,7 @@ import { toLang, useDict, useLangNavigate } from "@/lib/i18n";
 import { Page, StepHeader } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 import type { GoalKey } from "@/lib/engine/types";
+import { Button } from "@/components/ui/button";
 
 const GOAL_LABELS: Record<"en" | "no" | "pl", Record<GoalKey, string>> = {
   en: {
@@ -50,6 +51,8 @@ const T = {
     none: "None",
     continue: "Continue to your labs",
     back: "Back",
+    nextHint: "Next you’ll enter the numbers from your paper.",
+    chooseFirst: "Choose your main goal to continue.",
     notes: {
       loseWeight: "Modest deficit, protein by bodyweight, steps and strength. No crash phase.",
       moreEnergy: "We weight iron, B12, vitamin D and thyroid heavier.",
@@ -75,6 +78,8 @@ const T = {
     none: "Ingen",
     continue: "Gå videre til prøvesvarene dine",
     back: "Tilbake",
+    nextHint: "Neste steg er å skrive inn tallene fra prøvesvaret ditt.",
+    chooseFirst: "Velg hovedmålet ditt for å fortsette.",
     notes: {
       loseWeight: "Moderat underskudd, protein etter kroppsvekt, skritt og styrke. Ingen krasjfase.",
       moreEnergy: "Vi vekter jern, B12, vitamin D og thyroidea tyngre.",
@@ -100,6 +105,8 @@ const T = {
     none: "Brak",
     continue: "Przejdź do swoich wyników badań",
     back: "Wstecz",
+    nextHint: "Następnie wpiszesz liczby ze swojego wyniku badania.",
+    chooseFirst: "Wybierz główny cel, aby kontynuować.",
     notes: {
       loseWeight: "Umiarkowany deficyt, białko według masy ciała, kroki i siła. Bez fazy szoku.",
       moreEnergy: "Nadajemy większą wagę żelazu, B12, witaminie D i tarczycy.",
@@ -152,14 +159,14 @@ function GoalsPage() {
   const navigate = useLangNavigate();
 
   return (
-    <Page>
+    <Page flowStep={t.step}>
       <div className="container-page max-w-3xl py-12">
-        <StepHeader step={t.step} title={t.title} intro={t.intro} />
+        <StepHeader title={t.title} intro={t.intro} />
 
         <h2 className="mb-3 text-2xl">{t.primaryTitle}</h2>
         <div className="grid gap-2 sm:grid-cols-2">
           {ORDER.map((g) => (
-            <button
+            <Button variant="outline"
               key={g}
               type="button"
               onClick={() =>
@@ -173,13 +180,13 @@ function GoalsPage() {
             >
               <span className="block font-medium">{labels[g]}</span>
               <span className="mt-1 block text-xs text-muted-foreground">{t.notes[g]}</span>
-            </button>
+            </Button>
           ))}
         </div>
 
         <h2 className="mt-10 mb-3 text-2xl">{t.secondaryTitle}</h2>
         <div className="flex flex-wrap gap-2">
-          <button
+          <Button variant="outline"
             type="button"
             onClick={() => setState({ goals: { ...goals, secondary: null } })}
             className={`rounded-full border px-4 py-2 text-sm ${
@@ -187,9 +194,9 @@ function GoalsPage() {
             }`}
           >
             {t.none}
-          </button>
+          </Button>
           {ORDER.filter((g) => g !== goals.primary).map((g) => (
-            <button
+            <Button variant="outline"
               key={g}
               type="button"
               onClick={() => setState({ goals: { ...goals, secondary: g } })}
@@ -198,26 +205,26 @@ function GoalsPage() {
               }`}
             >
               {labels[g]}
-            </button>
+            </Button>
           ))}
         </div>
 
-        <div className="mt-10 flex items-center gap-3">
-          <button
+        <div className="mt-10">
+          <p className="mb-3 text-sm text-muted-foreground">{t.nextHint}</p>
+          <div className="flex flex-wrap items-center gap-3"><Button
             type="button"
             disabled={!goals.primary}
             onClick={() => navigate({ to: "/labs" })}
-            className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-40"
           >
             {t.continue}
-          </button>
-          <button
+          </Button>
+          <Button variant="ghost"
             type="button"
             onClick={() => navigate({ to: "/start" })}
-            className="text-sm text-muted-foreground hover:text-foreground"
           >
             {t.back}
-          </button>
+          </Button>
+          {!goals.primary ? <span role="status" className="text-xs text-muted-foreground">{t.chooseFirst}</span> : null}</div>
         </div>
       </div>
     </Page>
