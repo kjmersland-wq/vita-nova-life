@@ -3,6 +3,7 @@ import { LangLink, toLang, useDict, useLang } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { RunGate, Page, StepHeader } from "@/components/site";
 import walkImg from "@/assets/vita-walk.jpg";
+import sofaImg from "@/assets/vita-sofa.jpg";
 import { useAppState, useHydrated } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { buildProgram } from "@/lib/engine/program";
@@ -144,6 +145,8 @@ function ProgramPage() {
             </div>
           ))}
         </div>
+
+        {!analysis.doctorGate && !program.overrideReason?.includes("range") ? <img src={sofaImg} alt="" loading="lazy" width={1440} height={960} className="mt-8 aspect-[21/9] w-full rounded-md object-cover" /> : null}
 
         <div className="card-surface mt-8 flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
           <div>
