@@ -196,8 +196,6 @@ function ResultsPage() {
       <div className="container-page max-w-4xl py-12">
         <StepHeader step={t.step} title={analysis.headline} intro={analysis.summary} />
 
-        <img src={daylightImg} alt="" loading="lazy" width={1440} height={960} className="mb-8 aspect-[21/9] w-full rounded-md object-cover" />
-
         {analysis.doctorGate ? (
           <div className="mb-8 rounded-xl border border-destructive/40 bg-destructive/5 p-6">
             <h2 className="text-2xl text-destructive">{t.seeDoctor}</h2>
@@ -211,6 +209,8 @@ function ResultsPage() {
             </ul>
           </div>
         ) : null}
+
+        {!analysis.doctorGate ? <img src={daylightImg} alt="" loading="lazy" width={1440} height={960} className="mb-8 aspect-[21/9] w-full rounded-md object-cover" /> : null}
 
         <section className="mb-10">
           <h2 className="mb-4 text-3xl">{t.threeActions}</h2>
