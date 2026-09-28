@@ -79,10 +79,11 @@ export function SiteFooter() {
   );
 }
 
-export function Page({ children }: { children: ReactNode }) {
+export function Page({ children, flowStep }: { children: ReactNode; flowStep?: string }) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
       <SiteHeader />
+      {flowStep ? <div className="sticky top-[76px] z-20 border-b border-border bg-background/95 backdrop-blur-xl"><div className="container-page py-2 text-xs font-bold text-primary" aria-label={flowStep}>{flowStep}</div></div> : null}
       <main className="flex-1">{children}</main>
       <SiteFooter />
     </div>
@@ -94,13 +95,13 @@ export function StepHeader({
   title,
   intro,
 }: {
-  step: string;
+  step?: string;
   title: string;
   intro?: string;
 }) {
   return (
     <div className="mb-10 border-b border-border pb-8">
-      <p className="eyebrow">{step}</p>
+      {step ? <p className="eyebrow">{step}</p> : null}
       <h1 className="mt-3 max-w-3xl text-3xl leading-tight md:text-[42px]">{title}</h1>
       {intro ? <p className="mt-4 max-w-2xl leading-relaxed text-muted-foreground">{intro}</p> : null}
     </div>
