@@ -8,3 +8,8 @@
 > Commits you push to the connected branch sync back to Lovable and show up in
 > the editor, so keep the branch in a working state.
 <!-- LOVABLE:END -->
+
+## Architecture rules
+
+- All clinical logic lives in `src/lib/engine/` (`markers.ts` thresholds, `rules.ts` scoring/actions, `program.ts` weeks) — kept deterministic and separate so thresholds can be edited without touching UI.
+- App state is a single localStorage-backed store in `src/lib/store.ts` (`useSyncExternalStore`) — no backend in v1, health data stays on-device.
