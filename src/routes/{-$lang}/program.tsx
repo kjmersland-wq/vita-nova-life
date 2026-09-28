@@ -177,7 +177,7 @@ function ProgramPage() {
           </div>
         </div>
 
-        <p className="mt-4 text-sm text-muted-foreground">{analysis.doctorGate || program.overridden ? t.dailyGentle : t.dailyPreview}</p>
+        <p className="mt-4 text-sm text-muted-foreground">{program.clinicianFirst ? t.dailyGentle : t.dailyPreview}</p>
 
         <p className="mt-8 text-xs text-muted-foreground">{t.disclaimer}</p>
       </div>

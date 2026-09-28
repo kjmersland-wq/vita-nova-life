@@ -97,6 +97,7 @@ export type Program = {
   title: string;
   rationale: string;
   overridden: boolean;
+  clinicianFirst: boolean;
   overrideReason?: string | undefined;
   weeks: ProgramWeek[];
 };

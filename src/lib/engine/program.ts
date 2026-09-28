@@ -128,6 +128,7 @@ export function buildProgram(
         lang,
       ),
       overridden: true,
+      clinicianFirst: true,
       weeks: [],
     };
   }
@@ -471,6 +472,7 @@ export function buildProgram(
       .filter(Boolean)
       .join(" "),
     overridden: Boolean(override || winterLight),
+    clinicianFirst: analysis.doctorGate || Boolean(override),
     overrideReason: override ?? winterLight ?? undefined,
     weeks,
   };
