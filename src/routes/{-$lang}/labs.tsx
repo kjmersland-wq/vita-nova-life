@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { Page, StepHeader, inputClass } from "@/components/site";
@@ -6,6 +6,7 @@ import { setState, useAppState } from "@/lib/store";
 import { MARKERS, markerLabel } from "@/lib/engine/markers";
 import { extractFromDocument, demoLabs, demoLabsInRange } from "@/lib/demo";
 import type { LabEntry } from "@/lib/engine/types";
+import { Button } from "@/components/ui/button";
 
 const T = {
   en: {
@@ -19,7 +20,7 @@ const T = {
     title: "Your lab values",
     intro:
       "Type in the value, the unit and the low/high range your lab printed. We check it against your lab's range, not ours. Leave a field empty and we'll say insufficient data — we never guess.",
-    prefillTitle: "Optional: prefill from a PDF or photo",
+    prefillTitle: "Upload (optional — you can type instead)",
     prefillDesc:
       "Anything we pull out shows up in yellow, as a suggestion. Confirm or edit every value before we go further.",
     chooseFile: "Choose a file",
@@ -27,8 +28,10 @@ const T = {
     pendingValues: (n: number) => `${n} value${n === 1 ? "" : "s"} still need your confirmation.`,
     allConfirmed: "All extracted values confirmed.",
     markersEntered: (filled: number, total: number) => `${filled} of ${total} markers entered`,
-    useDemo: "Use demo values (out of range)",
-    useDemoIn: "Use demo values (in range)",
+    useDemo: "Sample labs, out of range",
+    useDemoIn: "Sample labs, in range",
+    nextHint: "Next you’ll see your result and up to three actions.",
+    back: "Back",
     optional: "optional",
     confirmValue: "Confirm this value",
     value: "Value",
@@ -52,7 +55,7 @@ const T = {
     title: "Blodprøveverdiene dine",
     intro:
       "Skriv inn verdien, enheten og lav/høy-området laboratoriet ditt oppga. Vi vurderer mot ditt laboratoriums område, ikke vårt. Lar du et felt stå tomt, sier vi utilstrekkelig data — vi gjetter aldri.",
-    prefillTitle: "Valgfritt: forhåndsutfyll fra en PDF eller et bilde",
+    prefillTitle: "Last opp (valgfritt — du kan skrive inn selv)",
     prefillDesc:
       "Alt vi henter ut, vises gult, som et forslag. Bekreft eller rett hver verdi før vi går videre.",
     chooseFile: "Velg en fil",
@@ -60,8 +63,10 @@ const T = {
     pendingValues: (n: number) => `${n} verdi${n === 1 ? "" : "er"} trenger fortsatt bekreftelse.`,
     allConfirmed: "Alle uthentede verdier er bekreftet.",
     markersEntered: (filled: number, total: number) => `${filled} av ${total} markører fylt ut`,
-    useDemo: "Bruk demoverdier (utenfor området)",
-    useDemoIn: "Bruk demoverdier (innenfor området)",
+    useDemo: "Eksempelprøver, utenfor området",
+    useDemoIn: "Eksempelprøver, innenfor området",
+    nextHint: "Neste steg viser resultatet ditt og opptil tre tiltak.",
+    back: "Tilbake",
     optional: "valgfritt",
     confirmValue: "Bekreft denne verdien",
     value: "Verdi",
@@ -85,7 +90,7 @@ const T = {
     title: "Twoje wyniki badań",
     intro:
       "Wpisz wartość, jednostkę i zakres niski/wysoki podany przez Twoje laboratorium. Oceniamy względem zakresu Twojego laboratorium, nie naszego. Zostawisz pole puste — napiszemy niewystarczające dane. Nigdy nie zgadujemy.",
-    prefillTitle: "Opcjonalnie: wstępne wypełnienie z PDF-a lub zdjęcia",
+    prefillTitle: "Wgraj plik (opcjonalnie — możesz wpisać wyniki ręcznie)",
     prefillDesc:
       "Wszystko, co uda nam się odczytać, pojawia się na żółto, jako sugestia. Potwierdź lub popraw każdą wartość, zanim pójdziemy dalej.",
     chooseFile: "Wybierz plik",
@@ -93,8 +98,10 @@ const T = {
     pendingValues: (n: number) => `${n} wartość${n === 1 ? "" : "ci"} nadal wymaga Twojego potwierdzenia.`,
     allConfirmed: "Wszystkie wyodrębnione wartości zostały potwierdzone.",
     markersEntered: (filled: number, total: number) => `${filled} z ${total} markerów wprowadzonych`,
-    useDemo: "Wartości przykładowe (poza zakresem)",
-    useDemoIn: "Wartości przykładowe (w zakresie)",
+    useDemo: "Przykładowe badania, poza zakresem",
+    useDemoIn: "Przykładowe badania, w zakresie",
+    nextHint: "Następnie zobaczysz wynik i maksymalnie trzy działania.",
+    back: "Wstecz",
     optional: "opcjonalnie",
     confirmValue: "Potwierdź tę wartość",
     value: "Wartość",
@@ -126,16 +133,17 @@ export const Route = createFileRoute("/{-$lang}/labs")({
 });
 
 function LabsPage() {
-  const { labs } = useAppState();
+  const { labs, uploadPending, uploadFileName } = useAppState();
   const lang = useLang();
   const t = useDict(T);
   const navigate = useLangNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
-  const [pending, setPending] = useState<string[]>([]);
-  const [fileName, setFileName] = useState<string | null>(null);
+  const pending = uploadPending;
+  const fileName = uploadFileName;
 
   const update = (key: string, patch: Partial<LabEntry>) => {
-    const def = MARKERS.find((m) => m.key === key)!;
+    const def = MARKERS.find((m) => m.key === key);
+    if (!def) return;
     const current: LabEntry = labs[def.key] ?? {
       value: null,
       unit: def.unit,
@@ -144,22 +152,20 @@ function LabsPage() {
       date: "",
     };
     setState({ labs: { ...labs, [def.key]: { ...current, ...patch } } });
-    setPending((p) => p.filter((k) => k !== key));
+    setState({ uploadPending: pending.filter((k) => k !== key) });
   };
 
   const onUpload = (file: File) => {
     const extracted = extractFromDocument(file.name);
-    setFileName(file.name);
-    setPending(Object.keys(extracted));
-    setState({ labs: { ...labs, ...extracted } });
+    setState({ labs: { ...labs, ...extracted }, uploadFileName: file.name, uploadPending: Object.keys(extracted) });
   };
 
   const filled = MARKERS.filter((m) => labs[m.key]?.value != null).length;
 
   return (
-    <Page>
+    <Page flowStep={t.step}>
       <div className="container-page max-w-4xl py-12">
-        <StepHeader step={t.step} title={t.title} intro={t.intro} />
+        <StepHeader title={t.title} intro={t.intro} />
 
         <div className="card-surface mb-8 p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
@@ -177,13 +183,13 @@ function LabsPage() {
                 if (f) onUpload(f);
               }}
             />
-            <button
+            <Button variant="outline"
               type="button"
               onClick={() => fileRef.current?.click()}
               className="rounded-full border border-border px-4 py-2 text-sm hover:border-primary/50"
             >
               {t.chooseFile}
-            </button>
+            </Button>
           </div>
           {fileName ? (
             <p className="mt-3 text-sm">
@@ -196,20 +202,20 @@ function LabsPage() {
         <div className="mb-4 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">{t.markersEntered(filled, MARKERS.length)}</p>
           <div className="flex flex-wrap justify-end gap-3">
-          <button
+          <Button variant="link"
             type="button"
-            onClick={() => setState({ labs: demoLabs })}
+            onClick={() => setState({ labs: demoLabs, uploadPending: [], uploadFileName: null })}
             className="text-xs text-muted-foreground underline hover:text-foreground"
           >
             {t.useDemo}
-          </button>
-          <button
+          </Button>
+          <Button variant="link"
             type="button"
-            onClick={() => setState({ labs: demoLabsInRange })}
+            onClick={() => setState({ labs: demoLabsInRange, uploadPending: [], uploadFileName: null })}
             className="text-xs text-muted-foreground underline hover:text-foreground"
           >
             {t.useDemoIn}
-          </button>
+          </Button>
           </div>
         </div>
 
@@ -232,13 +238,13 @@ function LabsPage() {
                     ) : null}
                   </h3>
                   {isPending ? (
-                    <button
+                    <Button
                       type="button"
-                      onClick={() => setPending((p) => p.filter((k) => k !== m.key))}
+                      onClick={() => setState({ uploadPending: pending.filter((k) => k !== m.key) })}
                       className="rounded-full bg-warn px-3 py-1 text-xs font-medium text-warn-foreground"
                     >
                       {t.confirmValue}
-                    </button>
+                    </Button>
                   ) : null}
                 </div>
                 <p className="mt-1 text-xs text-muted-foreground">{m.plain}</p>
@@ -308,20 +314,21 @@ function LabsPage() {
           })}
         </div>
 
-        <div className="mt-8 flex flex-wrap items-center gap-3">
-          <button
+        <div className="mt-8">
+          <p className="mb-3 text-sm text-muted-foreground">{t.nextHint}</p>
+          <div className="flex flex-wrap items-center gap-3"><Button
             type="button"
             disabled={filled === 0 || pending.length > 0}
             onClick={() => navigate({ to: "/results" })}
-            className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-40"
           >
             {t.seeResult}
-          </button>
+          </Button>
+          <Button variant="ghost" onClick={() => navigate({ to: "/goals" })}>{t.back}</Button>
           {pending.length ? (
-            <span className="text-xs text-muted-foreground">{t.confirmFirst}</span>
+            <span role="status" className="text-xs text-muted-foreground">{t.confirmFirst}</span>
           ) : filled === 0 ? (
-            <span className="text-xs text-muted-foreground">{t.enterOne}</span>
-          ) : null}
+            <span role="status" className="text-xs text-muted-foreground">{t.enterOne}</span>
+          ) : null}</div>
         </div>
       </div>
     </Page>
