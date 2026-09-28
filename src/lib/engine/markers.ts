@@ -155,3 +155,102 @@ export const MARKERS: MarkerDef[] = [
 export const MARKER_BY_KEY: Record<MarkerKey, MarkerDef> = Object.fromEntries(
   MARKERS.map((m) => [m.key, m]),
 ) as Record<MarkerKey, MarkerDef>;
+
+// ---- Translations (English wording above is unchanged; this only adds no/pl) ----
+import type { Lang } from "@/lib/i18n";
+
+type Tr = Record<Lang, string>;
+
+const MARKER_LABEL_TR: Record<MarkerKey, Tr> = {
+  vitaminD: { en: "Vitamin D (25-OH)", no: "Vitamin D (25-OH)", pl: "Witamina D (25-OH)" },
+  b12: { en: "Vitamin B12", no: "Vitamin B12", pl: "Witamina B12" },
+  ferritin: { en: "Ferritin", no: "Ferritin", pl: "Ferrytyna" },
+  hemoglobin: { en: "Hemoglobin", no: "Hemoglobin", pl: "Hemoglobina" },
+  tsh: { en: "TSH", no: "TSH", pl: "TSH" },
+  glucose: { en: "Fasting glucose", no: "Fastende blodsukker", pl: "Glukoza na czczo" },
+  hba1c: { en: "HbA1c", no: "HbA1c", pl: "HbA1c" },
+  cholesterol: { en: "Total cholesterol", no: "Totalkolesterol", pl: "Cholesterol całkowity" },
+  hdl: { en: "HDL", no: "HDL", pl: "HDL" },
+  ldl: { en: "LDL", no: "LDL", pl: "LDL" },
+  triglycerides: { en: "Triglycerides", no: "Triglyserider", pl: "Trójglicerydy" },
+  crp: { en: "CRP", no: "CRP", pl: "CRP" },
+  magnesium: { en: "Magnesium", no: "Magnesium", pl: "Magnez" },
+};
+
+const MARKER_PLAIN_TR: Record<MarkerKey, Tr> = {
+  vitaminD: {
+    en: "Linked to daylight exposure, bone health and everyday energy.",
+    no: "Henger sammen med dagslys, beinhelse og energi i hverdagen.",
+    pl: "Powiązana z ekspozycją na światło dzienne, zdrowiem kości i codzienną energią.",
+  },
+  b12: {
+    en: "Needed for nerves and red blood cells. Often low on low-meat diets.",
+    no: "Trengs for nerver og røde blodceller. Ofte lav ved lite kjøtt i kosten.",
+    pl: "Potrzebna dla nerwów i czerwonych krwinek. Często niska przy diecie ubogiej w mięso.",
+  },
+  ferritin: {
+    en: "Your iron store. Low ferritin often shows up as fatigue in training.",
+    no: "Jernlageret ditt. Lav ferritin viser seg ofte som tretthet i trening.",
+    pl: "Twój magazyn żelaza. Niska ferrytyna często objawia się zmęczeniem podczas treningu.",
+  },
+  hemoglobin: {
+    en: "The oxygen-carrying part of your blood.",
+    no: "Den oksygenbærende delen av blodet ditt.",
+    pl: "Część krwi, która przenosi tlen.",
+  },
+  tsh: {
+    en: "A thyroid signal. Affects energy, weight and temperature.",
+    no: "Et signal fra skjoldbruskkjertelen. Påvirker energi, vekt og temperatur.",
+    pl: "Sygnał tarczycy. Wpływa na energię, wagę i temperaturę ciała.",
+  },
+  glucose: {
+    en: "Blood sugar after an overnight fast.",
+    no: "Blodsukker etter faste over natten.",
+    pl: "Poziom cukru we krwi po nocnym poszczeniu.",
+  },
+  hba1c: {
+    en: "Average blood sugar over roughly three months.",
+    no: "Gjennomsnittlig blodsukker over omtrent tre måneder.",
+    pl: "Średni poziom cukru we krwi z ostatnich około trzech miesięcy.",
+  },
+  cholesterol: {
+    en: "All cholesterol carried in your blood.",
+    no: "Alt kolesterolet som fraktes i blodet ditt.",
+    pl: "Cały cholesterol przenoszony we krwi.",
+  },
+  hdl: {
+    en: "Often called the protective fraction.",
+    no: "Ofte kalt den beskyttende fraksjonen.",
+    pl: "Często nazywana frakcją ochronną.",
+  },
+  ldl: {
+    en: "The fraction most often targeted when heart risk is discussed.",
+    no: "Fraksjonen som oftest er i fokus når hjerterisiko diskuteres.",
+    pl: "Frakcja najczęściej brana pod uwagę przy omawianiu ryzyka sercowego.",
+  },
+  triglycerides: {
+    en: "Blood fat that responds strongly to food and alcohol.",
+    no: "Blodfett som reagerer sterkt på mat og alkohol.",
+    pl: "Tłuszcz we krwi, który silnie reaguje na jedzenie i alkohol.",
+  },
+  crp: {
+    en: "An inflammation signal. A recent cold can raise it.",
+    no: "Et betennelsessignal. En nylig forkjølelse kan øke det.",
+    pl: "Sygnał zapalny. Niedawne przeziębienie może go podnieść.",
+  },
+  magnesium: {
+    en: "Involved in muscle and nerve function.",
+    no: "Involvert i muskel- og nervefunksjon.",
+    pl: "Bierze udział w pracy mięśni i nerwów.",
+  },
+};
+
+/** Translated marker label; falls back to English if a key is missing. */
+export function markerLabel(key: MarkerKey, lang: Lang = "en"): string {
+  return MARKER_LABEL_TR[key]?.[lang] ?? MARKER_BY_KEY[key].label;
+}
+
+/** Translated plain-language explanation for a marker. */
+export function markerPlain(key: MarkerKey, lang: Lang = "en"): string {
+  return MARKER_PLAIN_TR[key]?.[lang] ?? MARKER_BY_KEY[key].plain;
+}

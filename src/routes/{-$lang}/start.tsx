@@ -1,33 +1,264 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { LangLink, useLangNavigate } from "@/lib/i18n";
+import { toLang, useDict, useLangNavigate } from "@/lib/i18n";
 import { Choice, Field, Page, StepHeader, Toggle, inputClass } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 import { calcBmi } from "@/lib/engine/rules";
 import { demoGoals, demoLabs, demoProfile } from "@/lib/demo";
 import type { Activity, Diet, Sex, Sun } from "@/lib/engine/types";
 
-export const Route = createFileRoute("/{-$lang}/start")({
-  head: () => ({
-    meta: [
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary" },
-      { title: "Your profile — Vita Nova Life" },
-      {
-        name: "description",
-        content:
-          "Age, body, activity, daylight and diet. Coarse buckets only — enough context to weight your lab results.",
-      },
-      { property: "og:title", content: "Your profile — Vita Nova Life" },
-      {
-        property: "og:description",
-        content: "The context we use to weight your lab results. No account needed.",
-      },
+const T = {
+  en: {
+    meta: {
+      title: "Your profile — Vita Nova Life",
+      description:
+        "Age, body, activity, daylight and diet. Coarse buckets only — enough context to weight your lab results.",
+      ogDescription: "The context we use to weight your lab results. No account needed.",
+    },
+    step: "Step 1 of 3",
+    title: "A little context",
+    intro:
+      "Coarse buckets are enough. We use this to decide which out-of-range value matters most for you — nothing else.",
+    demoFill: "Fill with a demo person",
+    age: "Age",
+    height: "Height (cm)",
+    weight: "Weight (kg)",
+    bmi: (v: number) => `BMI ${v}`,
+    sex: "Sex",
+    sexOptions: {
+      female: "Female",
+      male: "Male",
+      other: "Other / prefer not to say",
+    },
+    activity: "Activity",
+    activityOptions: {
+      sedentary: ["Sedentary", "Mostly sitting"],
+      some: ["Some movement", "Walks, occasional training"],
+      regular: ["Trains regularly", "Structured, most weeks"],
+    },
+    sun: "Daylight and sun",
+    sunOptions: {
+      little: ["Little", "Indoors most days"],
+      medium: ["Medium", "Outside now and then"],
+      lots: ["Lots", "Outdoors daily"],
+    },
+    diet: "Diet",
+    dietOptions: {
+      typical: "Typical mixed diet",
+      littleMeat: "Little or no meat",
+      ultraProcessed: "Lots of ultra-processed food",
+      lowProtein: "Low protein",
+    },
+    region: "Where you live",
+    regionOptions: {
+      northernEurope: "Northern Europe",
+      other: "Somewhere else",
+    },
+    season: "Season right now",
+    seasonOptions: {
+      winter: "Dark half of the year",
+      summer: "Light half of the year",
+    },
+    flagsTitle: "Health flags",
+    flagsIntro: "Yes or no only. These can stop a suggestion from being shown at all.",
+    flags: {
+      pregnantOrBreastfeeding: "Pregnant or breastfeeding",
+      kidneyDisease: "Known kidney disease",
+      liverDisease: "Known liver disease",
+      diabetes: "Diabetes",
+      ironTreatment: "Iron treatment or absorption issues",
+      bloodThinners: "Blood thinners",
+      severeDistress: "Severe distress or thoughts of suicide",
+    },
+    distressTitle: "Please talk to someone today",
+    distressBody:
+      "We will not generate a lifestyle program for this. Contact your local emergency number, your doctor, or a crisis line:",
+    distressLines: [
+      "Emergency (EU): 112",
+      "Norway — Mental Helse: 116 123",
+      "UK — Samaritans: 116 123",
+      "US — 988 Suicide & Crisis Lifeline: 988",
+      "International directory: findahelpline.com",
     ],
-  }),
+    continue: "Continue to goals",
+    fillHint: "Fill the fields above to continue.",
+  },
+  no: {
+    meta: {
+      title: "Din profil — Vita Nova Life",
+      description:
+        "Alder, kropp, aktivitet, dagslys og kosthold. Grove kategorier — nok kontekst til å vekte prøvesvarene dine.",
+      ogDescription: "Konteksten vi bruker til å vekte prøvesvarene dine. Ingen konto nødvendig.",
+    },
+    step: "Steg 1 av 3",
+    title: "Litt kontekst",
+    intro:
+      "Grove kategorier er nok. Vi bruker dette til å avgjøre hvilken avvikende verdi som betyr mest for deg — ikke noe annet.",
+    demoFill: "Fyll inn en demoperson",
+    age: "Alder",
+    height: "Høyde (cm)",
+    weight: "Vekt (kg)",
+    bmi: (v: number) => `KMI ${v}`,
+    sex: "Kjønn",
+    sexOptions: {
+      female: "Kvinne",
+      male: "Mann",
+      other: "Annet / ønsker ikke å oppgi",
+    },
+    activity: "Aktivitet",
+    activityOptions: {
+      sedentary: ["Stillesittende", "Mest sittende"],
+      some: ["Litt bevegelse", "Går turer, av og til trening"],
+      regular: ["Trener jevnlig", "Strukturert, de fleste uker"],
+    },
+    sun: "Dagslys og sol",
+    sunOptions: {
+      little: ["Lite", "Innendørs mesteparten av tiden"],
+      medium: ["Middels", "Ute innimellom"],
+      lots: ["Mye", "Utendørs daglig"],
+    },
+    diet: "Kosthold",
+    dietOptions: {
+      typical: "Vanlig sammensatt kosthold",
+      littleMeat: "Lite eller ikke noe kjøtt",
+      ultraProcessed: "Mye ultraprosessert mat",
+      lowProtein: "Lite protein",
+    },
+    region: "Hvor du bor",
+    regionOptions: {
+      northernEurope: "Nord-Europa",
+      other: "Et annet sted",
+    },
+    season: "Årstid akkurat nå",
+    seasonOptions: {
+      winter: "Den mørke halvdelen av året",
+      summer: "Den lyse halvdelen av året",
+    },
+    flagsTitle: "Helsemarkeringer",
+    flagsIntro: "Bare ja eller nei. Disse kan hindre at et forslag vises i det hele tatt.",
+    flags: {
+      pregnantOrBreastfeeding: "Gravid eller ammer",
+      kidneyDisease: "Kjent nyresykdom",
+      liverDisease: "Kjent leversykdom",
+      diabetes: "Diabetes",
+      ironTreatment: "Jernbehandling eller opptaksproblemer",
+      bloodThinners: "Blodfortynnende",
+      severeDistress: "Alvorlig nød eller selvmordstanker",
+    },
+    distressTitle: "Snakk med noen i dag",
+    distressBody:
+      "Vi vil ikke lage et livsstilsprogram for dette. Kontakt nødnummeret der du bor, legen din, eller en hjelpetelefon:",
+    distressLines: [
+      "Nødnummer (EU): 112",
+      "Norge — Mental Helse hjelpetelefon: 116 123",
+      "Norge — Nødetat: 113",
+      "Polen — Telefon zaufania: 116 123",
+      "Internasjonal oversikt: findahelpline.com",
+    ],
+    continue: "Gå videre til mål",
+    fillHint: "Fyll inn feltene over for å fortsette.",
+  },
+  pl: {
+    meta: {
+      title: "Twój profil — Vita Nova Life",
+      description:
+        "Wiek, ciało, aktywność, światło dzienne i dieta. Tylko przybliżone kategorie — wystarczy, by nadać wagę wynikom badań.",
+      ogDescription: "Kontekst, którego używamy do nadania wagi wynikom badań. Bez konta.",
+    },
+    step: "Krok 1 z 3",
+    title: "Trochę kontekstu",
+    intro:
+      "Wystarczą przybliżone kategorie. Używamy tego, by ustalić, która nieprawidłowa wartość ma dla Ciebie największe znaczenie — nic więcej.",
+    demoFill: "Wypełnij przykładową osobą",
+    age: "Wiek",
+    height: "Wzrost (cm)",
+    weight: "Waga (kg)",
+    bmi: (v: number) => `BMI ${v}`,
+    sex: "Płeć",
+    sexOptions: {
+      female: "Kobieta",
+      male: "Mężczyzna",
+      other: "Inna / wolę nie podawać",
+    },
+    activity: "Aktywność",
+    activityOptions: {
+      sedentary: ["Siedzący tryb życia", "Głównie siedzenie"],
+      some: ["Trochę ruchu", "Spacery, okazjonalne treningi"],
+      regular: ["Regularne treningi", "Uporządkowane, większość tygodni"],
+    },
+    sun: "Światło dzienne i słońce",
+    sunOptions: {
+      little: ["Mało", "Głównie w pomieszczeniach"],
+      medium: ["Średnio", "Czasem na zewnątrz"],
+      lots: ["Dużo", "Codziennie na zewnątrz"],
+    },
+    diet: "Dieta",
+    dietOptions: {
+      typical: "Typowa mieszana dieta",
+      littleMeat: "Mało mięsa lub brak",
+      ultraProcessed: "Dużo wysoko przetworzonej żywności",
+      lowProtein: "Mało białka",
+    },
+    region: "Gdzie mieszkasz",
+    regionOptions: {
+      northernEurope: "Europa Północna",
+      other: "Gdzie indziej",
+    },
+    season: "Aktualna pora roku",
+    seasonOptions: {
+      winter: "Ciemna połowa roku",
+      summer: "Jasna połowa roku",
+    },
+    flagsTitle: "Flagi zdrowotne",
+    flagsIntro: "Tylko tak lub nie. Mogą całkowicie zablokować pokazanie sugestii.",
+    flags: {
+      pregnantOrBreastfeeding: "Ciąża lub karmienie piersią",
+      kidneyDisease: "Znana choroba nerek",
+      liverDisease: "Znana choroba wątroby",
+      diabetes: "Cukrzyca",
+      ironTreatment: "Leczenie żelazem lub problemy z wchłanianiem",
+      bloodThinners: "Leki przeciwzakrzepowe",
+      severeDistress: "Silne cierpienie psychiczne lub myśli samobójcze",
+    },
+    distressTitle: "Porozmawiaj z kimś dziś",
+    distressBody:
+      "Nie wygenerujemy dla tego programu stylu życia. Skontaktuj się z lokalnym numerem alarmowym, lekarzem lub telefonem zaufania:",
+    distressLines: [
+      "Numer alarmowy (UE): 112",
+      "Polska — Telefon zaufania: 116 123",
+      "Polska — Numer alarmowy: 112",
+      "Norwegia — Mental Helse: 116 123",
+      "Międzynarodowy katalog: findahelpline.com",
+    ],
+    continue: "Przejdź do celów",
+    fillHint: "Wypełnij pola powyżej, aby kontynuować.",
+  },
+};
+
+export const Route = createFileRoute("/{-$lang}/start")({
+  head: ({ params }) => {
+    const m = T[toLang(params.lang)].meta;
+    return {
+      meta: [
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary" },
+        { title: m.title },
+        {
+          name: "description",
+          content: m.description,
+        },
+        { property: "og:title", content: m.title },
+        {
+          property: "og:description",
+          content: m.ogDescription,
+        },
+      ],
+    };
+  },
   component: StartPage,
 });
 
 function StartPage() {
+  const t = useDict(T);
   const { profile } = useAppState();
   const navigate = useLangNavigate();
   const bmi = calcBmi(profile);
@@ -41,11 +272,7 @@ function StartPage() {
   return (
     <Page>
       <div className="container-page max-w-3xl py-12">
-        <StepHeader
-          step="Step 1 of 3"
-          title="A little context"
-          intro="Coarse buckets are enough. We use this to decide which out-of-range value matters most for you — nothing else."
-        />
+        <StepHeader step={t.step} title={t.title} intro={t.intro} />
 
         <button
           type="button"
@@ -54,12 +281,12 @@ function StartPage() {
           }}
           className="mb-8 rounded-full border border-border px-4 py-2 text-xs hover:border-primary/50"
         >
-          Fill with a demo person
+          {t.demoFill}
         </button>
 
         <div className="space-y-8">
           <div className="grid gap-4 sm:grid-cols-3">
-            <Field label="Age">
+            <Field label={t.age}>
               <input
                 type="number"
                 className={inputClass}
@@ -67,7 +294,7 @@ function StartPage() {
                 onChange={(e) => set({ age: e.target.value ? Number(e.target.value) : null })}
               />
             </Field>
-            <Field label="Height (cm)">
+            <Field label={t.height}>
               <input
                 type="number"
                 className={inputClass}
@@ -75,7 +302,7 @@ function StartPage() {
                 onChange={(e) => set({ heightCm: e.target.value ? Number(e.target.value) : null })}
               />
             </Field>
-            <Field label="Weight (kg)" hint={bmi ? `BMI ${bmi}` : undefined}>
+            <Field label={t.weight} hint={bmi ? t.bmi(bmi) : undefined}>
               <input
                 type="number"
                 className={inputClass}
@@ -85,24 +312,24 @@ function StartPage() {
             </Field>
           </div>
 
-          <Group title="Sex">
+          <Group title={t.sex}>
             {(
               [
-                ["female", "Female"],
-                ["male", "Male"],
-                ["other", "Other / prefer not to say"],
+                ["female", t.sexOptions.female],
+                ["male", t.sexOptions.male],
+                ["other", t.sexOptions.other],
               ] as [Sex, string][]
             ).map(([v, l]) => (
               <Choice key={v} label={l} selected={profile.sex === v} onClick={() => set({ sex: v })} />
             ))}
           </Group>
 
-          <Group title="Activity">
+          <Group title={t.activity}>
             {(
               [
-                ["sedentary", "Sedentary", "Mostly sitting"],
-                ["some", "Some movement", "Walks, occasional training"],
-                ["regular", "Trains regularly", "Structured, most weeks"],
+                ["sedentary", ...t.activityOptions.sedentary],
+                ["some", ...t.activityOptions.some],
+                ["regular", ...t.activityOptions.regular],
               ] as [Activity, string, string][]
             ).map(([v, l, h]) => (
               <Choice
@@ -115,12 +342,12 @@ function StartPage() {
             ))}
           </Group>
 
-          <Group title="Daylight and sun">
+          <Group title={t.sun}>
             {(
               [
-                ["little", "Little", "Indoors most days"],
-                ["medium", "Medium", "Outside now and then"],
-                ["lots", "Lots", "Outdoors daily"],
+                ["little", ...t.sunOptions.little],
+                ["medium", ...t.sunOptions.medium],
+                ["lots", ...t.sunOptions.lots],
               ] as [Sun, string, string][]
             ).map(([v, l, h]) => (
               <Choice
@@ -133,13 +360,13 @@ function StartPage() {
             ))}
           </Group>
 
-          <Group title="Diet">
+          <Group title={t.diet}>
             {(
               [
-                ["typical", "Typical mixed diet", ""],
-                ["littleMeat", "Little or no meat", ""],
-                ["ultraProcessed", "Lots of ultra-processed food", ""],
-                ["lowProtein", "Low protein", ""],
+                ["typical", t.dietOptions.typical, ""],
+                ["littleMeat", t.dietOptions.littleMeat, ""],
+                ["ultraProcessed", t.dietOptions.ultraProcessed, ""],
+                ["lowProtein", t.dietOptions.lowProtein, ""],
               ] as [Diet, string, string][]
             ).map(([v, l]) => (
               <Choice
@@ -152,26 +379,26 @@ function StartPage() {
           </Group>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <Group title="Where you live" compact>
+            <Group title={t.region} compact>
               <Choice
-                label="Northern Europe"
+                label={t.regionOptions.northernEurope}
                 selected={profile.region === "northernEurope"}
                 onClick={() => set({ region: "northernEurope" })}
               />
               <Choice
-                label="Somewhere else"
+                label={t.regionOptions.other}
                 selected={profile.region === "other"}
                 onClick={() => set({ region: "other" })}
               />
             </Group>
-            <Group title="Season right now" compact>
+            <Group title={t.season} compact>
               <Choice
-                label="Dark half of the year"
+                label={t.seasonOptions.winter}
                 selected={profile.season === "winter"}
                 onClick={() => set({ season: "winter" })}
               />
               <Choice
-                label="Light half of the year"
+                label={t.seasonOptions.summer}
                 selected={profile.season === "summer"}
                 onClick={() => set({ season: "summer" })}
               />
@@ -179,60 +406,53 @@ function StartPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl">Health flags</h2>
-            <p className="mt-1 mb-3 text-sm text-muted-foreground">
-              Yes or no only. These can stop a suggestion from being shown at all.
-            </p>
+            <h2 className="text-2xl">{t.flagsTitle}</h2>
+            <p className="mt-1 mb-3 text-sm text-muted-foreground">{t.flagsIntro}</p>
             <div className="space-y-2">
               <Toggle
-                label="Pregnant or breastfeeding"
+                label={t.flags.pregnantOrBreastfeeding}
                 value={profile.flags.pregnantOrBreastfeeding}
                 onChange={(v) => setFlag("pregnantOrBreastfeeding", v)}
               />
               <Toggle
-                label="Known kidney disease"
+                label={t.flags.kidneyDisease}
                 value={profile.flags.kidneyDisease}
                 onChange={(v) => setFlag("kidneyDisease", v)}
               />
               <Toggle
-                label="Known liver disease"
+                label={t.flags.liverDisease}
                 value={profile.flags.liverDisease}
                 onChange={(v) => setFlag("liverDisease", v)}
               />
               <Toggle
-                label="Diabetes"
+                label={t.flags.diabetes}
                 value={profile.flags.diabetes}
                 onChange={(v) => setFlag("diabetes", v)}
               />
               <Toggle
-                label="Iron treatment or absorption issues"
+                label={t.flags.ironTreatment}
                 value={profile.flags.ironTreatment}
                 onChange={(v) => setFlag("ironTreatment", v)}
               />
               <Toggle
-                label="Blood thinners"
+                label={t.flags.bloodThinners}
                 value={profile.flags.bloodThinners}
                 onChange={(v) => setFlag("bloodThinners", v)}
               />
               <Toggle
-                label="Severe distress or thoughts of suicide"
+                label={t.flags.severeDistress}
                 value={profile.flags.severeDistress}
                 onChange={(v) => setFlag("severeDistress", v)}
               />
             </div>
             {profile.flags.severeDistress ? (
               <div className="mt-4 rounded-lg border border-destructive/40 bg-destructive/5 p-5">
-                <h3 className="text-xl text-destructive">Please talk to someone today</h3>
-                <p className="mt-2 text-sm">
-                  We will not generate a lifestyle program for this. Contact your local emergency
-                  number, your doctor, or a crisis line:
-                </p>
+                <h3 className="text-xl text-destructive">{t.distressTitle}</h3>
+                <p className="mt-2 text-sm">{t.distressBody}</p>
                 <ul className="mt-3 space-y-1 text-sm">
-                  <li>Emergency (EU): 112</li>
-                  <li>Norway — Mental Helse: 116 123</li>
-                  <li>UK — Samaritans: 116 123</li>
-                  <li>US — 988 Suicide &amp; Crisis Lifeline: 988</li>
-                  <li>International directory: findahelpline.com</li>
+                  {t.distressLines.map((line) => (
+                    <li key={line}>{line}</li>
+                  ))}
                 </ul>
               </div>
             ) : null}
@@ -245,10 +465,10 @@ function StartPage() {
               onClick={() => navigate({ to: "/goals" })}
               className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-40"
             >
-              Continue to goals
+              {t.continue}
             </button>
             {!ready ? (
-              <span className="text-xs text-muted-foreground">Fill the fields above to continue.</span>
+              <span className="text-xs text-muted-foreground">{t.fillHint}</span>
             ) : null}
           </div>
         </div>
