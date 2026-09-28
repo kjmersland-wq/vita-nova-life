@@ -778,7 +778,7 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
   const seenIds = new Set<string>();
   for (const s of scored) {
     if (actions.length >= 3) break;
-    if (s.candidate && !seenIds.has(s.id)) {
+    if (s.candidate && !seenIds.has(s.id) && !actions.some((x) => x.title === s.candidate!.action.title)) {
       seenIds.add(s.id);
       actions.push(s.candidate.action);
     }
@@ -786,7 +786,34 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
   // Lifestyle before pills: stable-sort supplements to the back.
   actions.sort((a, b) => (a.kind === "supplement" ? 1 : 0) - (b.kind === "supplement" ? 1 : 0));
 
-  for (const a of goalActions(goals.primary, profile, bmi, lang)) {
+  // Blood sugar above the user's own range + weight-loss goal: no calorie cut first.
+  const glycemicHigh = findings.some(
+    (f) => (f.key === "glucose" || f.key === "hba1c") && f.status === "high",
+  );
+  if (goals.primary === "loseWeight" && glycemicHigh) {
+    actions.unshift({
+      kind: "measure",
+      title: t(
+        {
+          en: "Foundation and a clinician first, then a modest deficit",
+          no: "Grunnmur og lege først, deretter et moderat underskudd",
+          pl: "Najpierw podstawy i lekarz, potem umiarkowany deficyt",
+        },
+        lang,
+      ),
+      detail: t(
+        {
+          en: "Your blood sugar is above your lab's range. Show these numbers to a doctor or nurse before cutting calories. Meanwhile: regular meals, protein at each meal, a walk after eating. A modest deficit comes after that talk.",
+          no: "Blodsukkeret ditt er over laboratoriets område. Vis tallene til lege eller sykepleier før du kutter kalorier. I mellomtiden: faste måltider, protein til hvert måltid, en gåtur etter maten. Et moderat underskudd kommer etter den samtalen.",
+          pl: "Twój cukier we krwi jest powyżej zakresu laboratorium. Pokaż te wyniki lekarzowi lub pielęgniarce, zanim zaczniesz ograniczać kalorie. W międzyczasie: regularne posiłki, białko w każdym posiłku, spacer po jedzeniu. Umiarkowany deficyt przyjdzie po tej rozmowie.",
+        },
+        lang,
+      ),
+    });
+    actions.splice(3);
+  }
+
+  for (const a of goalActions(goals.primary === "loseWeight" && glycemicHigh ? null : goals.primary, profile, bmi, lang)) {
     if (actions.length >= 3) break;
     if (!actions.some((x) => x.title === a.title)) actions.push(a);
   }
