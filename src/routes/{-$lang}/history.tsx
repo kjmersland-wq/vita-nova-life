@@ -80,7 +80,7 @@ function HistoryPage() {
         {runs.length === 0 ? (
           <div className="card-surface p-8 text-center">
             <p className="text-muted-foreground">No saved runs yet.</p>
-            <Link
+            <LangLink
               to="/start"
               className="mt-4 inline-block rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
             >
@@ -189,7 +189,7 @@ function HistoryPage() {
         )}
 
         <div className="mt-12 flex flex-wrap gap-3">
-          <Link
+          <LangLink
             to="/labs"
             className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
           >

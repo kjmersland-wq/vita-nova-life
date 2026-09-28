@@ -85,13 +85,13 @@ function ProgramPage() {
             </p>
           </div>
           <div className="flex gap-3">
-            <Link
+            <LangLink
               to="/history"
               className="rounded-full border border-border px-5 py-2.5 text-sm hover:border-primary/50"
             >
               History
             </LangLink>
-            <Link
+            <LangLink
               to="/pricing"
               className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground"
             >

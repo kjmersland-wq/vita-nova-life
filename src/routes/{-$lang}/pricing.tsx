@@ -96,7 +96,7 @@ function PricingPage() {
                   {account?.pro ? "Pro preview active" : "Turn on Pro preview"}
                 </button>
               ) : (
-                <Link
+                <LangLink
                   to="/start"
                   className="mt-6 rounded-full border border-border px-5 py-2.5 text-center text-sm hover:border-primary/50"
                 >

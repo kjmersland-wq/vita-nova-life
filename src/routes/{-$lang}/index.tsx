@@ -122,7 +122,7 @@ function Home() {
             <h2 className="mt-3 text-3xl md:text-4xl">Your first run is free.</h2>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-primary-foreground/70">Use the blood test you already have. No account needed to get started.</p>
           </div>
-          <Link
+          <LangLink
             to="/start"
             className="inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-md bg-card px-6 text-sm font-bold text-primary hover:bg-highlight"
           >

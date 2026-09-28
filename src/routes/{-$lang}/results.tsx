@@ -62,7 +62,7 @@ function ResultsPage() {
           <p className="mt-3 text-muted-foreground">
             Enter at least one lab value and we will read it against your own lab's range.
           </p>
-          <Link
+          <LangLink
             to="/labs"
             className="mt-6 inline-block rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
           >
@@ -192,7 +192,7 @@ function ResultsPage() {
           >
             Save and see my 4-week program
           </button>
-          <Link
+          <LangLink
             to="/labs"
             className="rounded-full border border-border px-6 py-3 text-sm hover:border-primary/50"
           >
