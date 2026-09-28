@@ -11,7 +11,11 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as GoalsRouteImport } from './routes/goals'
+import { Route as HistoryRouteImport } from './routes/history'
 import { Route as LabsRouteImport } from './routes/labs'
+import { Route as LegalRouteImport } from './routes/legal'
+import { Route as MethodRouteImport } from './routes/method'
+import { Route as PricingRouteImport } from './routes/pricing'
 import { Route as ProgramRouteImport } from './routes/program'
 import { Route as ResultsRouteImport } from './routes/results'
 import { Route as StartRouteImport } from './routes/start'
@@ -26,9 +30,29 @@ const GoalsRoute = GoalsRouteImport.update({
   path: '/goals',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HistoryRoute = HistoryRouteImport.update({
+  id: '/history',
+  path: '/history',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LabsRoute = LabsRouteImport.update({
   id: '/labs',
   path: '/labs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LegalRoute = LegalRouteImport.update({
+  id: '/legal',
+  path: '/legal',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MethodRoute = MethodRouteImport.update({
+  id: '/method',
+  path: '/method',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PricingRoute = PricingRouteImport.update({
+  id: '/pricing',
+  path: '/pricing',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ProgramRoute = ProgramRouteImport.update({
@@ -50,7 +74,11 @@ const StartRoute = StartRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/goals': typeof GoalsRoute
+  '/history': typeof HistoryRoute
   '/labs': typeof LabsRoute
+  '/legal': typeof LegalRoute
+  '/method': typeof MethodRoute
+  '/pricing': typeof PricingRoute
   '/program': typeof ProgramRoute
   '/results': typeof ResultsRoute
   '/start': typeof StartRoute
@@ -58,7 +86,11 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/goals': typeof GoalsRoute
+  '/history': typeof HistoryRoute
   '/labs': typeof LabsRoute
+  '/legal': typeof LegalRoute
+  '/method': typeof MethodRoute
+  '/pricing': typeof PricingRoute
   '/program': typeof ProgramRoute
   '/results': typeof ResultsRoute
   '/start': typeof StartRoute
@@ -67,23 +99,62 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/goals': typeof GoalsRoute
+  '/history': typeof HistoryRoute
   '/labs': typeof LabsRoute
+  '/legal': typeof LegalRoute
+  '/method': typeof MethodRoute
+  '/pricing': typeof PricingRoute
   '/program': typeof ProgramRoute
   '/results': typeof ResultsRoute
   '/start': typeof StartRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/goals' | '/labs' | '/program' | '/results' | '/start'
+  fullPaths:
+    | '/'
+    | '/goals'
+    | '/history'
+    | '/labs'
+    | '/legal'
+    | '/method'
+    | '/pricing'
+    | '/program'
+    | '/results'
+    | '/start'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/goals' | '/labs' | '/program' | '/results' | '/start'
-  id: '__root__' | '/' | '/goals' | '/labs' | '/program' | '/results' | '/start'
+  to:
+    | '/'
+    | '/goals'
+    | '/history'
+    | '/labs'
+    | '/legal'
+    | '/method'
+    | '/pricing'
+    | '/program'
+    | '/results'
+    | '/start'
+  id:
+    | '__root__'
+    | '/'
+    | '/goals'
+    | '/history'
+    | '/labs'
+    | '/legal'
+    | '/method'
+    | '/pricing'
+    | '/program'
+    | '/results'
+    | '/start'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GoalsRoute: typeof GoalsRoute
+  HistoryRoute: typeof HistoryRoute
   LabsRoute: typeof LabsRoute
+  LegalRoute: typeof LegalRoute
+  MethodRoute: typeof MethodRoute
+  PricingRoute: typeof PricingRoute
   ProgramRoute: typeof ProgramRoute
   ResultsRoute: typeof ResultsRoute
   StartRoute: typeof StartRoute
@@ -105,11 +176,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof GoalsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/history': {
+      id: '/history'
+      path: '/history'
+      fullPath: '/history'
+      preLoaderRoute: typeof HistoryRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/labs': {
       id: '/labs'
       path: '/labs'
       fullPath: '/labs'
       preLoaderRoute: typeof LabsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/legal': {
+      id: '/legal'
+      path: '/legal'
+      fullPath: '/legal'
+      preLoaderRoute: typeof LegalRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/method': {
+      id: '/method'
+      path: '/method'
+      fullPath: '/method'
+      preLoaderRoute: typeof MethodRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/pricing': {
+      id: '/pricing'
+      path: '/pricing'
+      fullPath: '/pricing'
+      preLoaderRoute: typeof PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/program': {
@@ -139,7 +238,11 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GoalsRoute: GoalsRoute,
+  HistoryRoute: HistoryRoute,
   LabsRoute: LabsRoute,
+  LegalRoute: LegalRoute,
+  MethodRoute: MethodRoute,
+  PricingRoute: PricingRoute,
   ProgramRoute: ProgramRoute,
   ResultsRoute: ResultsRoute,
   StartRoute: StartRoute,
