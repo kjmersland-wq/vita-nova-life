@@ -385,7 +385,7 @@ export function buildProgram(
     const keep = flaggedHabit ?? base[2];
     push(1, t({ en: "One habit for the flagged marker", no: "Én vane for den flaggede markøren", pl: "Jeden nawyk dla oznaczonego markera" }, lang), [
       keep,
-      base[0],
+      keep.kind === "food" ? base[1] : base[2],
       h("measure", { en: "Write down your lab's ranges next to each value", no: "Skriv ned laboratoriets områder ved siden av hver verdi", pl: "Zapisz zakresy laboratorium obok każdej wartości" }),
     ]);
     push(2, t({ en: "Look at the food behind the numbers", no: "Se på maten bak tallene", pl: "Spójrz na jedzenie stojące za wynikami" }, lang), [
