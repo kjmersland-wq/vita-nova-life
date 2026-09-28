@@ -95,7 +95,7 @@ export function Choice({
   label: string;
   selected: boolean;
   onClick: () => void;
-  hint?: string;
+  hint?: string | undefined;
 }) {
   return (
     <button
@@ -120,7 +120,7 @@ export function Field({
 }: {
   label: string;
   children: ReactNode;
-  hint?: string;
+  hint?: string | undefined;
 }) {
   return (
     <label className="block">

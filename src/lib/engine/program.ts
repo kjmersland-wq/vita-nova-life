@@ -15,7 +15,7 @@ function foundationOverride(analysis: Analysis): string | null {
   return null;
 }
 
-function baseHabits(profile: Profile): Habit[] {
+function baseHabits(profile: Profile): [Habit, Habit, Habit] {
   const light: Habit = {
     kind: "lifestyle",
     text:
