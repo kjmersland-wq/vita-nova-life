@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { LangLink, toLang, useDict, useLang } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
-import { Page, StepHeader } from "@/components/site";
-import { useAppState } from "@/lib/store";
+import { RunGate, Page, StepHeader } from "@/components/site";
+import { useAppState, useHydrated } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { buildProgram } from "@/lib/engine/program";
 
@@ -88,6 +88,7 @@ export const Route = createFileRoute("/{-$lang}/program")({
 
 function ProgramPage() {
   const { profile, goals, labs, account } = useAppState();
+  const hydrated = useHydrated();
   const lang = useLang();
   const t = useDict(T);
   const analysis = useMemo(() => analyze(profile, goals, labs, lang), [profile, goals, labs, lang]);
@@ -95,6 +96,8 @@ function ProgramPage() {
     () => buildProgram(profile, goals, analysis, lang),
     [profile, goals, analysis, lang],
   );
+
+  if (!hydrated || !goals.primary) return <RunGate hydrated={hydrated} hasGoal={Boolean(goals.primary)} />;
 
   if (!program.weeks.length) {
     return (

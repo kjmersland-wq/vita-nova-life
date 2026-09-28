@@ -184,3 +184,27 @@ export function Toggle({
     </div>
   );
 }
+
+const GATE_T = {
+  en: { title: "Pick your goal first", body: "Your result and program are built around the goal you choose. Nothing is assumed.", cta: "Choose a goal" },
+  no: { title: "Velg målet ditt først", body: "Resultatet og programmet bygges rundt målet du velger. Ingenting antas.", cta: "Velg et mål" },
+  pl: { title: "Najpierw wybierz cel", body: "Wynik i program są budowane wokół wybranego celu. Niczego nie zakładamy.", cta: "Wybierz cel" },
+};
+
+/** Renders a placeholder until stored state is loaded, and a prompt when no primary goal is set. */
+export function RunGate({ hydrated, hasGoal }: { hydrated: boolean; hasGoal: boolean }) {
+  const t = useDict(GATE_T);
+  return (
+    <Page>
+      <div className="container-page max-w-2xl py-20 text-center">
+        {hydrated && !hasGoal ? (
+          <>
+            <h1 className="text-4xl">{t.title}</h1>
+            <p className="mt-3 text-muted-foreground">{t.body}</p>
+            <LangLink to="/goals" className="mt-6 inline-block rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground">{t.cta}</LangLink>
+          </>
+        ) : <div className="mx-auto h-40 max-w-md animate-pulse rounded-lg bg-muted" />}
+      </div>
+    </Page>
+  );
+}

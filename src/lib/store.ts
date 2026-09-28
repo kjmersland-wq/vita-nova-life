@@ -106,3 +106,9 @@ export function saveRun(run: Run) {
 export function deleteRun(id: string) {
   setState((s) => ({ runs: s.runs.filter((r) => r.id !== id) }));
 }
+
+const noopSubscribe = () => () => {};
+/** False during server render and hydration, true after — avoids showing default state as if it were the user's. */
+export function useHydrated(): boolean {
+  return useSyncExternalStore(noopSubscribe, () => true, () => false);
+}

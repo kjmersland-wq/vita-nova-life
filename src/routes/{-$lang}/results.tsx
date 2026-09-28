@@ -1,8 +1,8 @@
 import { useMemo } from "react";
 import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
-import { Page, StepHeader } from "@/components/site";
-import { saveRun, useAppState } from "@/lib/store";
+import { RunGate, Page, StepHeader } from "@/components/site";
+import { saveRun, useAppState, useHydrated } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { markerLabel } from "@/lib/engine/markers";
 import { buildProgram } from "@/lib/engine/program";
@@ -132,6 +132,7 @@ const STATUS_STYLE: Record<Finding["status"], string> = {
 
 function ResultsPage() {
   const { profile, goals, labs } = useAppState();
+  const hydrated = useHydrated();
   const lang = useLang();
   const t = useDict(T);
   const navigate = useLangNavigate();
@@ -141,6 +142,8 @@ function ResultsPage() {
     () => buildProgram(profile, goals, analysis, lang),
     [profile, goals, analysis, lang],
   );
+
+  if (!hydrated || !goals.primary) return <RunGate hydrated={hydrated} hasGoal={Boolean(goals.primary)} />;
 
   const hasLabs = Object.values(labs).some((l) => l?.value != null);
 
