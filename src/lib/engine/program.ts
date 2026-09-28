@@ -22,18 +22,18 @@ function foundationOverride(analysis: Analysis, lang: Lang): string | null {
   if (glycemic)
     return t(
       {
-        en: `Your ${glycemic.label.toLowerCase()} is above your lab's range, so we hold off on cutting calories for now. Weeks 1–4 build your foundation instead. Talk to a doctor or nurse about the number, then start a modest deficit.`,
-        no: `${glycemic.label} din er over laboratoriets område, så vi venter med kaloriekutt nå. Uke 1–4 bygger grunnmuren i stedet. Snakk med lege eller sykepleier om tallet, og start så et moderat underskudd.`,
-        pl: `Twoja wartość „${glycemic.label}” jest powyżej zakresu laboratorium, więc na razie wstrzymujemy się z cięciem kalorii. Tygodnie 1–4 budują za to Twoje podstawy. Porozmawiaj z lekarzem lub pielęgniarką o tym wyniku, a potem zacznij umiarkowany deficyt.`,
+        en: `Your ${glycemic.label.toLowerCase()} is above your lab's range, so we hold off on cutting calories. These four weeks are for easy walks after meals and talking to a doctor or nurse about the number.`,
+        no: `${glycemic.label} din er over laboratoriets område, så vi venter med kaloriekutt. Disse fire ukene handler om rolige turer etter måltider og en samtale med lege eller sykepleier om tallet.`,
+        pl: `Twój wynik „${glycemic.label}” przekracza zakres laboratorium, więc na razie bez cięcia kalorii. Przez te cztery tygodnie postaw na spokojne spacery po posiłkach i porozmawiaj o wyniku z lekarzem lub pielęgniarką.`,
       },
       lang,
     );
   if (serious)
     return t(
       {
-        en: `Your ${serious.label.toLowerCase()} is clearly outside your range, so a weight-loss deficit can wait. Weeks 1–4 build your foundation instead.`,
-        no: `${serious.label} din er tydelig utenfor området, så et vektnedgangsunderskudd kan vente. Uke 1–4 bygger i stedet grunnmuren.`,
-        pl: `Twoja wartość „${serious.label}” wyraźnie wykracza poza zakres, więc deficyt kaloryczny może poczekać. Tygodnie 1–4 budują za to Twoje podstawy.`,
+        en: `Your ${serious.label.toLowerCase()} is clearly outside your range, so a weight-loss deficit can wait. Keep movement easy and talk to a clinician about the result.`,
+        no: `${serious.label} din er tydelig utenfor området, så et kaloriunderskudd kan vente. Hold bevegelsen rolig og snakk med lege om prøvesvaret.`,
+        pl: `Twój wynik „${serious.label}” wyraźnie wykracza poza zakres, więc deficyt kaloryczny może poczekać. Wybierz spokojny ruch i porozmawiaj z lekarzem o wyniku.`,
       },
       lang,
     );
@@ -338,7 +338,7 @@ export function buildProgram(
       [
         h("lifestyle", { en: "Daylight before 11:00, every day", no: "Dagslys før klokken 11:00, hver dag", pl: "Światło dzienne przed 11:00, codziennie" }),
         everydayMove("stairs"),
-        base[2],
+        h("lifestyle", { en: "Make time for one conversation with someone this week", no: "Sett av tid til en samtale med noen denne uken", pl: "Znajdź czas na jedną rozmowę z kimś w tym tygodniu" }),
       ],
     );
     push(
@@ -423,10 +423,7 @@ export function buildProgram(
         h("measure", { en: "Book a doctor or nurse to go through the flagged value", no: "Bestill time hos lege eller sykepleier for å gå gjennom verdien", pl: "Umów wizytę u lekarza lub pielęgniarki, by omówić wynik" }), easyWalk,
       ]);
       push(3, t({ en: "Keep it gentle", no: "Fortsett rolig", pl: "Spokojnie kontynuuj" }, lang), [easyWalk, clinician]);
-      push(4, t({ en: "Decide with your clinician", no: "Bestem sammen med legen", pl: "Zdecyduj razem z lekarzem" }, lang), [
-        clinician, easyWalk,
-        h("lifestyle", { en: "Only after that talk: start a modest deficit, if weight loss is still the goal", no: "Først etter den samtalen: start et moderat underskudd, hvis vektnedgang fortsatt er målet", pl: "Dopiero po tej rozmowie: zacznij umiarkowany deficyt, jeśli odchudzanie wciąż jest celem" }),
-      ]);
+      push(4, t({ en: "Review with your clinician", no: "Gå gjennom det med legen", pl: "Omów dalsze kroki z lekarzem" }, lang), [clinician, easyWalk]);
     }
   }
 
