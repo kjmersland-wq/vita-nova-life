@@ -1,11 +1,13 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Page } from "@/components/site";
-import { ArrowRight, Check, FileText, Fingerprint, HeartPulse, Leaf, ShieldCheck, Sparkles } from "lucide-react";
+import { ArrowRight, Check, FileText, Fingerprint, HeartPulse, Leaf, ShieldCheck } from "lucide-react";
 import heroImage from "@/assets/vita-hero.jpg";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
       { title: "Vita Nova Life — Bring your own blood test, get three actions" },
       {
         name: "description",

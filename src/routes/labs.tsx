@@ -9,6 +9,8 @@ import type { LabEntry } from "@/lib/engine/types";
 export const Route = createFileRoute("/labs")({
   head: () => ({
     meta: [
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary" },
       { title: "Enter your lab values — Vita Nova Life" },
       {
         name: "description",
