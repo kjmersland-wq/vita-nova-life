@@ -156,79 +156,50 @@ export function buildProgram(
 
   const h = (kind: Habit["kind"], tr: Tr): Habit => ({ kind, text: t(tr, lang) });
 
+  const proteinMeal = (g: number) =>
+    h("food", {
+      en: `Protein at every meal, about ${g} g a day in total`,
+      no: `Protein til hvert måltid, rundt ${g} g totalt per dag`,
+      pl: `Białko w każdym posiłku, łącznie około ${g} g dziennie`,
+    });
+  const lowMarker = (key: string) =>
+    analysis.findings.some((f) => f.key === key && f.status === "low");
+  const flaggedHabit: Habit | null = analysis.actions[0] && analysis.findings.some((f) => f.status === "low" || f.status === "high")
+    ? { kind: analysis.actions[0].kind === "supplement" ? "supplement" : analysis.actions[0].kind === "food" ? "food" : "lifestyle", text: analysis.actions[0].title }
+    : null;
+
   if (goal === "loseWeight") {
-    push(
-      1,
-      t({ en: "Make the deficit boring", no: "Gjør underskuddet kjedelig", pl: "Uczyń deficyt nudnym" }, lang),
-      [
-        base[2],
-        h("food", {
-          en: `Protein target: ${profile.weightKg ? Math.round(profile.weightKg * 1.6) : 100} g per day`,
-          no: `Proteinmål: ${profile.weightKg ? Math.round(profile.weightKg * 1.6) : 100} g per dag`,
-          pl: `Cel białkowy: ${profile.weightKg ? Math.round(profile.weightKg * 1.6) : 100} g dziennie`,
-        }),
-        base[1],
-      ],
-    );
-    push(
-      2,
-      t({ en: "Add structure, not restriction", no: "Legg til struktur, ikke restriksjon", pl: "Dodaj strukturę, nie restrykcje" }, lang),
-      [
-        h("lifestyle", {
-          en: "One strength session added to your week",
-          no: "Én styrkeøkt lagt til i uken",
-          pl: "Jeden dodatkowy trening siłowy w tygodniu",
-        }),
-        h("food", {
-          en: "No liquid calories on weekdays",
-          no: "Ingen flytende kalorier på hverdager",
-          pl: "Bez płynnych kalorii w dni robocze",
-        }),
-        base[0],
-      ],
-    );
-    push(
-      3,
-      t({ en: "Hold the line", no: "Hold stand", pl: "Trzymaj się kursu" }, lang),
-      [
-        h("lifestyle", {
-          en: "Step floor on bad days: 6,000",
-          no: "Skrittminimum på dårlige dager: 6000",
-          pl: "Minimum kroków w gorsze dni: 6000",
-        }),
-        h("food", {
-          en: "Same breakfast on workdays, one less decision",
-          no: "Samme frokost på arbeidsdager, én beslutning mindre",
-          pl: "Ta sama śniadaniówka w dni robocze, jedna decyzja mniej",
-        }),
-        h("measure", {
-          en: "Weigh weekly, same morning, and ignore single days",
-          no: "Vei deg ukentlig, samme morgen, og se bort fra enkeltdager",
-          pl: "Waż się co tydzień, tego samego dnia rano, ignorując pojedyncze dni",
-        }),
-      ],
-    );
-    push(
-      4,
-      t({ en: "Check and decide", no: "Sjekk og bestem", pl: "Sprawdź i zdecyduj" }, lang),
-      [
-        h("measure", {
-          en: "Review 4 weeks of weight as a trend, not points",
-          no: "Se på 4 ukers vekt som en trend, ikke enkeltpunkter",
-          pl: "Przejrzyj 4 tygodnie wagi jako trend, nie pojedyncze punkty",
-        }),
-        h("lifestyle", {
-          en: "Keep the two habits that were easiest, drop one",
-          no: "Behold de to vanene som var lettest, dropp én",
-          pl: "Zachowaj dwa nawyki, które były najłatwiejsze, porzuć jeden",
-        }),
-        h("measure", {
-          en: "Plan a lab retest if a marker was out of range",
-          no: "Planlegg en ny prøve hvis en markør var utenfor området",
-          pl: "Zaplanuj ponowne badanie, jeśli jakiś marker był poza zakresem",
-        }),
-      ],
-    );
+    const kg = profile.weightKg ? Math.round(profile.weightKg * 1.6) : 100;
+    const steps =
+      profile.activity === "regular"
+        ? h("lifestyle", { en: "Keep your training, add a 30-minute walk on rest days", no: "Behold treningen, legg til en 30-minutters tur på hviledager", pl: "Zachowaj treningi, dodaj 30-minutowy spacer w dni wolne" })
+        : profile.activity === "some"
+          ? h("lifestyle", { en: "Daily step floor: 7,000", no: "Daglig skrittminimum: 7000", pl: "Codzienne minimum kroków: 7000" })
+          : h("lifestyle", { en: "A 10–15 minute walk after two meals a day", no: "En tur på 10–15 minutter etter to måltider om dagen", pl: "10–15 minut spaceru po dwóch posiłkach dziennie" });
+    const strength =
+      profile.activity === "regular"
+        ? h("lifestyle", { en: "Keep two strength sessions, drop extra cardio you dread", no: "Behold to styrkeøkter, dropp ekstra kondisjon du gruer deg til", pl: "Zachowaj dwa treningi siłowe, zrezygnuj z cardio, którego nie znosisz" })
+        : h("lifestyle", { en: "One simple strength session: squats, push-ups, rows", no: "Én enkel styrkeøkt: knebøy, armhevinger, roing", pl: "Jeden prosty trening siłowy: przysiady, pompki, wiosłowanie" });
+    push(1, t({ en: "A modest deficit, nothing drastic", no: "Et moderat underskudd, ingenting drastisk", pl: "Umiarkowany deficyt, nic drastycznego" }, lang), [
+      h("food", { en: "Eat a little less than usual: smaller second portions, not skipped meals", no: "Spis litt mindre enn vanlig: mindre påfyll, ikke droppede måltider", pl: "Jedz trochę mniej niż zwykle: mniejsze dokładki, bez pomijania posiłków" }),
+      proteinMeal(kg),
+      steps,
+    ]);
+    push(2, t({ en: "Add strength, cut liquid calories", no: "Legg til styrke, kutt flytende kalorier", pl: "Dodaj siłę, odstaw płynne kalorie" }, lang), [
+      strength,
+      h("food", { en: "No sugary drinks or juice on weekdays", no: "Ingen søt drikke eller juice på hverdager", pl: "Bez słodkich napojów i soków w dni robocze" }),
+      h("food", { en: "Vegetables fill half the plate at dinner", no: "Grønnsaker fyller halve tallerkenen til middag", pl: "Warzywa zajmują pół talerza przy kolacji" }),
+    ]);
+    push(3, t({ en: "Hold the line on bad days", no: "Hold stand på dårlige dager", pl: "Trzymaj kurs w gorsze dni" }, lang), [
+      h("lifestyle", { en: "A minimum walk even on bad days: 20 minutes", no: "En minimumstur også på dårlige dager: 20 minutter", pl: "Minimalny spacer nawet w gorsze dni: 20 minut" }),
+      h("food", { en: "Same protein breakfast on workdays, one less decision", no: "Samme proteinfrokost på arbeidsdager, én beslutning mindre", pl: "To samo białkowe śniadanie w dni robocze, jedna decyzja mniej" }),
+      h("measure", { en: "Weigh once a week, same morning, ignore single days", no: "Vei deg én gang i uken, samme morgen, se bort fra enkeltdager", pl: "Waż się raz w tygodniu, tego samego ranka, ignoruj pojedyncze dni" }),
+    ]);
+    push(4, t({ en: "Check the trend and decide", no: "Sjekk trenden og bestem", pl: "Sprawdź trend i zdecyduj" }, lang), [
+      h("measure", { en: "Aim for 0.3–0.5 kg a week; if faster, eat a bit more", no: "Sikt mot 0,3–0,5 kg i uken; går det raskere, spis litt mer", pl: "Celuj w 0,3–0,5 kg tygodniowo; jeśli szybciej, jedz trochę więcej" }),
+      h("lifestyle", { en: "Keep the two habits that were easiest, drop one", no: "Behold de to vanene som var lettest, dropp én", pl: "Zachowaj dwa najłatwiejsze nawyki, porzuć jeden" }),
+      h("measure", { en: "Plan a lab retest if a marker was out of range", no: "Planlegg ny prøve hvis en markør var utenfor området", pl: "Zaplanuj ponowne badanie, jeśli marker był poza zakresem" }),
+    ]);
   } else if (goal === "muscle") {
     push(
       1,
@@ -295,9 +266,9 @@ export function buildProgram(
           pl: "Zapisz jedno ćwiczenie i porównaj z tygodniem 1",
         }),
         h("food", {
-          en: "Keep protein, adjust everything else by appetite",
-          no: "Behold proteinet, juster alt annet etter appetitt",
-          pl: "Zachowaj białko, resztę dostosuj do apetytu",
+          en: "Keep protein, no crash cut: eat to appetite",
+          no: "Behold proteinet, ingen kræsjkutt: spis etter appetitt",
+          pl: "Zachowaj białko, bez drastycznego cięcia: jedz według apetytu",
         }),
         h("measure", {
           en: "Retest any marker that was low",
@@ -380,60 +351,74 @@ export function buildProgram(
         h("lifestyle", { en: "One contact per week, minimum", no: "Minst én kontakt i uken", pl: "Minimum jeden kontakt tygodniowo" }),
       ],
     );
+  } else if (goal === "moreEnergy") {
+    const nutrient: Habit[] = [];
+    if (lowMarker("ferritin") || lowMarker("hemoglobin"))
+      nutrient.push(h("measure", { en: "Iron is low: book a doctor visit before taking iron", no: "Jern er lavt: bestill legetime før du tar jern", pl: "Żelazo jest niskie: umów wizytę u lekarza przed przyjmowaniem żelaza" }));
+    if (lowMarker("b12"))
+      nutrient.push(h("food", { en: "B12 is low: eggs, fish, dairy or a B12 product daily", no: "B12 er lav: egg, fisk, meieri eller et B12-produkt daglig", pl: "B12 jest niska: jajka, ryby, nabiał lub preparat B12 codziennie" }));
+    if (lowMarker("vitaminD"))
+      nutrient.push(h(profile.season === "winter" ? "supplement" : "lifestyle", profile.season === "winter"
+        ? { en: "Vitamin D is low: daily vitamin D through winter", no: "Vitamin D er lav: daglig vitamin D gjennom vinteren", pl: "Witamina D jest niska: codziennie witamina D przez zimę" }
+        : { en: "Vitamin D is low: midday sun on bare arms, 15 minutes", no: "Vitamin D er lav: middagssol på bare armer, 15 minutter", pl: "Witamina D jest niska: 15 minut słońca w południe na odsłonięte ręce" }));
+    push(1, t({ en: "Fix sleep and wake times", no: "Fast leggetid og oppvåkning", pl: "Stałe pory snu i wstawania" }, lang), [
+      h("lifestyle", { en: "Same wake time seven days, within 30 minutes", no: "Samme oppvåkningstid syv dager, innenfor 30 minutter", pl: "Ta sama godzina wstawania przez siedem dni, z dokładnością do 30 minut" }),
+      h("lifestyle", { en: "In bed early enough for 7.5 hours", no: "I seng tidlig nok til 7,5 timer", pl: "W łóżku na tyle wcześnie, by spać 7,5 godziny" }),
+      base[0],
+    ]);
+    push(2, t({ en: "Daylight and the low marker", no: "Dagslys og den lave markøren", pl: "Światło dzienne i niski marker" }, lang), [
+      h("lifestyle", { en: "Daylight within an hour of waking", no: "Dagslys innen en time etter at du står opp", pl: "Światło dzienne w ciągu godziny od przebudzenia" }),
+      nutrient[0] ?? h("food", { en: "A real breakfast with protein before 10:00", no: "En ordentlig frokost med protein før klokken 10:00", pl: "Prawdziwe śniadanie z białkiem przed 10:00" }),
+      nutrient[1] ?? h("lifestyle", { en: "No caffeine after 14:00", no: "Ingen koffein etter klokken 14:00", pl: "Bez kofeiny po 14:00" }),
+    ]);
+    push(3, t({ en: "Steady energy through the day", no: "Jevn energi gjennom dagen", pl: "Stała energia w ciągu dnia" }, lang), [
+      base[1],
+      h("food", { en: "Protein and fibre at lunch to avoid the 15:00 dip", no: "Protein og fiber til lunsj for å unngå dippen klokken 15", pl: "Białko i błonnik w obiedzie, by uniknąć spadku o 15:00" }),
+      nutrient[2] ?? h("lifestyle", { en: "A 10-minute walk instead of a second coffee", no: "En 10-minutters tur i stedet for kaffe nummer to", pl: "10-minutowy spacer zamiast drugiej kawy" }),
+    ]);
+    push(4, t({ en: "Review and retest", no: "Gjennomgang og ny prøve", pl: "Przegląd i ponowne badanie" }, lang), [
+      h("measure", { en: "Rate your energy 1–5 each day this week and compare to week 1", no: "Gi energien 1–5 hver dag denne uken og sammenlign med uke 1", pl: "Oceniaj energię 1–5 każdego dnia i porównaj z tygodniem 1" }),
+      h("lifestyle", { en: "Keep the wake time and the habit that helped most", no: "Behold oppvåkningstiden og vanen som hjalp mest", pl: "Zachowaj godzinę wstawania i nawyk, który pomógł najbardziej" }),
+      h("measure", { en: nutrient.length ? "Retest the low marker in 8–12 weeks" : "Retest in 6–12 months", no: nutrient.length ? "Ta ny prøve av den lave markøren om 8–12 uker" : "Ta ny prøve om 6–12 måneder", pl: nutrient.length ? "Powtórz badanie niskiego markera za 8–12 tygodni" : "Powtórz badania za 6–12 miesięcy" }),
+    ]);
+  } else if (goal === "nutrientGaps" || goal === "explain") {
+    const keep = flaggedHabit ?? base[2];
+    push(1, t({ en: "One habit for the flagged marker", no: "Én vane for den flaggede markøren", pl: "Jeden nawyk dla oznaczonego markera" }, lang), [
+      keep,
+      base[0],
+      h("measure", { en: "Write down your lab's ranges next to each value", no: "Skriv ned laboratoriets områder ved siden av hver verdi", pl: "Zapisz zakresy laboratorium obok każdej wartości" }),
+    ]);
+    push(2, t({ en: "Look at the food behind the numbers", no: "Se på maten bak tallene", pl: "Spójrz na jedzenie stojące za wynikami" }, lang), [
+      keep,
+      h("food", { en: "Note three ordinary days of eating, no changes", no: "Noter tre vanlige dager med mat, uten endringer", pl: "Zapisz trzy zwykłe dni jedzenia, bez zmian" }),
+      h("measure", { en: "List any marker left blank so you can ask for it next time", no: "List opp markører som sto tomme, så du kan be om dem neste gang", pl: "Wypisz puste markery, by poprosić o nie następnym razem" }),
+    ]);
+    push(3, t({ en: "Keep one habit, plan the retest", no: "Behold én vane, planlegg ny prøve", pl: "Zachowaj jeden nawyk, zaplanuj badanie" }, lang), [
+      keep,
+      h("measure", { en: "Book a retest of the flagged marker in 8–12 weeks", no: "Bestill ny prøve av den flaggede markøren om 8–12 uker", pl: "Zarezerwuj ponowne badanie oznaczonego markera za 8–12 tygodni" }),
+    ]);
+    push(4, t({ en: "Retest and compare", no: "Ta ny prøve og sammenlign", pl: "Powtórz badanie i porównaj" }, lang), [
+      keep,
+      h("measure", { en: "Enter the new values and compare with this test in My history", no: "Legg inn de nye verdiene og sammenlign med denne prøven i Min historikk", pl: "Wpisz nowe wartości i porównaj z tym badaniem w Mojej historii" }),
+    ]);
   } else {
-    // foundation / energy / nutrient gaps / explain
-    push(
-      1,
-      t({ en: "Foundation: light, movement, food", no: "Grunnmur: lys, bevegelse, mat", pl: "Podstawa: światło, ruch, jedzenie" }, lang),
-      base,
-    );
-    push(
-      2,
-      t({ en: "Make it repeatable", no: "Gjør det gjentakbart", pl: "Uczyń to powtarzalnym" }, lang),
-      [
-        base[0],
-        h("lifestyle", { en: "Same wake time on five days", no: "Samme oppvåkningstid fem dager", pl: "Ta sama godzina wstawania przez pięć dni" }),
-        base[2],
-      ],
-    );
-    push(
-      3,
-      t({ en: "Deal with the flagged marker", no: "Ta tak i den flaggede markøren", pl: "Zajmij się oznaczonym markerem" }, lang),
-      [
-        {
-          kind: "measure",
-          text:
-            analysis.actions[0]?.title ??
-            t(
-              {
-                en: "Keep the three habits from week 1 running",
-                no: "Hold de tre vanene fra uke 1 i gang",
-                pl: "Kontynuuj trzy nawyki z tygodnia 1",
-              },
-              lang,
-            ),
-        },
-        base[1],
-        base[0],
-      ],
-    );
-    push(
-      4,
-      t({ en: "Retest and decide", no: "Ta ny prøve og bestem", pl: "Powtórz badanie i zdecyduj" }, lang),
-      [
-        h("measure", {
-          en: "Book a retest for any marker that was out of range",
-          no: "Bestill ny prøve for markører som var utenfor området",
-          pl: "Zaplanuj powtórne badanie dla każdego markera poza zakresem",
-        }),
-        h("lifestyle", {
-          en: "Keep the two habits that were easiest",
-          no: "Behold de to vanene som var lettest",
-          pl: "Zachowaj dwa nawyki, które były najłatwiejsze",
-        }),
-        base[2],
-      ],
-    );
+    // foundation (blood override)
+    push(1, t({ en: "Foundation: light, movement, food", no: "Grunnmur: lys, bevegelse, mat", pl: "Podstawa: światło, ruch, jedzenie" }, lang), base);
+    push(2, t({ en: "Regular meals and a clinician", no: "Faste måltider og lege", pl: "Regularne posiłki i lekarz" }, lang), [
+      h("measure", { en: "Book a doctor or nurse to go through the flagged value", no: "Bestill time hos lege eller sykepleier for å gå gjennom verdien", pl: "Umów lekarza lub pielęgniarkę, by omówić oznaczoną wartość" }),
+      h("food", { en: "Three regular meals, protein at each, no skipping", no: "Tre faste måltider, protein til hvert, ingen hopping over", pl: "Trzy regularne posiłki, białko w każdym, bez pomijania" }),
+      h("lifestyle", { en: "A 10-minute walk after your largest meal", no: "En 10-minutters tur etter det største måltidet", pl: "10-minutowy spacer po największym posiłku" }),
+    ]);
+    push(3, t({ en: "Make it repeatable", no: "Gjør det gjentakbart", pl: "Uczyń to powtarzalnym" }, lang), [
+      h("lifestyle", { en: "Same wake time on five days", no: "Samme oppvåkningstid fem dager", pl: "Ta sama godzina wstawania przez pięć dni" }),
+      h("food", { en: "No sugary drinks, water with meals", no: "Ingen søt drikke, vann til maten", pl: "Bez słodkich napojów, woda do posiłków" }),
+      base[1],
+    ]);
+    push(4, t({ en: "Decide with your clinician", no: "Bestem sammen med legen", pl: "Zdecyduj razem z lekarzem" }, lang), [
+      h("measure", { en: "Retest the flagged marker as your clinician advises", no: "Ta ny prøve av markøren slik legen anbefaler", pl: "Powtórz badanie markera zgodnie z zaleceniem lekarza" }),
+      h("lifestyle", { en: "Only after that talk: start a modest deficit, if weight loss is still the goal", no: "Først etter den samtalen: start et moderat underskudd, hvis vektnedgang fortsatt er målet", pl: "Dopiero po tej rozmowie: zacznij umiarkowany deficyt, jeśli odchudzanie wciąż jest celem" }),
+      h("lifestyle", { en: "Keep the two habits that were easiest", no: "Behold de to vanene som var lettest", pl: "Zachowaj dwa najłatwiejsze nawyki" }),
+    ]);
   }
 
   const title = analysis.doctorGate
