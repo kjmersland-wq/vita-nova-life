@@ -12,6 +12,8 @@ export type AppState = {
   runs: Run[];
   account: Account;
   guestRunUsed: boolean;
+  uploadPending: string[];
+  uploadFileName: string | null;
 };
 
 export const emptyProfile: Profile = {
@@ -42,6 +44,8 @@ const initial: AppState = {
   runs: [],
   account: null,
   guestRunUsed: false,
+  uploadPending: [],
+  uploadFileName: null,
 };
 
 let state: AppState = initial;
@@ -96,7 +100,7 @@ export function useAppState(): AppState {
 }
 
 export function resetRun() {
-  setState({ profile: emptyProfile, goals: { primary: null, secondary: null }, labs: {} });
+  setState({ profile: emptyProfile, goals: { primary: null, secondary: null }, labs: {}, uploadPending: [], uploadFileName: null });
 }
 
 export function saveRun(run: Run) {

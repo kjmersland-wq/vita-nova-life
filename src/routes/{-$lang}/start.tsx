@@ -5,6 +5,7 @@ import { setState, useAppState } from "@/lib/store";
 import { calcBmi } from "@/lib/engine/rules";
 import { demoGoals, demoLabs, demoProfile } from "@/lib/demo";
 import type { Activity, Diet, Sex, Sun } from "@/lib/engine/types";
+import { Button } from "@/components/ui/button";
 
 const T = {
   en: {
@@ -18,7 +19,11 @@ const T = {
     title: "A little about you",
     intro:
       "Rough answers are fine. We use this only to work out which out-of-range value matters most for you.",
-    demoFill: "Fill in a demo person",
+    demoFill: "Try a sample person",
+    optional: "optional",
+    nextHint: "Next you’ll choose a goal.",
+    missing: (fields: string) => `Add ${fields} to continue.`,
+    blocked: "For now, please use the help resources above instead of continuing.",
     age: "Age",
     height: "Height (cm)",
     weight: "Weight (kg)",
@@ -93,7 +98,11 @@ const T = {
     title: "Litt om deg",
     intro:
       "Omtrentlige svar holder. Vi bruker dette bare til å finne ut hvilken avvikende verdi som betyr mest for deg.",
-    demoFill: "Fyll inn en demoperson",
+    demoFill: "Prøv en eksempelperson",
+    optional: "valgfritt",
+    nextHint: "Neste steg er å velge et mål.",
+    missing: (fields: string) => `Fyll inn ${fields} for å fortsette.`,
+    blocked: "Bruk hjelpetilbudene over i stedet for å gå videre nå.",
     age: "Alder",
     height: "Høyde (cm)",
     weight: "Vekt (kg)",
@@ -168,7 +177,11 @@ const T = {
     title: "Kilka słów o Tobie",
     intro:
       "Wystarczą przybliżone odpowiedzi. Używamy ich tylko po to, żeby ustalić, która nieprawidłowa wartość liczy się dla Ciebie najbardziej.",
-    demoFill: "Wypełnij przykładową osobą",
+    demoFill: "Wypróbuj przykładową osobę",
+    optional: "opcjonalnie",
+    nextHint: "Następnie wybierzesz swój cel.",
+    missing: (fields: string) => `Uzupełnij ${fields}, aby kontynuować.`,
+    blocked: "Teraz skorzystaj z pomocy podanej wyżej zamiast przechodzić dalej.",
     age: "Wiek",
     height: "Wzrost (cm)",
     weight: "Waga (kg)",
@@ -268,21 +281,28 @@ function StartPage() {
 
   const ready =
     profile.age !== null && profile.sex !== null && profile.activity && profile.sun && profile.diet;
+  const missing = [
+    profile.age === null ? t.age : null,
+    !profile.sex ? t.sex : null,
+    !profile.activity ? t.activity : null,
+    !profile.sun ? t.sun : null,
+    !profile.diet ? t.diet : null,
+  ].filter(Boolean).join(", ");
 
   return (
-    <Page>
+    <Page flowStep={t.step}>
       <div className="container-page max-w-3xl py-12">
-        <StepHeader step={t.step} title={t.title} intro={t.intro} />
+        <StepHeader title={t.title} intro={t.intro} />
 
-        <button
+        <Button
           type="button"
           onClick={() => {
-            setState({ profile: demoProfile, goals: demoGoals, labs: demoLabs });
+            setState({ profile: demoProfile, goals: demoGoals, labs: demoLabs, uploadPending: [], uploadFileName: null });
           }}
-          className="mb-8 rounded-full border border-border px-4 py-2 text-xs hover:border-primary/50"
+          variant="outline" className="mb-8"
         >
           {t.demoFill}
-        </button>
+        </Button>
 
         <div className="space-y-8">
           <div className="grid gap-4 sm:grid-cols-3">
@@ -294,7 +314,7 @@ function StartPage() {
                 onChange={(e) => set({ age: e.target.value ? Number(e.target.value) : null })}
               />
             </Field>
-            <Field label={t.height}>
+            <Field label={`${t.height} (${t.optional})`}>
               <input
                 type="number"
                 className={inputClass}
@@ -302,7 +322,7 @@ function StartPage() {
                 onChange={(e) => set({ heightCm: e.target.value ? Number(e.target.value) : null })}
               />
             </Field>
-            <Field label={t.weight} hint={bmi ? t.bmi(bmi) : undefined}>
+            <Field label={`${t.weight} (${t.optional})`} hint={bmi ? t.bmi(bmi) : undefined}>
               <input
                 type="number"
                 className={inputClass}
@@ -379,7 +399,7 @@ function StartPage() {
           </Group>
 
           <div className="grid gap-4 sm:grid-cols-2">
-            <Group title={t.region} compact>
+            <Group title={`${t.region} (${t.optional})`} compact>
               <Choice
                 label={t.regionOptions.northernEurope}
                 selected={profile.region === "northernEurope"}
@@ -391,7 +411,7 @@ function StartPage() {
                 onClick={() => set({ region: "other" })}
               />
             </Group>
-            <Group title={t.season} compact>
+            <Group title={`${t.season} (${t.optional})`} compact>
               <Choice
                 label={t.seasonOptions.winter}
                 selected={profile.season === "winter"}
@@ -406,7 +426,7 @@ function StartPage() {
           </div>
 
           <div>
-            <h2 className="text-2xl">{t.flagsTitle}</h2>
+            <h2 className="text-2xl">{t.flagsTitle} <span className="text-sm font-normal text-muted-foreground">({t.optional})</span></h2>
             <p className="mt-1 mb-3 text-sm text-muted-foreground">{t.flagsIntro}</p>
             <div className="space-y-2">
               <Toggle
@@ -458,18 +478,16 @@ function StartPage() {
             ) : null}
           </div>
 
-          <div className="flex items-center gap-3 pt-2">
-            <button
+          <div className="pt-2">
+            <p className="mb-3 text-sm text-muted-foreground">{t.nextHint}</p>
+            <div className="flex flex-wrap items-center gap-3"><Button
               type="button"
               disabled={!ready || profile.flags.severeDistress}
               onClick={() => navigate({ to: "/goals" })}
-              className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-40"
             >
               {t.continue}
-            </button>
-            {!ready ? (
-              <span className="text-xs text-muted-foreground">{t.fillHint}</span>
-            ) : null}
+            </Button>
+            {profile.flags.severeDistress ? <span className="text-xs text-destructive" role="status">{t.blocked}</span> : !ready ? <span className="text-xs text-muted-foreground" role="status">{t.missing(missing)}</span> : null}</div>
           </div>
         </div>
       </div>

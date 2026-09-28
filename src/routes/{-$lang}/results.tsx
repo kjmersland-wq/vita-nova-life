@@ -8,6 +8,7 @@ import { markerLabel } from "@/lib/engine/markers";
 import { buildProgram } from "@/lib/engine/program";
 import daylightImg from "@/assets/vita-daylight-person.jpg";
 import type { Finding } from "@/lib/engine/types";
+import { Button } from "@/components/ui/button";
 
 const T = {
   en: {
@@ -36,7 +37,7 @@ const T = {
       Finding["status"],
       string
     >,
-    saveAndSee: "Save it and see my 4-week plan",
+    saveAndSee: "See my 4 weeks",
     editValues: "Edit my values",
     disclaimer:
       "This isn't medical advice, a diagnosis or a treatment plan. The ranges are the ones you typed in from your own lab.",
@@ -68,7 +69,7 @@ const T = {
       Finding["status"],
       string
     >,
-    saveAndSee: "Lagre og se fireukersplanen min",
+    saveAndSee: "Se mine fire uker",
     editValues: "Rediger verdiene mine",
     disclaimer:
       "Dette er ikke medisinsk rådgivning, ikke en diagnose og ikke en behandlingsplan. Områdene er de du skrev inn fra ditt eget laboratorium.",
@@ -100,7 +101,7 @@ const T = {
       Finding["status"],
       string
     >,
-    saveAndSee: "Zapisz i zobacz mój 4-tygodniowy plan",
+    saveAndSee: "Zobacz moje 4 tygodnie",
     editValues: "Edytuj moje wartości",
     disclaimer:
       "To nie jest porada medyczna, diagnoza ani plan leczenia. Zakresy to te, które wpisałeś/aś z własnego laboratorium.",
@@ -210,8 +211,6 @@ function ResultsPage() {
           </div>
         ) : null}
 
-        {!analysis.doctorGate ? <img src={daylightImg} alt="" loading="lazy" width={1440} height={960} className="mb-8 aspect-[21/9] w-full rounded-md object-cover" /> : null}
-
         <section className="mb-10">
           <h2 className="mb-4 text-3xl">{t.threeActions}</h2>
           <ol className="space-y-3">
@@ -240,6 +239,16 @@ function ResultsPage() {
           </div>
         </section>
 
+        {!analysis.doctorGate ? <img src={daylightImg} alt="" loading="lazy" width={1440} height={960} className="mb-8 aspect-[21/9] w-full rounded-md object-cover" /> : null}
+
+        <div className="mb-10 flex flex-wrap gap-3">
+          <Button onClick={() => {
+            saveRun({ id: crypto.randomUUID(), createdAt: new Date().toISOString(), profile, goals, labs, analysis, program });
+            navigate({ to: "/program" });
+          }}>{t.saveAndSee}</Button>
+          <Button variant="ghost" asChild><LangLink to="/labs">{t.editValues}</LangLink></Button>
+        </div>
+
         <section className="mb-10">
           <h2 className="mb-4 text-3xl">{t.markerByMarker}</h2>
           <div className="space-y-2">
@@ -266,33 +275,6 @@ function ResultsPage() {
             ))}
           </div>
         </section>
-
-        <div className="flex flex-wrap gap-3">
-          <button
-            type="button"
-            onClick={() => {
-              saveRun({
-                id: crypto.randomUUID(),
-                createdAt: new Date().toISOString(),
-                profile,
-                goals,
-                labs,
-                analysis,
-                program,
-              });
-              navigate({ to: "/program" });
-            }}
-            className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
-          >
-            {t.saveAndSee}
-          </button>
-          <LangLink
-            to="/labs"
-            className="rounded-full border border-border px-6 py-3 text-sm hover:border-primary/50"
-          >
-            {t.editValues}
-          </LangLink>
-        </div>
 
         <p className="mt-8 text-xs text-muted-foreground">{t.disclaimer}</p>
       </div>
