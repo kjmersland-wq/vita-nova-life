@@ -1,45 +1,76 @@
-import { Link } from "@tanstack/react-router";
 import type { ReactNode } from "react";
 import { ArrowRight, ArrowUpRight, HeartPulse, Menu } from "lucide-react";
 import { useState } from "react";
+import { useRouterState } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
+import { LANGS, LANG_LABEL, LangLink, useDict, useLang, type AppPath } from "@/lib/i18n";
+
+const SITE_T = {
+  en: { method: "Our approach", history: "My history", pricing: "Pricing", legal: "Legal", start: "Get started", menu: "Toggle menu", tagline: "Make sense of your labs. Make a plan for everyday life.", disclaimer: "Vita Nova Life is not a doctor, a clinic or a lab. Nothing here is medical advice, diagnosis or treatment.", terms: "Terms & privacy", lang: "Language" },
+  no: { method: "Vår metode", history: "Min historikk", pricing: "Priser", legal: "Juridisk", start: "Kom i gang", menu: "Åpne meny", tagline: "Forstå blodprøvene dine. Lag en plan for hverdagen.", disclaimer: "Vita Nova Life er ikke en lege, en klinikk eller et laboratorium. Ingenting her er medisinske råd, diagnose eller behandling.", terms: "Vilkår og personvern", lang: "Språk" },
+  pl: { method: "Nasze podejście", history: "Moja historia", pricing: "Cennik", legal: "Informacje prawne", start: "Zacznij", menu: "Otwórz menu", tagline: "Zrozum swoje wyniki. Zaplanuj codzienność.", disclaimer: "Vita Nova Life nie jest lekarzem, kliniką ani laboratorium. Nic tutaj nie jest poradą medyczną, diagnozą ani leczeniem.", terms: "Regulamin i prywatność", lang: "Język" },
+};
+
+function currentPath(pathname: string): AppPath {
+  const p = pathname.replace(/^\/(no|pl)(?=\/|$)/, "") || "/";
+  return p as AppPath;
+}
+
+export function LanguageSwitcher() {
+  const lang = useLang();
+  const t = useDict(SITE_T);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const path = currentPath(pathname);
+  return (
+    <div className="flex items-center rounded-md border border-border p-0.5 text-[11px] font-bold" aria-label={t.lang}>
+      {LANGS.map((l) => (
+        <LangLink key={l} to={path} lang={l} className={`rounded-sm px-2 py-1 ${l === lang ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-primary"}`}>
+          {LANG_LABEL[l]}
+        </LangLink>
+      ))}
+    </div>
+  );
+}
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
-  const links = [{ to: "/method", label: "Our approach" }, { to: "/history", label: "My history" }, { to: "/pricing", label: "Pricing" }, { to: "/legal", label: "Legal" }] as const;
+  const t = useDict(SITE_T);
+  const links = [{ to: "/method", label: t.method }, { to: "/history", label: t.history }, { to: "/pricing", label: t.pricing }, { to: "/legal", label: t.legal }] as const;
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-xl">
       <div className="container-page flex h-[76px] items-center justify-between gap-4">
-        <Link to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
+        <LangLink to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
           <span className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground"><HeartPulse size={20} strokeWidth={2} /></span>
           <span className="font-display text-[17px] font-bold leading-none">Vita Nova <span className="text-primary">Life</span></span>
-        </Link>
-        <nav className="hidden items-center gap-9 text-[13px] font-semibold text-muted-foreground md:flex">
-          {links.map((link) => <Link key={link.to} to={link.to} className="hover:text-primary" activeProps={{ className: "text-primary" }}>{link.label}</Link>)}
+        </LangLink>
+        <nav className="hidden items-center gap-8 text-[13px] font-semibold text-muted-foreground lg:flex">
+          {links.map((link) => <LangLink key={link.to} to={link.to} className="hover:text-primary" activeProps={{ className: "text-primary" }}>{link.label}</LangLink>)}
         </nav>
         <div className="flex items-center gap-2">
-          <Button asChild className="h-10 rounded-md px-4 text-xs font-bold shadow-sm"><Link to="/start">Get started <ArrowRight size={15} /></Link></Button>
-          <Button variant="ghost" size="icon" className="md:hidden" aria-label="Toggle menu" onClick={() => setOpen(!open)}><Menu size={21} /></Button>
+          <div className="hidden sm:block"><LanguageSwitcher /></div>
+          <Button asChild className="h-10 rounded-md px-4 text-xs font-bold shadow-sm"><LangLink to="/start">{t.start} <ArrowRight size={15} /></LangLink></Button>
+          <Button variant="ghost" size="icon" className="lg:hidden" aria-label={t.menu} onClick={() => setOpen(!open)}><Menu size={21} /></Button>
         </div>
       </div>
-      {open ? <nav className="container-page flex flex-col gap-1 border-t border-border py-3 md:hidden">{links.map((link) => <Link key={link.to} to={link.to} onClick={() => setOpen(false)} className="py-3 text-sm font-semibold">{link.label}</Link>)}</nav> : null}
+      {open ? <nav className="container-page flex flex-col gap-1 border-t border-border py-3 lg:hidden">{links.map((link) => <LangLink key={link.to} to={link.to} onClick={() => setOpen(false)} className="py-3 text-sm font-semibold">{link.label}</LangLink>)}<div className="py-3 sm:hidden"><LanguageSwitcher /></div></nav> : null}
     </header>
   );
 }
 
 export function SiteFooter() {
+  const t = useDict(SITE_T);
   return (
     <footer className="mt-20 bg-deep py-14 text-sm text-primary-foreground/65">
       <div className="container-page grid gap-10 md:grid-cols-[1fr_auto]">
         <div>
-          <Link to="/" className="font-display text-xl font-semibold text-primary-foreground">Vita Nova Life</Link>
-          <p className="mt-4 max-w-md leading-relaxed">Make sense of your labs. Make a plan for everyday life.</p>
-          <p className="mt-5 max-w-xl text-xs leading-relaxed">Vita Nova Life is not a doctor, a clinic or a lab. Nothing here is medical advice, diagnosis or treatment.</p>
+          <LangLink to="/" className="font-display text-xl font-semibold text-primary-foreground">Vita Nova Life</LangLink>
+          <p className="mt-4 max-w-md leading-relaxed">{t.tagline}</p>
+          <p className="mt-5 max-w-xl text-xs leading-relaxed">{t.disclaimer}</p>
         </div>
         <div className="flex flex-col items-start gap-3 font-semibold text-primary-foreground">
-          <Link to="/method" className="hover:opacity-70">Our approach <ArrowUpRight className="inline size-3" /></Link>
-          <Link to="/legal" className="hover:opacity-70">Terms &amp; privacy <ArrowUpRight className="inline size-3" /></Link>
-          <Link to="/pricing" className="hover:opacity-70">Pricing <ArrowUpRight className="inline size-3" /></Link>
+          <LangLink to="/method" className="hover:opacity-70">{t.method} <ArrowUpRight className="inline size-3" /></LangLink>
+          <LangLink to="/legal" className="hover:opacity-70">{t.terms} <ArrowUpRight className="inline size-3" /></LangLink>
+          <LangLink to="/pricing" className="hover:opacity-70">{t.pricing} <ArrowUpRight className="inline size-3" /></LangLink>
         </div>
       </div>
       <div className="container-page mt-12 border-t border-primary-foreground/15 pt-6 text-xs">© Vita Nova Life</div>

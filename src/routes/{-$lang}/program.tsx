@@ -1,0 +1,169 @@
+import { useMemo } from "react";
+import { LangLink, toLang, useDict, useLang } from "@/lib/i18n";
+import { createFileRoute } from "@tanstack/react-router";
+import { Page, StepHeader } from "@/components/site";
+import { useAppState } from "@/lib/store";
+import { analyze } from "@/lib/engine/rules";
+import { buildProgram } from "@/lib/engine/program";
+
+const T = {
+  en: {
+    meta: {
+      title: "Your 4-week program — Vita Nova Life",
+      description:
+        "Four weeks, three habits per week maximum, built from your goal — and overridden by your blood when it needs to be.",
+      ogDescription: "Three habits a week, never more. Foundation first when your labs say so.",
+    },
+    backToResults: "Back to results",
+    step: "Your program",
+    bloodChanged: "Your blood changed the plan",
+    week: (n: number) => `Week ${n}`,
+    keepThis: "Keep this, and compare your next test",
+    withAccount: "Your runs are saved in History. Add new labs later to regenerate this program.",
+    withoutAccount:
+      "Your run is stored on this device. An account adds history across devices, check-ins and a PDF export of your own summary.",
+    history: "History",
+    seePro: "See Pro",
+    disclaimer:
+      "Habits only. This program does not treat any disease and is not a substitute for care from a doctor.",
+  },
+  no: {
+    meta: {
+      title: "4-ukersprogrammet ditt — Vita Nova Life",
+      description:
+        "Fire uker, maks tre vaner per uke, bygget ut fra målet ditt — og overstyrt av blodprøvene dine når det trengs.",
+      ogDescription: "Tre vaner i uken, aldri mer. Fundamentet først når blodprøvene tilsier det.",
+    },
+    backToResults: "Tilbake til resultatet",
+    step: "Programmet ditt",
+    bloodChanged: "Blodprøvene dine endret planen",
+    week: (n: number) => `Uke ${n}`,
+    keepThis: "Behold dette, og sammenlign neste prøve",
+    withAccount: "Testene dine lagres i Historikk. Legg til nye prøver senere for å lage programmet på nytt.",
+    withoutAccount:
+      "Testen din lagres på denne enheten. En konto legger til historikk på tvers av enheter, oppfølginger og PDF-eksport av eget sammendrag.",
+    history: "Historikk",
+    seePro: "Se Pro",
+    disclaimer:
+      "Kun vaner. Dette programmet behandler ingen sykdom og erstatter ikke oppfølging fra lege.",
+  },
+  pl: {
+    meta: {
+      title: "Twój 4-tygodniowy program — Vita Nova Life",
+      description:
+        "Cztery tygodnie, maksymalnie trzy nawyki tygodniowo, zbudowane na podstawie Twojego celu — i zmieniane przez wyniki krwi, gdy jest taka potrzeba.",
+      ogDescription: "Trzy nawyki tygodniowo, nigdy więcej. Najpierw podstawy, gdy wskazują na to Twoje badania.",
+    },
+    backToResults: "Powrót do wyniku",
+    step: "Twój program",
+    bloodChanged: "Twoje badania krwi zmieniły plan",
+    week: (n: number) => `Tydzień ${n}`,
+    keepThis: "Zachowaj to i porównaj kolejne badanie",
+    withAccount: "Twoje testy są zapisane w Historii. Dodaj nowe badania później, aby wygenerować program na nowo.",
+    withoutAccount:
+      "Twój test jest zapisany na tym urządzeniu. Konto dodaje historię na wielu urządzeniach, kontrole i eksport PDF własnego podsumowania.",
+    history: "Historia",
+    seePro: "Zobacz Pro",
+    disclaimer:
+      "Tylko nawyki. Ten program nie leczy żadnej choroby i nie zastępuje opieki lekarza.",
+  },
+};
+
+export const Route = createFileRoute("/{-$lang}/program")({
+  head: ({ params }) => {
+    const m = T[toLang(params.lang)].meta;
+    return {
+      meta: [
+        { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary" },
+        { title: m.title },
+        { name: "description", content: m.description },
+        { property: "og:title", content: m.title },
+        { property: "og:description", content: m.ogDescription },
+      ],
+    };
+  },
+  component: ProgramPage,
+});
+
+function ProgramPage() {
+  const { profile, goals, labs, account } = useAppState();
+  const lang = useLang();
+  const t = useDict(T);
+  const analysis = useMemo(() => analyze(profile, goals, labs, lang), [profile, goals, labs, lang]);
+  const program = useMemo(
+    () => buildProgram(profile, goals, analysis, lang),
+    [profile, goals, analysis, lang],
+  );
+
+  if (!program.weeks.length) {
+    return (
+      <Page>
+        <div className="container-page max-w-2xl py-20">
+          <h1 className="text-4xl">{program.title}</h1>
+          <p className="mt-3 text-muted-foreground">{program.rationale}</p>
+          <LangLink to="/results" className="mt-6 inline-block text-sm underline">
+            {t.backToResults}
+          </LangLink>
+        </div>
+      </Page>
+    );
+  }
+
+  return (
+    <Page>
+      <div className="container-page max-w-4xl py-12">
+        <StepHeader step={t.step} title={program.title} intro={program.rationale} />
+
+        {program.overridden ? (
+          <div className="mb-8 rounded-xl border border-accent/50 bg-accent/10 p-5">
+            <p className="text-sm font-medium">{t.bloodChanged}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{program.overrideReason}</p>
+          </div>
+        ) : null}
+
+        <div className="grid gap-4 md:grid-cols-2">
+          {program.weeks.map((w) => (
+            <div key={w.week} className="card-surface p-6">
+              <p className="eyebrow">{t.week(w.week)}</p>
+              <h2 className="mt-1 text-2xl">{w.focus}</h2>
+              <ul className="mt-4 space-y-3">
+                {w.habits.map((h) => (
+                  <li key={h.text} className="flex gap-3 text-sm">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    <span>{h.text}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+
+        <div className="card-surface mt-8 flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 className="text-2xl">{t.keepThis}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">
+              {account ? t.withAccount : t.withoutAccount}
+            </p>
+          </div>
+          <div className="flex gap-3">
+            <LangLink
+              to="/history"
+              className="rounded-full border border-border px-5 py-2.5 text-sm hover:border-primary/50"
+            >
+              {t.history}
+            </LangLink>
+            <LangLink
+              to="/pricing"
+              className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground"
+            >
+              {t.seePro}
+            </LangLink>
+          </div>
+        </div>
+
+        <p className="mt-8 text-xs text-muted-foreground">{t.disclaimer}</p>
+      </div>
+    </Page>
+  );
+}
