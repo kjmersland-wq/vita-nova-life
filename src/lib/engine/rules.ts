@@ -400,14 +400,15 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs): Analysis {
   const actions: Action[] = [];
   for (const s of scored) {
     if (actions.length >= 3) break;
-    if (s.candidate) actions.push(s.candidate.action);
+    if (s.candidate && !actions.some((a) => a.title === s.candidate!.action.title))
+      actions.push(s.candidate.action);
   }
   // Lifestyle before pills: stable-sort supplements to the back.
   actions.sort((a, b) => (a.kind === "supplement" ? 1 : 0) - (b.kind === "supplement" ? 1 : 0));
 
   for (const a of goalActions(goals.primary, profile, bmi)) {
     if (actions.length >= 3) break;
-    actions.push(a);
+    if (!actions.some((x) => x.title === a.title)) actions.push(a);
   }
   if (actions.length === 0) {
     actions.push({
