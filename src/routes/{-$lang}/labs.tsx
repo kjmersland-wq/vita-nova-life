@@ -138,8 +138,8 @@ function LabsPage() {
   const t = useDict(T);
   const navigate = useLangNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
-  const pending = uploadPending;
-  const fileName = uploadFileName;
+  const pending = uploadPending ?? [];
+  const fileName = uploadFileName ?? null;
 
   const update = (key: string, patch: Partial<LabEntry>) => {
     const def = MARKERS.find((m) => m.key === key);
@@ -151,8 +151,7 @@ function LabsPage() {
       high: null,
       date: "",
     };
-    setState({ labs: { ...labs, [def.key]: { ...current, ...patch } } });
-    setState({ uploadPending: pending.filter((k) => k !== key) });
+    setState({ labs: { ...labs, [def.key]: { ...current, ...patch } }, uploadPending: pending.filter((k) => k !== key) });
   };
 
   const onUpload = (file: File) => {
@@ -199,7 +198,7 @@ function LabsPage() {
           ) : null}
         </div>
 
-        <div className="mb-4 flex items-center justify-between">
+         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <p className="text-sm text-muted-foreground">{t.markersEntered(filled, MARKERS.length)}</p>
           <div className="flex flex-wrap justify-end gap-3">
           <Button variant="link"

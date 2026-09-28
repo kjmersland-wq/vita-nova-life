@@ -36,6 +36,8 @@ export function LanguageSwitcher() {
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const t = useDict(SITE_T);
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const inFlow = ["/start", "/goals", "/labs", "/results", "/program"].includes(currentPath(pathname));
   const links = [{ to: "/method", label: t.method }, { to: "/history", label: t.history }, { to: "/pricing", label: t.pricing }, { to: "/legal", label: t.legal }] as const;
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-xl">
@@ -48,12 +50,12 @@ export function SiteHeader() {
           {links.map((link) => <LangLink key={link.to} to={link.to} className="hover:text-primary" activeProps={{ className: "text-primary" }}>{link.label}</LangLink>)}
         </nav>
         <div className="flex items-center gap-2">
-          <div className="hidden sm:block"><LanguageSwitcher /></div>
-          <Button asChild className="h-10 rounded-md px-4 text-xs font-bold shadow-sm"><LangLink to="/start">{t.start} <ArrowRight size={15} /></LangLink></Button>
+          <div className={inFlow ? "block" : "hidden sm:block"}><LanguageSwitcher /></div>
+          {!inFlow ? <Button asChild className="h-10 rounded-md px-4 text-xs font-bold shadow-sm"><LangLink to="/start">{t.start} <ArrowRight size={15} /></LangLink></Button> : null}
           <Button variant="ghost" size="icon" className="lg:hidden" aria-label={t.menu} onClick={() => setOpen(!open)}><Menu size={21} /></Button>
         </div>
       </div>
-      {open ? <nav className="container-page flex flex-col gap-1 border-t border-border py-3 lg:hidden">{links.map((link) => <LangLink key={link.to} to={link.to} onClick={() => setOpen(false)} className="py-3 text-sm font-semibold">{link.label}</LangLink>)}<div className="py-3 sm:hidden"><LanguageSwitcher /></div></nav> : null}
+      {open ? <nav className="container-page flex flex-col gap-1 border-t border-border py-3 lg:hidden">{links.map((link) => <LangLink key={link.to} to={link.to} onClick={() => setOpen(false)} className="py-3 text-sm font-semibold">{link.label}</LangLink>)}{!inFlow ? <div className="py-3 sm:hidden"><LanguageSwitcher /></div> : null}</nav> : null}
     </header>
   );
 }
