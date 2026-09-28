@@ -1,4 +1,5 @@
 import type { ReactNode } from "react";
+import daylightImg from "@/assets/vita-daylight.jpg";
 import { ArrowRight, ArrowUpRight, HeartPulse, Menu } from "lucide-react";
 import { useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
@@ -199,6 +200,7 @@ export function RunGate({ hydrated, hasGoal }: { hydrated: boolean; hasGoal: boo
       <div className="container-page max-w-2xl py-20 text-center">
         {hydrated && !hasGoal ? (
           <>
+            <img src={daylightImg} alt="" loading="lazy" width={1280} height={864} className="mb-8 aspect-[16/9] w-full rounded-xl object-cover" />
             <h1 className="text-4xl">{t.title}</h1>
             <p className="mt-3 text-muted-foreground">{t.body}</p>
             <LangLink to="/goals" className="mt-6 inline-block rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground">{t.cta}</LangLink>

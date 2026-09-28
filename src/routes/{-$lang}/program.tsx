@@ -2,6 +2,7 @@ import { useMemo } from "react";
 import { LangLink, toLang, useDict, useLang } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { RunGate, Page, StepHeader } from "@/components/site";
+import walkImg from "@/assets/vita-walk.jpg";
 import { useAppState, useHydrated } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { buildProgram } from "@/lib/engine/program";
@@ -117,6 +118,8 @@ function ProgramPage() {
     <Page>
       <div className="container-page max-w-4xl py-12">
         <StepHeader step={t.step} title={program.title} intro={program.rationale} />
+
+        <img src={walkImg} alt="" loading="lazy" width={1280} height={864} className="mb-8 aspect-[21/9] w-full rounded-xl object-cover" />
 
         {program.overridden ? (
           <div className="mb-8 rounded-xl border border-accent/50 bg-accent/10 p-5">
