@@ -4,7 +4,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { Page, StepHeader, inputClass } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 import { MARKERS, markerLabel } from "@/lib/engine/markers";
-import { extractFromDocument, demoLabs } from "@/lib/demo";
+import { extractFromDocument, demoLabs, demoLabsInRange } from "@/lib/demo";
 import type { LabEntry } from "@/lib/engine/types";
 
 const T = {
@@ -27,7 +27,8 @@ const T = {
     pendingValues: (n: number) => `${n} value${n === 1 ? "" : "s"} still need your confirmation.`,
     allConfirmed: "All extracted values confirmed.",
     markersEntered: (filled: number, total: number) => `${filled} of ${total} markers entered`,
-    useDemo: "Use demo values",
+    useDemo: "Use demo values (out of range)",
+    useDemoIn: "Use demo values (in range)",
     optional: "optional",
     confirmValue: "Confirm this value",
     value: "Value",
@@ -59,7 +60,8 @@ const T = {
     pendingValues: (n: number) => `${n} verdi${n === 1 ? "" : "er"} trenger fortsatt bekreftelse.`,
     allConfirmed: "Alle uthentede verdier er bekreftet.",
     markersEntered: (filled: number, total: number) => `${filled} av ${total} markører fylt ut`,
-    useDemo: "Bruk demoverdier",
+    useDemo: "Bruk demoverdier (utenfor området)",
+    useDemoIn: "Bruk demoverdier (innenfor området)",
     optional: "valgfritt",
     confirmValue: "Bekreft denne verdien",
     value: "Verdi",
@@ -91,7 +93,8 @@ const T = {
     pendingValues: (n: number) => `${n} wartość${n === 1 ? "" : "ci"} nadal wymaga Twojego potwierdzenia.`,
     allConfirmed: "Wszystkie wyodrębnione wartości zostały potwierdzone.",
     markersEntered: (filled: number, total: number) => `${filled} z ${total} markerów wprowadzonych`,
-    useDemo: "Użyj wartości demonstracyjnych",
+    useDemo: "Wartości przykładowe (poza zakresem)",
+    useDemoIn: "Wartości przykładowe (w zakresie)",
     optional: "opcjonalnie",
     confirmValue: "Potwierdź tę wartość",
     value: "Wartość",
@@ -192,6 +195,7 @@ function LabsPage() {
 
         <div className="mb-4 flex items-center justify-between">
           <p className="text-sm text-muted-foreground">{t.markersEntered(filled, MARKERS.length)}</p>
+          <div className="flex flex-wrap justify-end gap-3">
           <button
             type="button"
             onClick={() => setState({ labs: demoLabs })}
@@ -199,6 +203,14 @@ function LabsPage() {
           >
             {t.useDemo}
           </button>
+          <button
+            type="button"
+            onClick={() => setState({ labs: demoLabsInRange })}
+            className="text-xs text-muted-foreground underline hover:text-foreground"
+          >
+            {t.useDemoIn}
+          </button>
+          </div>
         </div>
 
         <div className="space-y-3">
