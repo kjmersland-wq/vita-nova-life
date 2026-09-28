@@ -127,6 +127,10 @@ function MethodPage() {
         <p className="mt-8 border-l-2 border-accent/60 pl-5 text-sm leading-relaxed text-muted-foreground">{t.foodNote}</p>
         <p className="mt-4 border-l-2 border-accent/60 pl-5 text-sm leading-relaxed text-muted-foreground">{t.movementNote}</p>
         <div className="card-surface mt-10 p-6">
+          <h2 className="text-2xl">{t.whyTitle}</h2>
+          <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.whyBody}</p>
+        </div>
+        <div className="card-surface mt-6 p-6">
           <h2 className="text-2xl">{t.whatNotTitle}</h2>
           <p className="mt-2 text-sm text-muted-foreground">
             {t.whatNotBody}
