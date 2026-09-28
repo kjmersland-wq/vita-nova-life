@@ -42,6 +42,7 @@ const T = {
         points: [
           "Full marker panel",
           "Weekly program check-ins",
+           "Planned daily line: a walk, a few stairs or a movement break, when your results allow. Check-off later.",
           "PDF export of your own summary",
           "Not a letter to your doctor, and never a diagnosis",
         ],
@@ -93,6 +94,7 @@ const T = {
         points: [
           "Fullt markørpanel",
           "Ukentlig oppfølging av programmet",
+           "Planlagt dagslinje: en tur, noen trapper eller en bevegelsespause når prøvesvaret ditt tillater det. Avkryssing senere.",
           "PDF-eksport av ditt eget sammendrag",
           "Ikke et brev til legen din, og aldri en diagnose",
         ],
@@ -144,6 +146,7 @@ const T = {
         points: [
           "Pełny panel markerów",
           "Cotygodniowe kontrole postępów programu",
+           "Planowana codzienna wskazówka: spacer, kilka pięter schodami lub przerwa na ruch, gdy pozwalają na to Twoje wyniki. Odznaczanie później.",
           "Eksport PDF własnego podsumowania",
           "To nie jest list do Twojego lekarza i nigdy nie jest diagnozą",
         ],

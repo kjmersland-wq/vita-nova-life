@@ -3,6 +3,7 @@ import { LangLink, toLang, useDict, useLang } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { RunGate, Page, StepHeader } from "@/components/site";
 import walkImg from "@/assets/vita-walk.jpg";
+import sofaImg from "@/assets/vita-sofa.jpg";
 import { useAppState, useHydrated } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { buildProgram } from "@/lib/engine/program";
@@ -25,6 +26,8 @@ const T = {
       "Your run is stored on this device for now. An account adds history across devices, check-ins and a PDF of your own summary.",
     history: "History",
     seePro: "See Pro",
+    dailyPreview: "Pro daily line, coming later: Today, take the stairs if it's a few floors and walk at your own pace. Get up once during your film. Check-off later.",
+    dailyGentle: "Pro daily line, coming later: Today, take an easy walk after a meal if comfortable. Talk to a clinician about your result. Check-off later.",
     disclaimer:
       "Habits only. This program does not treat any disease and is not a substitute for care from a doctor.",
   },
@@ -45,6 +48,8 @@ const T = {
       "Testen din er lagret på denne enheten foreløpig. En konto gir deg historikk på tvers av enheter, oppfølging og en PDF av ditt eget sammendrag.",
     history: "Historikk",
     seePro: "Se Pro",
+    dailyPreview: "Pro-dagslinje, kommer senere: Ta trappen hvis det er noen få etasjer, og gå en tur i ditt eget tempo. Reis deg én gang under filmen. Avkryssing kommer senere.",
+    dailyGentle: "Pro-dagslinje, kommer senere: Ta en rolig tur etter et måltid hvis det kjennes greit. Snakk med lege om prøvesvaret ditt. Avkryssing kommer senere.",
     disclaimer:
       "Kun vaner. Dette programmet behandler ingen sykdom og erstatter ikke oppfølging fra lege.",
   },
@@ -65,6 +70,8 @@ const T = {
       "Twój test jest na razie zapisany na tym urządzeniu. Konto dodaje historię na kilku urządzeniach, kontrole postępów i PDF Twojego podsumowania.",
     history: "Historia",
     seePro: "Zobacz Pro",
+    dailyPreview: "Codzienna wskazówka Pro, wkrótce: Wybierz schody, jeśli to kilka pięter, i idź na spacer we własnym tempie. Wstań raz podczas filmu. Odznaczanie później.",
+    dailyGentle: "Codzienna wskazówka Pro, wkrótce: Po posiłku przejdź się spokojnie, jeśli masz na to ochotę. Porozmawiaj z lekarzem o wyniku. Odznaczanie później.",
     disclaimer:
       "Tylko nawyki. Ten program nie leczy żadnej choroby i nie zastępuje opieki lekarza.",
   },
@@ -145,6 +152,8 @@ function ProgramPage() {
           ))}
         </div>
 
+        <img src={sofaImg} alt="" loading="lazy" width={1440} height={960} className="mt-8 aspect-[21/9] w-full rounded-md object-cover" />
+
         <div className="card-surface mt-8 flex flex-col gap-4 p-6 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 className="text-2xl">{t.keepThis}</h2>
@@ -167,6 +176,8 @@ function ProgramPage() {
             </LangLink>
           </div>
         </div>
+
+        <p className="mt-4 text-sm text-muted-foreground">{program.clinicianFirst ? t.dailyGentle : t.dailyPreview}</p>
 
         <p className="mt-8 text-xs text-muted-foreground">{t.disclaimer}</p>
       </div>
