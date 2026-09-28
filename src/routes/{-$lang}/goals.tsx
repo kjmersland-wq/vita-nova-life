@@ -4,7 +4,7 @@ import { setState, useAppState } from "@/lib/store";
 import { GOAL_LABELS } from "@/lib/engine/rules";
 import type { GoalKey } from "@/lib/engine/types";
 
-export const Route = createFileRoute("/goals")({
+export const Route = createFileRoute("/{-$lang}/goals")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },

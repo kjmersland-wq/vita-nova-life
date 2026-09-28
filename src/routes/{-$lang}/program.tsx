@@ -5,7 +5,7 @@ import { useAppState } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { buildProgram } from "@/lib/engine/program";
 
-export const Route = createFileRoute("/program")({
+export const Route = createFileRoute("/{-$lang}/program")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },

@@ -6,7 +6,7 @@ import { analyze } from "@/lib/engine/rules";
 import { buildProgram } from "@/lib/engine/program";
 import type { Finding } from "@/lib/engine/types";
 
-export const Route = createFileRoute("/results")({
+export const Route = createFileRoute("/{-$lang}/results")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },

@@ -4,7 +4,7 @@ import { Page, StepHeader, inputClass } from "@/components/site";
 import { deleteRun, setState, useAppState } from "@/lib/store";
 import { MARKERS } from "@/lib/engine/markers";
 
-export const Route = createFileRoute("/history")({
+export const Route = createFileRoute("/{-$lang}/history")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },

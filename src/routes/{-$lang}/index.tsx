@@ -3,7 +3,7 @@ import { Page } from "@/components/site";
 import { ArrowRight, Check, FileText, Fingerprint, HeartPulse, Leaf, ShieldCheck } from "lucide-react";
 import heroImage from "@/assets/vita-hero.jpg";
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute("/{-$lang}/")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },

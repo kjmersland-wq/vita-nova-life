@@ -5,7 +5,7 @@ import { calcBmi } from "@/lib/engine/rules";
 import { demoGoals, demoLabs, demoProfile } from "@/lib/demo";
 import type { Activity, Diet, Sex, Sun } from "@/lib/engine/types";
 
-export const Route = createFileRoute("/start")({
+export const Route = createFileRoute("/{-$lang}/start")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },

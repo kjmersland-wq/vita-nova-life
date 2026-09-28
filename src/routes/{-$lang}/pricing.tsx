@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { Page, StepHeader } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 
-export const Route = createFileRoute("/pricing")({
+export const Route = createFileRoute("/{-$lang}/pricing")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },

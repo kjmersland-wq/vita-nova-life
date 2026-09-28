@@ -6,7 +6,7 @@ import { MARKERS } from "@/lib/engine/markers";
 import { extractFromDocument, demoLabs } from "@/lib/demo";
 import type { LabEntry } from "@/lib/engine/types";
 
-export const Route = createFileRoute("/labs")({
+export const Route = createFileRoute("/{-$lang}/labs")({
   head: () => ({
     meta: [
       { property: "og:type", content: "website" },
