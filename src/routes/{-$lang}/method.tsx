@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
 import { Page, StepHeader } from "@/components/site";
 
 export const Route = createFileRoute("/{-$lang}/method")({
@@ -84,9 +85,9 @@ function MethodPage() {
             Not a doctor, not a clinic, not a lab. We do not diagnose, prescribe, or claim to treat
             any disease or condition. Nothing here replaces care from a health professional.
           </p>
-          <Link to="/legal" className="mt-4 inline-block text-sm underline">
+          <LangLink to="/legal" className="mt-4 inline-block text-sm underline">
             Read the full disclaimer
-          </Link>
+          </LangLink>
         </div>
       </div>
     </Page>

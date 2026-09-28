@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
+import { createFileRoute } from "@tanstack/react-router";
 import { Page, StepHeader, inputClass } from "@/components/site";
 import { deleteRun, setState, useAppState } from "@/lib/store";
 import { MARKERS } from "@/lib/engine/markers";
@@ -84,7 +85,7 @@ function HistoryPage() {
               className="mt-4 inline-block rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
             >
               Run your first analysis
-            </Link>
+            </LangLink>
           </div>
         ) : (
           <>
@@ -193,7 +194,7 @@ function HistoryPage() {
             className="rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
           >
             Add new labs and regenerate
-          </Link>
+          </LangLink>
           <button
             type="button"
             onClick={() => setState({ account: null })}

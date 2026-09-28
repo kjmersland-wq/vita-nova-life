@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
+import { createFileRoute } from "@tanstack/react-router";
 import { Page, StepHeader } from "@/components/site";
 import { saveRun, useAppState } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
@@ -43,7 +44,7 @@ const STATUS_LABEL: Record<Finding["status"], string> = {
 
 function ResultsPage() {
   const { profile, goals, labs } = useAppState();
-  const navigate = useNavigate();
+  const navigate = useLangNavigate();
 
   const analysis = useMemo(() => analyze(profile, goals, labs), [profile, goals, labs]);
   const program = useMemo(
@@ -66,7 +67,7 @@ function ResultsPage() {
             className="mt-6 inline-block rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground"
           >
             Go to labs
-          </Link>
+          </LangLink>
         </div>
       </Page>
     );
@@ -196,7 +197,7 @@ function ResultsPage() {
             className="rounded-full border border-border px-6 py-3 text-sm hover:border-primary/50"
           >
             Edit my values
-          </Link>
+          </LangLink>
         </div>
 
         <p className="mt-8 text-xs text-muted-foreground">

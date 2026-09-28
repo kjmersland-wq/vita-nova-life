@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
 import { Page } from "@/components/site";
 import { ArrowRight, Check, FileText, Fingerprint, HeartPulse, Leaf, ShieldCheck } from "lucide-react";
 import heroImage from "@/assets/vita-hero.jpg";
@@ -65,8 +66,8 @@ function Home() {
             <h1 className="mt-7 max-w-[680px] text-[clamp(2.5rem,4.5vw,4.3rem)] leading-[1.14] font-semibold">Vita Nova Life<span className="mt-3 block text-[0.61em] leading-[1.25] font-medium text-primary">A clearer way forward from your blood test.</span></h1>
             <p className="mt-7 max-w-[530px] text-base leading-[1.8] text-foreground/80 md:text-lg">Bring your own lab results. Get one clear conclusion, up to three practical actions, and a four-week plan that starts with everyday habits.</p>
             <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link to="/start" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-md bg-primary px-6 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/15 hover:bg-primary/90">Get started for free <ArrowRight size={17} /></Link>
-              <Link to="/method" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-primary/20 bg-background/80 px-6 text-sm font-bold text-primary backdrop-blur-sm hover:bg-background">Explore our approach <ArrowRight size={16} /></Link>
+              <LangLink to="/start" className="inline-flex min-h-12 items-center justify-center gap-3 rounded-md bg-primary px-6 text-sm font-bold text-primary-foreground shadow-lg shadow-primary/15 hover:bg-primary/90">Get started for free <ArrowRight size={17} /></LangLink>
+              <LangLink to="/method" className="inline-flex min-h-12 items-center justify-center gap-2 rounded-md border border-primary/20 bg-background/80 px-6 text-sm font-bold text-primary backdrop-blur-sm hover:bg-background">Explore our approach <ArrowRight size={16} /></LangLink>
             </div>
             <p className="mt-5 flex items-center gap-2 text-xs font-semibold text-muted-foreground"><Check size={15} className="text-primary" /> No account needed for your first run</p>
           </div>
@@ -126,7 +127,7 @@ function Home() {
             className="inline-flex min-h-12 shrink-0 items-center justify-center gap-3 rounded-md bg-card px-6 text-sm font-bold text-primary hover:bg-highlight"
           >
             Start your first run <ArrowRight size={17} />
-          </Link>
+          </LangLink>
         </div>
       </section>
     </Page>

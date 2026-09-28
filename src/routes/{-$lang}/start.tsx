@@ -1,4 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
 import { Choice, Field, Page, StepHeader, Toggle, inputClass } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 import { calcBmi } from "@/lib/engine/rules";
@@ -28,7 +29,7 @@ export const Route = createFileRoute("/{-$lang}/start")({
 
 function StartPage() {
   const { profile } = useAppState();
-  const navigate = useNavigate();
+  const navigate = useLangNavigate();
   const bmi = calcBmi(profile);
   const set = (patch: Partial<typeof profile>) => setState({ profile: { ...profile, ...patch } });
   const setFlag = (key: keyof typeof profile.flags, value: boolean) =>

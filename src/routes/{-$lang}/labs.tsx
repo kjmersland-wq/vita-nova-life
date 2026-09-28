@@ -1,5 +1,6 @@
 import { useRef, useState } from "react";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
+import { createFileRoute } from "@tanstack/react-router";
 import { Page, StepHeader, inputClass } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 import { MARKERS } from "@/lib/engine/markers";
@@ -29,7 +30,7 @@ export const Route = createFileRoute("/{-$lang}/labs")({
 
 function LabsPage() {
   const { labs } = useAppState();
-  const navigate = useNavigate();
+  const navigate = useLangNavigate();
   const fileRef = useRef<HTMLInputElement>(null);
   const [pending, setPending] = useState<string[]>([]);
   const [fileName, setFileName] = useState<string | null>(null);

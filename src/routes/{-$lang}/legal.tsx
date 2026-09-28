@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
 import { Page, StepHeader } from "@/components/site";
 
 export const Route = createFileRoute("/{-$lang}/legal")({

@@ -9,243 +9,248 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as GoalsRouteImport } from './routes/goals'
-import { Route as HistoryRouteImport } from './routes/history'
-import { Route as LabsRouteImport } from './routes/labs'
-import { Route as LegalRouteImport } from './routes/legal'
-import { Route as MethodRouteImport } from './routes/method'
-import { Route as PricingRouteImport } from './routes/pricing'
-import { Route as ProgramRouteImport } from './routes/program'
-import { Route as ResultsRouteImport } from './routes/results'
-import { Route as StartRouteImport } from './routes/start'
+import { Route as Char123LangChar125IndexRouteImport } from './routes/{-$lang}/index'
+import { Route as Char123LangChar125GoalsRouteImport } from './routes/{-$lang}/goals'
+import { Route as Char123LangChar125HistoryRouteImport } from './routes/{-$lang}/history'
+import { Route as Char123LangChar125LabsRouteImport } from './routes/{-$lang}/labs'
+import { Route as Char123LangChar125LegalRouteImport } from './routes/{-$lang}/legal'
+import { Route as Char123LangChar125MethodRouteImport } from './routes/{-$lang}/method'
+import { Route as Char123LangChar125PricingRouteImport } from './routes/{-$lang}/pricing'
+import { Route as Char123LangChar125ProgramRouteImport } from './routes/{-$lang}/program'
+import { Route as Char123LangChar125ResultsRouteImport } from './routes/{-$lang}/results'
+import { Route as Char123LangChar125StartRouteImport } from './routes/{-$lang}/start'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const Char123LangChar125IndexRoute = Char123LangChar125IndexRouteImport.update({
+  id: '/{-$lang}/',
+  path: '/{-$lang}/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const GoalsRoute = GoalsRouteImport.update({
-  id: '/goals',
-  path: '/goals',
+const Char123LangChar125GoalsRoute = Char123LangChar125GoalsRouteImport.update({
+  id: '/{-$lang}/goals',
+  path: '/{-$lang}/goals',
   getParentRoute: () => rootRouteImport,
 } as any)
-const HistoryRoute = HistoryRouteImport.update({
-  id: '/history',
-  path: '/history',
+const Char123LangChar125HistoryRoute =
+  Char123LangChar125HistoryRouteImport.update({
+    id: '/{-$lang}/history',
+    path: '/{-$lang}/history',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LangChar125LabsRoute = Char123LangChar125LabsRouteImport.update({
+  id: '/{-$lang}/labs',
+  path: '/{-$lang}/labs',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LabsRoute = LabsRouteImport.update({
-  id: '/labs',
-  path: '/labs',
+const Char123LangChar125LegalRoute = Char123LangChar125LegalRouteImport.update({
+  id: '/{-$lang}/legal',
+  path: '/{-$lang}/legal',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LegalRoute = LegalRouteImport.update({
-  id: '/legal',
-  path: '/legal',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const MethodRoute = MethodRouteImport.update({
-  id: '/method',
-  path: '/method',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PricingRoute = PricingRouteImport.update({
-  id: '/pricing',
-  path: '/pricing',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ProgramRoute = ProgramRouteImport.update({
-  id: '/program',
-  path: '/program',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ResultsRoute = ResultsRouteImport.update({
-  id: '/results',
-  path: '/results',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const StartRoute = StartRouteImport.update({
-  id: '/start',
-  path: '/start',
+const Char123LangChar125MethodRoute =
+  Char123LangChar125MethodRouteImport.update({
+    id: '/{-$lang}/method',
+    path: '/{-$lang}/method',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LangChar125PricingRoute =
+  Char123LangChar125PricingRouteImport.update({
+    id: '/{-$lang}/pricing',
+    path: '/{-$lang}/pricing',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LangChar125ProgramRoute =
+  Char123LangChar125ProgramRouteImport.update({
+    id: '/{-$lang}/program',
+    path: '/{-$lang}/program',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LangChar125ResultsRoute =
+  Char123LangChar125ResultsRouteImport.update({
+    id: '/{-$lang}/results',
+    path: '/{-$lang}/results',
+    getParentRoute: () => rootRouteImport,
+  } as any)
+const Char123LangChar125StartRoute = Char123LangChar125StartRouteImport.update({
+  id: '/{-$lang}/start',
+  path: '/{-$lang}/start',
   getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/goals': typeof GoalsRoute
-  '/history': typeof HistoryRoute
-  '/labs': typeof LabsRoute
-  '/legal': typeof LegalRoute
-  '/method': typeof MethodRoute
-  '/pricing': typeof PricingRoute
-  '/program': typeof ProgramRoute
-  '/results': typeof ResultsRoute
-  '/start': typeof StartRoute
+  '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
+  '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
+  '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
+  '/{-$lang}/legal': typeof Char123LangChar125LegalRoute
+  '/{-$lang}/method': typeof Char123LangChar125MethodRoute
+  '/{-$lang}/pricing': typeof Char123LangChar125PricingRoute
+  '/{-$lang}/program': typeof Char123LangChar125ProgramRoute
+  '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
+  '/{-$lang}/start': typeof Char123LangChar125StartRoute
+  '/{-$lang}/': typeof Char123LangChar125IndexRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/goals': typeof GoalsRoute
-  '/history': typeof HistoryRoute
-  '/labs': typeof LabsRoute
-  '/legal': typeof LegalRoute
-  '/method': typeof MethodRoute
-  '/pricing': typeof PricingRoute
-  '/program': typeof ProgramRoute
-  '/results': typeof ResultsRoute
-  '/start': typeof StartRoute
+  '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
+  '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
+  '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
+  '/{-$lang}/legal': typeof Char123LangChar125LegalRoute
+  '/{-$lang}/method': typeof Char123LangChar125MethodRoute
+  '/{-$lang}/pricing': typeof Char123LangChar125PricingRoute
+  '/{-$lang}/program': typeof Char123LangChar125ProgramRoute
+  '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
+  '/{-$lang}/start': typeof Char123LangChar125StartRoute
+  '/{-$lang}': typeof Char123LangChar125IndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/goals': typeof GoalsRoute
-  '/history': typeof HistoryRoute
-  '/labs': typeof LabsRoute
-  '/legal': typeof LegalRoute
-  '/method': typeof MethodRoute
-  '/pricing': typeof PricingRoute
-  '/program': typeof ProgramRoute
-  '/results': typeof ResultsRoute
-  '/start': typeof StartRoute
+  '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
+  '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
+  '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
+  '/{-$lang}/legal': typeof Char123LangChar125LegalRoute
+  '/{-$lang}/method': typeof Char123LangChar125MethodRoute
+  '/{-$lang}/pricing': typeof Char123LangChar125PricingRoute
+  '/{-$lang}/program': typeof Char123LangChar125ProgramRoute
+  '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
+  '/{-$lang}/start': typeof Char123LangChar125StartRoute
+  '/{-$lang}/': typeof Char123LangChar125IndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
-    | '/'
-    | '/goals'
-    | '/history'
-    | '/labs'
-    | '/legal'
-    | '/method'
-    | '/pricing'
-    | '/program'
-    | '/results'
-    | '/start'
+    | '/{-$lang}/goals'
+    | '/{-$lang}/history'
+    | '/{-$lang}/labs'
+    | '/{-$lang}/legal'
+    | '/{-$lang}/method'
+    | '/{-$lang}/pricing'
+    | '/{-$lang}/program'
+    | '/{-$lang}/results'
+    | '/{-$lang}/start'
+    | '/{-$lang}/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    | '/'
-    | '/goals'
-    | '/history'
-    | '/labs'
-    | '/legal'
-    | '/method'
-    | '/pricing'
-    | '/program'
-    | '/results'
-    | '/start'
+    | '/{-$lang}/goals'
+    | '/{-$lang}/history'
+    | '/{-$lang}/labs'
+    | '/{-$lang}/legal'
+    | '/{-$lang}/method'
+    | '/{-$lang}/pricing'
+    | '/{-$lang}/program'
+    | '/{-$lang}/results'
+    | '/{-$lang}/start'
+    | '/{-$lang}'
   id:
     | '__root__'
-    | '/'
-    | '/goals'
-    | '/history'
-    | '/labs'
-    | '/legal'
-    | '/method'
-    | '/pricing'
-    | '/program'
-    | '/results'
-    | '/start'
+    | '/{-$lang}/goals'
+    | '/{-$lang}/history'
+    | '/{-$lang}/labs'
+    | '/{-$lang}/legal'
+    | '/{-$lang}/method'
+    | '/{-$lang}/pricing'
+    | '/{-$lang}/program'
+    | '/{-$lang}/results'
+    | '/{-$lang}/start'
+    | '/{-$lang}/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  GoalsRoute: typeof GoalsRoute
-  HistoryRoute: typeof HistoryRoute
-  LabsRoute: typeof LabsRoute
-  LegalRoute: typeof LegalRoute
-  MethodRoute: typeof MethodRoute
-  PricingRoute: typeof PricingRoute
-  ProgramRoute: typeof ProgramRoute
-  ResultsRoute: typeof ResultsRoute
-  StartRoute: typeof StartRoute
+  Char123LangChar125GoalsRoute: typeof Char123LangChar125GoalsRoute
+  Char123LangChar125HistoryRoute: typeof Char123LangChar125HistoryRoute
+  Char123LangChar125LabsRoute: typeof Char123LangChar125LabsRoute
+  Char123LangChar125LegalRoute: typeof Char123LangChar125LegalRoute
+  Char123LangChar125MethodRoute: typeof Char123LangChar125MethodRoute
+  Char123LangChar125PricingRoute: typeof Char123LangChar125PricingRoute
+  Char123LangChar125ProgramRoute: typeof Char123LangChar125ProgramRoute
+  Char123LangChar125ResultsRoute: typeof Char123LangChar125ResultsRoute
+  Char123LangChar125StartRoute: typeof Char123LangChar125StartRoute
+  Char123LangChar125IndexRoute: typeof Char123LangChar125IndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/{-$lang}/': {
+      id: '/{-$lang}/'
+      path: '/{-$lang}'
+      fullPath: '/{-$lang}/'
+      preLoaderRoute: typeof Char123LangChar125IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/goals': {
-      id: '/goals'
-      path: '/goals'
-      fullPath: '/goals'
-      preLoaderRoute: typeof GoalsRouteImport
+    '/{-$lang}/goals': {
+      id: '/{-$lang}/goals'
+      path: '/{-$lang}/goals'
+      fullPath: '/{-$lang}/goals'
+      preLoaderRoute: typeof Char123LangChar125GoalsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/history': {
-      id: '/history'
-      path: '/history'
-      fullPath: '/history'
-      preLoaderRoute: typeof HistoryRouteImport
+    '/{-$lang}/history': {
+      id: '/{-$lang}/history'
+      path: '/{-$lang}/history'
+      fullPath: '/{-$lang}/history'
+      preLoaderRoute: typeof Char123LangChar125HistoryRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/labs': {
-      id: '/labs'
-      path: '/labs'
-      fullPath: '/labs'
-      preLoaderRoute: typeof LabsRouteImport
+    '/{-$lang}/labs': {
+      id: '/{-$lang}/labs'
+      path: '/{-$lang}/labs'
+      fullPath: '/{-$lang}/labs'
+      preLoaderRoute: typeof Char123LangChar125LabsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/legal': {
-      id: '/legal'
-      path: '/legal'
-      fullPath: '/legal'
-      preLoaderRoute: typeof LegalRouteImport
+    '/{-$lang}/legal': {
+      id: '/{-$lang}/legal'
+      path: '/{-$lang}/legal'
+      fullPath: '/{-$lang}/legal'
+      preLoaderRoute: typeof Char123LangChar125LegalRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/method': {
-      id: '/method'
-      path: '/method'
-      fullPath: '/method'
-      preLoaderRoute: typeof MethodRouteImport
+    '/{-$lang}/method': {
+      id: '/{-$lang}/method'
+      path: '/{-$lang}/method'
+      fullPath: '/{-$lang}/method'
+      preLoaderRoute: typeof Char123LangChar125MethodRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/pricing': {
-      id: '/pricing'
-      path: '/pricing'
-      fullPath: '/pricing'
-      preLoaderRoute: typeof PricingRouteImport
+    '/{-$lang}/pricing': {
+      id: '/{-$lang}/pricing'
+      path: '/{-$lang}/pricing'
+      fullPath: '/{-$lang}/pricing'
+      preLoaderRoute: typeof Char123LangChar125PricingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/program': {
-      id: '/program'
-      path: '/program'
-      fullPath: '/program'
-      preLoaderRoute: typeof ProgramRouteImport
+    '/{-$lang}/program': {
+      id: '/{-$lang}/program'
+      path: '/{-$lang}/program'
+      fullPath: '/{-$lang}/program'
+      preLoaderRoute: typeof Char123LangChar125ProgramRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/results': {
-      id: '/results'
-      path: '/results'
-      fullPath: '/results'
-      preLoaderRoute: typeof ResultsRouteImport
+    '/{-$lang}/results': {
+      id: '/{-$lang}/results'
+      path: '/{-$lang}/results'
+      fullPath: '/{-$lang}/results'
+      preLoaderRoute: typeof Char123LangChar125ResultsRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/start': {
-      id: '/start'
-      path: '/start'
-      fullPath: '/start'
-      preLoaderRoute: typeof StartRouteImport
+    '/{-$lang}/start': {
+      id: '/{-$lang}/start'
+      path: '/{-$lang}/start'
+      fullPath: '/{-$lang}/start'
+      preLoaderRoute: typeof Char123LangChar125StartRouteImport
       parentRoute: typeof rootRouteImport
     }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  GoalsRoute: GoalsRoute,
-  HistoryRoute: HistoryRoute,
-  LabsRoute: LabsRoute,
-  LegalRoute: LegalRoute,
-  MethodRoute: MethodRoute,
-  PricingRoute: PricingRoute,
-  ProgramRoute: ProgramRoute,
-  ResultsRoute: ResultsRoute,
-  StartRoute: StartRoute,
+  Char123LangChar125GoalsRoute: Char123LangChar125GoalsRoute,
+  Char123LangChar125HistoryRoute: Char123LangChar125HistoryRoute,
+  Char123LangChar125LabsRoute: Char123LangChar125LabsRoute,
+  Char123LangChar125LegalRoute: Char123LangChar125LegalRoute,
+  Char123LangChar125MethodRoute: Char123LangChar125MethodRoute,
+  Char123LangChar125PricingRoute: Char123LangChar125PricingRoute,
+  Char123LangChar125ProgramRoute: Char123LangChar125ProgramRoute,
+  Char123LangChar125ResultsRoute: Char123LangChar125ResultsRoute,
+  Char123LangChar125StartRoute: Char123LangChar125StartRoute,
+  Char123LangChar125IndexRoute: Char123LangChar125IndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

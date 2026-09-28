@@ -1,4 +1,5 @@
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
 import { Page, StepHeader } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 import { GOAL_LABELS } from "@/lib/engine/rules";
@@ -47,7 +48,7 @@ const ORDER: GoalKey[] = [
 
 function GoalsPage() {
   const { goals } = useAppState();
-  const navigate = useNavigate();
+  const navigate = useLangNavigate();
 
   return (
     <Page>

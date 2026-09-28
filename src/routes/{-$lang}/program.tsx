@@ -1,5 +1,6 @@
 import { useMemo } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
+import { createFileRoute } from "@tanstack/react-router";
 import { Page, StepHeader } from "@/components/site";
 import { useAppState } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
@@ -37,9 +38,9 @@ function ProgramPage() {
         <div className="container-page max-w-2xl py-20">
           <h1 className="text-4xl">{program.title}</h1>
           <p className="mt-3 text-muted-foreground">{program.rationale}</p>
-          <Link to="/results" className="mt-6 inline-block text-sm underline">
+          <LangLink to="/results" className="mt-6 inline-block text-sm underline">
             Back to results
-          </Link>
+          </LangLink>
         </div>
       </Page>
     );
@@ -89,13 +90,13 @@ function ProgramPage() {
               className="rounded-full border border-border px-5 py-2.5 text-sm hover:border-primary/50"
             >
               History
-            </Link>
+            </LangLink>
             <Link
               to="/pricing"
               className="rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground"
             >
               See Pro
-            </Link>
+            </LangLink>
           </div>
         </div>
 

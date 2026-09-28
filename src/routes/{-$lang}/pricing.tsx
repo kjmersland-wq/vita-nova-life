@@ -1,4 +1,5 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
+import { LangLink, useLangNavigate } from "@/lib/i18n";
 import { Page, StepHeader } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 
@@ -100,7 +101,7 @@ function PricingPage() {
                   className="mt-6 rounded-full border border-border px-5 py-2.5 text-center text-sm hover:border-primary/50"
                 >
                   Start a run
-                </Link>
+                </LangLink>
               )}
             </div>
           ))}
@@ -108,9 +109,9 @@ function PricingPage() {
         {!account ? (
           <p className="mt-6 text-sm text-muted-foreground">
             Create a free account on the{" "}
-            <Link to="/history" className="underline">
+            <LangLink to="/history" className="underline">
               History
-            </Link>{" "}
+            </LangLink>{" "}
             page to try the Pro preview.
           </p>
         ) : null}
