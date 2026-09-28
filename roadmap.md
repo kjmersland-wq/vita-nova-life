@@ -6,3 +6,6 @@
 - [x] Verify scenarios and mobile/desktop presentation.
 - [x] Clarify three-step guest flow, optional items, next actions, and blocked-state guidance in EN/NO/PL.
 - [x] Preserve entered data and pending upload confirmations across language changes; verify guest flow.
+- [ ] Add one everyday-movement habit per applicable program week without displacing clinician-first safety.
+- [ ] Add translated Pro daily-line preview and Method note; place quiet movement images on Home and Program only.
+- [ ] Verify program caps, override safety, translations and preview.
