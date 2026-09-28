@@ -42,7 +42,7 @@ const T = {
         points: [
           "Full marker panel",
           "Weekly program check-ins",
-           "One daily line: Today, take a short walk and use the stairs if it's a few floors. Stand once during your film. Check-off coming later.",
+           "Planned daily line: a walk, a few stairs or a movement break, when your results allow. Check-off later.",
           "PDF export of your own summary",
           "Not a letter to your doctor, and never a diagnosis",
         ],
@@ -94,7 +94,7 @@ const T = {
         points: [
           "Fullt markørpanel",
           "Ukentlig oppfølging av programmet",
-           "Én linje for dagen: Gå en liten tur og ta trappen hvis det er noen få etasjer. Reis deg én gang under filmen. Avkryssing kommer senere.",
+           "Planlagt dagslinje: en tur, noen trapper eller en bevegelsespause når prøvesvaret ditt tillater det. Avkryssing senere.",
           "PDF-eksport av ditt eget sammendrag",
           "Ikke et brev til legen din, og aldri en diagnose",
         ],
@@ -146,7 +146,7 @@ const T = {
         points: [
           "Pełny panel markerów",
           "Cotygodniowe kontrole postępów programu",
-           "Jedno zdanie na dziś: Idź na krótki spacer i wybierz schody, jeśli to kilka pięter. Wstań raz podczas filmu. Odznaczanie będzie dostępne później.",
+           "Planowana codzienna wskazówka: spacer, kilka pięter schodami lub przerwa na ruch, gdy pozwalają na to Twoje wyniki. Odznaczanie później.",
           "Eksport PDF własnego podsumowania",
           "To nie jest list do Twojego lekarza i nigdy nie jest diagnozą",
         ],
