@@ -6,6 +6,7 @@ import { saveRun, useAppState, useHydrated } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { markerLabel } from "@/lib/engine/markers";
 import { buildProgram } from "@/lib/engine/program";
+import daylightImg from "@/assets/vita-daylight-person.jpg";
 import type { Finding } from "@/lib/engine/types";
 
 const T = {
@@ -194,6 +195,8 @@ function ResultsPage() {
     <Page>
       <div className="container-page max-w-4xl py-12">
         <StepHeader step={t.step} title={analysis.headline} intro={analysis.summary} />
+
+        <img src={daylightImg} alt="" loading="lazy" width={1440} height={960} className="mb-8 aspect-[21/9] w-full rounded-md object-cover" />
 
         {analysis.doctorGate ? (
           <div className="mb-8 rounded-xl border border-destructive/40 bg-destructive/5 p-6">
