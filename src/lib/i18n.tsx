@@ -64,7 +64,7 @@ export function LangLink({
       params={{ lang: langParam(lang) }}
       className={className}
       onClick={onClick}
-      activeProps={activeProps}
+      activeProps={activeProps ?? {}}
       activeOptions={{ exact: to === "/" }}
     >
       {children}
