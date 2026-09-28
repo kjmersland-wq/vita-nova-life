@@ -418,22 +418,15 @@ export function buildProgram(
         push(week, t({ en: "Gentle basics and a clinician", no: "Rolige vaner og en samtale med lege", pl: "Spokojny ruch i rozmowa z lekarzem" }, lang), [clinician, easyWalk]);
       }
     } else {
-    push(1, t({ en: "Foundation: light, movement, food", no: "Grunnmur: lys, bevegelse, mat", pl: "Podstawa: światło, ruch, jedzenie" }, lang), [base[0], easyWalk, base[2]]);
-    push(2, t({ en: "Regular meals and a clinician", no: "Faste måltider og lege", pl: "Regularne posiłki i lekarz" }, lang), [
-      h("measure", { en: "Book a doctor or nurse to go through the flagged value", no: "Bestill time hos lege eller sykepleier for å gå gjennom verdien", pl: "Umów lekarza lub pielęgniarkę, by omówić oznaczoną wartość" }),
-      h("food", { en: "Three regular meals, protein at each, no skipping", no: "Tre faste måltider, protein til hvert, ingen hopping over", pl: "Trzy regularne posiłki, białko w każdym, bez pomijania" }),
-      easyWalk,
-    ]);
-    push(3, t({ en: "Make it repeatable", no: "Gjør det gjentakbart", pl: "Uczyń to powtarzalnym" }, lang), [
-      h("lifestyle", { en: "Same wake time on five days", no: "Samme oppvåkningstid fem dager", pl: "Ta sama godzina wstawania przez pięć dni" }),
-      h("food", { en: "No sugary drinks, water with meals", no: "Ingen søt drikke, vann til maten", pl: "Bez słodkich napojów, woda do posiłków" }),
-      easyWalk,
-    ]);
-    push(4, t({ en: "Decide with your clinician", no: "Bestem sammen med legen", pl: "Zdecyduj razem z lekarzem" }, lang), [
-      h("measure", { en: "Retest the flagged marker as your clinician advises", no: "Ta ny prøve av markøren slik legen anbefaler", pl: "Powtórz badanie markera zgodnie z zaleceniem lekarza" }),
-      h("lifestyle", { en: "Only after that talk: start a modest deficit, if weight loss is still the goal", no: "Først etter den samtalen: start et moderat underskudd, hvis vektnedgang fortsatt er målet", pl: "Dopiero po tej rozmowie: zacznij umiarkowany deficyt, jeśli odchudzanie wciąż jest celem" }),
-      easyWalk,
-    ]);
+      push(1, t({ en: "Foundation first", no: "Grunnmuren først", pl: "Najpierw podstawy" }, lang), [easyWalk, clinician]);
+      push(2, t({ en: "Talk through your result", no: "Snakk om prøvesvaret ditt", pl: "Omów swój wynik" }, lang), [
+        h("measure", { en: "Book a doctor or nurse to go through the flagged value", no: "Bestill time hos lege eller sykepleier for å gå gjennom verdien", pl: "Umów wizytę u lekarza lub pielęgniarki, by omówić wynik" }), easyWalk,
+      ]);
+      push(3, t({ en: "Keep it gentle", no: "Fortsett rolig", pl: "Spokojnie kontynuuj" }, lang), [easyWalk, clinician]);
+      push(4, t({ en: "Decide with your clinician", no: "Bestem sammen med legen", pl: "Zdecyduj razem z lekarzem" }, lang), [
+        clinician, easyWalk,
+        h("lifestyle", { en: "Only after that talk: start a modest deficit, if weight loss is still the goal", no: "Først etter den samtalen: start et moderat underskudd, hvis vektnedgang fortsatt er målet", pl: "Dopiero po tej rozmowie: zacznij umiarkowany deficyt, jeśli odchudzanie wciąż jest celem" }),
+      ]);
     }
   }
 
