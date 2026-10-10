@@ -108,6 +108,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),
+  scripts: () => [
+    { defer: true, src: "https://km-techlabs.com/t.js", "data-site": "vitanovalife.com" },
+  ],
   shellComponent: RootShell,
   component: RootComponent,
   notFoundComponent: NotFoundComponent,
