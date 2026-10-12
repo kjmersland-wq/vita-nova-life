@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as EnterRouteImport } from './routes/enter'
 import { Route as Char123LangChar125RouteRouteImport } from './routes/{-$lang}/route'
 import { Route as Char123LangChar125IndexRouteImport } from './routes/{-$lang}/index'
 import { Route as Char123LangChar125GoalsRouteImport } from './routes/{-$lang}/goals'
@@ -21,6 +22,11 @@ import { Route as Char123LangChar125ProgramRouteImport } from './routes/{-$lang}
 import { Route as Char123LangChar125ResultsRouteImport } from './routes/{-$lang}/results'
 import { Route as Char123LangChar125StartRouteImport } from './routes/{-$lang}/start'
 
+const EnterRoute = EnterRouteImport.update({
+  id: '/enter',
+  path: '/enter',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char123LangChar125RouteRoute = Char123LangChar125RouteRouteImport.update({
   id: '/{-$lang}',
   path: '/{-$lang}',
@@ -84,6 +90,7 @@ const Char123LangChar125StartRoute = Char123LangChar125StartRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/{-$lang}': typeof Char123LangChar125RouteRouteWithChildren
+  '/enter': typeof EnterRoute
   '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
   '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
   '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByFullPath {
   '/{-$lang}/': typeof Char123LangChar125IndexRoute
 }
 export interface FileRoutesByTo {
+  '/enter': typeof EnterRoute
   '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
   '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
   '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
@@ -110,6 +118,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/{-$lang}': typeof Char123LangChar125RouteRouteWithChildren
+  '/enter': typeof EnterRoute
   '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
   '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
   '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/{-$lang}'
+    | '/enter'
     | '/{-$lang}/goals'
     | '/{-$lang}/history'
     | '/{-$lang}/labs'
@@ -137,6 +147,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/enter'
     | '/{-$lang}/goals'
     | '/{-$lang}/history'
     | '/{-$lang}/labs'
@@ -150,6 +161,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/{-$lang}'
+    | '/enter'
     | '/{-$lang}/goals'
     | '/{-$lang}/history'
     | '/{-$lang}/labs'
@@ -164,10 +176,18 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   Char123LangChar125RouteRoute: typeof Char123LangChar125RouteRouteWithChildren
+  EnterRoute: typeof EnterRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/enter': {
+      id: '/enter'
+      path: '/enter'
+      fullPath: '/enter'
+      preLoaderRoute: typeof EnterRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/{-$lang}': {
       id: '/{-$lang}'
       path: '/{-$lang}'
@@ -282,6 +302,7 @@ const Char123LangChar125RouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   Char123LangChar125RouteRoute: Char123LangChar125RouteRouteWithChildren,
+  EnterRoute: EnterRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
