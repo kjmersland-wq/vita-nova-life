@@ -15,7 +15,7 @@ const T = {
       title: "Your profile — Vita Nova Life",
       description:
         "Age, body, activity, daylight and diet. A few simple choices — enough context to weigh your lab results fairly.",
-      ogDescription: "The context we use to weigh your lab results. No account needed.",
+      ogDescription: "The context we use to weigh your lab results.",
     },
     step: "Step 1 of 3",
     title: "A little about you",
@@ -94,7 +94,7 @@ const T = {
       title: "Din profil — Vita Nova Life",
       description:
         "Alder, kropp, aktivitet, dagslys og kosthold. Noen enkle valg — nok til å vekte prøvesvarene dine rettferdig.",
-      ogDescription: "Konteksten vi bruker til å vekte prøvesvarene dine. Ingen konto nødvendig.",
+      ogDescription: "Konteksten vi bruker til å vekte prøvesvarene dine.",
     },
     step: "Steg 1 av 3",
     title: "Litt om deg",
@@ -173,7 +173,7 @@ const T = {
       title: "Twój profil — Vita Nova Life",
       description:
         "Wiek, ciało, aktywność, światło dzienne i dieta. Kilka prostych wyborów — tyle, by uczciwie ocenić Twoje wyniki.",
-      ogDescription: "Kontekst, którego używamy, żeby uczciwie ocenić Twoje wyniki. Bez konta.",
+      ogDescription: "Kontekst, którego używamy, żeby uczciwie ocenić Twoje wyniki.",
     },
     step: "Krok 1 z 3",
     title: "Kilka słów o Tobie",
@@ -252,7 +252,7 @@ const T = {
       title: "Din profil — Vita Nova Life",
       description:
         "Alder, krop, aktivitet, dagslys og kost. Nogle få enkle valg – nok baggrund til at veje dine prøvesvar retfærdigt.",
-      ogDescription: "Baggrunden vi bruger til at veje dine prøvesvar. Ingen konto nødvendig.",
+      ogDescription: "Baggrunden vi bruger til at veje dine prøvesvar.",
     },
     step: "Trin 1 af 3",
     title: "Lidt om dig",
@@ -329,7 +329,7 @@ const T = {
       title: "Din profil — Vita Nova Life",
       description:
         "Ålder, kropp, aktivitet, dagsljus och kost. Några enkla val – tillräckligt med sammanhang för att väga dina provsvar rättvist.",
-      ogDescription: "Sammanhanget vi använder för att väga dina provsvar. Inget konto behövs.",
+      ogDescription: "Sammanhanget vi använder för att väga dina provsvar.",
     },
     step: "Steg 1 av 3",
     title: "Lite om dig",
@@ -406,7 +406,7 @@ const T = {
       title: "Profiilisi — Vita Nova Life",
       description:
         "Ikä, keho, liikunta, päivänvalo ja ruokavalio. Muutama yksinkertainen valinta – riittävästi taustaa tulostesi oikeudenmukaiseen punnitsemiseen.",
-      ogDescription: "Tausta, jonka avulla punnitsemme tuloksesi. Tiliä ei tarvita.",
+      ogDescription: "Tausta, jonka avulla punnitsemme tuloksesi.",
     },
     step: "Vaihe 1/3",
     title: "Vähän sinusta",
@@ -483,7 +483,7 @@ const T = {
       title: "Dein Profil — Vita Nova Life",
       description:
         "Alter, Körper, Aktivität, Tageslicht und Ernährung. Ein paar einfache Angaben – genug Kontext, um deine Laborwerte fair einzuordnen.",
-      ogDescription: "Der Kontext, mit dem wir deine Laborwerte einordnen. Kein Konto nötig.",
+      ogDescription: "Der Kontext, mit dem wir deine Laborwerte einordnen.",
     },
     step: "Schritt 1 von 3",
     title: "Ein bisschen über dich",
@@ -560,7 +560,7 @@ const T = {
       title: "Votre profil — Vita Nova Life",
       description:
         "Âge, corps, activité, lumière du jour et alimentation. Quelques choix simples – assez de contexte pour peser équitablement vos résultats.",
-      ogDescription: "Le contexte que nous utilisons pour peser vos résultats d'analyses. Aucun compte nécessaire.",
+      ogDescription: "Le contexte que nous utilisons pour peser vos résultats d'analyses.",
     },
     step: "Étape 1 sur 3",
     title: "Un peu de vous",
@@ -637,7 +637,7 @@ const T = {
       title: "Je profiel — Vita Nova Life",
       description:
         "Leeftijd, lichaam, activiteit, daglicht en voeding. Een paar eenvoudige keuzes – genoeg context om je bloedwaarden eerlijk te wegen.",
-      ogDescription: "De context waarmee we je bloedwaarden wegen. Geen account nodig.",
+      ogDescription: "De context waarmee we je bloedwaarden wegen.",
     },
     step: "Stap 1 van 3",
     title: "Een beetje over jou",

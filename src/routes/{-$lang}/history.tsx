@@ -1,10 +1,12 @@
 import { requireAuth } from "@/lib/auth.guard";
 import { socialMeta } from "@/lib/social";
 import { useState } from "react";
-import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
-import { createFileRoute } from "@tanstack/react-router";
+import { LangLink, langParam, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
+import { createFileRoute, useRouter } from "@tanstack/react-router";
+import { useServerFn } from "@tanstack/react-start";
+import { signOut } from "@/lib/auth.functions";
 import { Page, StepHeader, inputClass, DisclaimerNote } from "@/components/site";
-import { deleteRun, setState, useAppState } from "@/lib/store";
+import { deleteRun, useAppState } from "@/lib/store";
 import { MARKERS, markerLabel } from "@/lib/engine/markers";
 import type { Lang } from "@/lib/i18n";
 
@@ -294,39 +296,17 @@ export const Route = createFileRoute("/{-$lang}/history")({
 });
 
 function HistoryPage() {
-  const { runs, account } = useAppState();
+  const { runs, account: stored } = useAppState();
+  const { email: authEmail } = Route.useRouteContext();
+  // The visitor is signed in (requireAuth), so the history is always available.
+  const account = stored ?? { email: authEmail, pro: false };
+  const router = useRouter();
+  const signOutFn = useServerFn(signOut);
   const lang = useLang();
   const t = useDict(T);
-  const [email, setEmail] = useState("");
   const [a, setA] = useState(0);
   const [b, setB] = useState(1);
 
-  if (!account) {
-    return (
-      <Page>
-        <div className="container-page max-w-xl py-16">
-          <StepHeader step={t.accountStep} title={t.accountTitle} intro={t.accountIntro} />
-          <div className="card-surface space-y-3 p-6">
-            <input
-              className={inputClass}
-              placeholder={t.emailPlaceholder}
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <button
-              type="button"
-              disabled={!email.includes("@")}
-              onClick={() => setState({ account: { email, pro: false } })}
-              className="w-full rounded-full bg-primary px-6 py-3 text-sm font-medium text-primary-foreground disabled:opacity-40"
-            >
-              {t.createAccount}
-            </button>
-            <p className="text-xs text-muted-foreground">{t.demoNote}</p>
-          </div>
-        </div>
-      </Page>
-    );
-  }
 
   const runA = runs[a];
   const runB = runs[b];
@@ -455,7 +435,7 @@ function HistoryPage() {
           </LangLink>
           <button
             type="button"
-            onClick={() => setState({ account: null })}
+            onClick={async () => { await signOutFn(); await router.navigate({ to: "/{-$lang}", params: { lang: langParam(lang) } }); }}
             className="rounded-full border border-border px-6 py-3 text-sm"
           >
             {t.signOut}
