@@ -44,6 +44,7 @@ export type AppPath =
   | "/legal"
   | "/dashboard"
   | "/enter"
+  | "/faq"
   | "/legal/privacy"
   | "/legal/terms"
   | "/legal/dpa"

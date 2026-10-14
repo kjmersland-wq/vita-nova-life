@@ -14,6 +14,7 @@ import { Route as Char123LangChar125IndexRouteImport } from './routes/{-$lang}/i
 import { Route as Char123LangChar125ContactRouteImport } from './routes/{-$lang}/contact'
 import { Route as Char123LangChar125DashboardRouteImport } from './routes/{-$lang}/dashboard'
 import { Route as Char123LangChar125EnterRouteImport } from './routes/{-$lang}/enter'
+import { Route as Char123LangChar125FaqRouteImport } from './routes/{-$lang}/faq'
 import { Route as Char123LangChar125GoalsRouteImport } from './routes/{-$lang}/goals'
 import { Route as Char123LangChar125HistoryRouteImport } from './routes/{-$lang}/history'
 import { Route as Char123LangChar125LabsRouteImport } from './routes/{-$lang}/labs'
@@ -52,6 +53,11 @@ const Char123LangChar125DashboardRoute =
 const Char123LangChar125EnterRoute = Char123LangChar125EnterRouteImport.update({
   id: '/enter',
   path: '/enter',
+  getParentRoute: () => Char123LangChar125RouteRoute,
+} as any)
+const Char123LangChar125FaqRoute = Char123LangChar125FaqRouteImport.update({
+  id: '/faq',
+  path: '/faq',
   getParentRoute: () => Char123LangChar125RouteRoute,
 } as any)
 const Char123LangChar125GoalsRoute = Char123LangChar125GoalsRouteImport.update({
@@ -129,6 +135,7 @@ export interface FileRoutesByFullPath {
   '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
   '/{-$lang}/dashboard': typeof Char123LangChar125DashboardRoute
   '/{-$lang}/enter': typeof Char123LangChar125EnterRoute
+  '/{-$lang}/faq': typeof Char123LangChar125FaqRoute
   '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
   '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
   '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
@@ -147,6 +154,7 @@ export interface FileRoutesByTo {
   '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
   '/{-$lang}/dashboard': typeof Char123LangChar125DashboardRoute
   '/{-$lang}/enter': typeof Char123LangChar125EnterRoute
+  '/{-$lang}/faq': typeof Char123LangChar125FaqRoute
   '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
   '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
   '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
@@ -167,6 +175,7 @@ export interface FileRoutesById {
   '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
   '/{-$lang}/dashboard': typeof Char123LangChar125DashboardRoute
   '/{-$lang}/enter': typeof Char123LangChar125EnterRoute
+  '/{-$lang}/faq': typeof Char123LangChar125FaqRoute
   '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
   '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
   '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/contact'
     | '/{-$lang}/dashboard'
     | '/{-$lang}/enter'
+    | '/{-$lang}/faq'
     | '/{-$lang}/goals'
     | '/{-$lang}/history'
     | '/{-$lang}/labs'
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/contact'
     | '/{-$lang}/dashboard'
     | '/{-$lang}/enter'
+    | '/{-$lang}/faq'
     | '/{-$lang}/goals'
     | '/{-$lang}/history'
     | '/{-$lang}/labs'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/contact'
     | '/{-$lang}/dashboard'
     | '/{-$lang}/enter'
+    | '/{-$lang}/faq'
     | '/{-$lang}/goals'
     | '/{-$lang}/history'
     | '/{-$lang}/labs'
@@ -279,6 +291,13 @@ declare module '@tanstack/react-router' {
       path: '/enter'
       fullPath: '/{-$lang}/enter'
       preLoaderRoute: typeof Char123LangChar125EnterRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
+    }
+    '/{-$lang}/faq': {
+      id: '/{-$lang}/faq'
+      path: '/faq'
+      fullPath: '/{-$lang}/faq'
+      preLoaderRoute: typeof Char123LangChar125FaqRouteImport
       parentRoute: typeof Char123LangChar125RouteRoute
     }
     '/{-$lang}/goals': {
@@ -372,6 +391,7 @@ interface Char123LangChar125RouteRouteChildren {
   Char123LangChar125ContactRoute: typeof Char123LangChar125ContactRoute
   Char123LangChar125DashboardRoute: typeof Char123LangChar125DashboardRoute
   Char123LangChar125EnterRoute: typeof Char123LangChar125EnterRoute
+  Char123LangChar125FaqRoute: typeof Char123LangChar125FaqRoute
   Char123LangChar125GoalsRoute: typeof Char123LangChar125GoalsRoute
   Char123LangChar125HistoryRoute: typeof Char123LangChar125HistoryRoute
   Char123LangChar125LabsRoute: typeof Char123LangChar125LabsRoute
@@ -392,6 +412,7 @@ const Char123LangChar125RouteRouteChildren: Char123LangChar125RouteRouteChildren
     Char123LangChar125ContactRoute: Char123LangChar125ContactRoute,
     Char123LangChar125DashboardRoute: Char123LangChar125DashboardRoute,
     Char123LangChar125EnterRoute: Char123LangChar125EnterRoute,
+    Char123LangChar125FaqRoute: Char123LangChar125FaqRoute,
     Char123LangChar125GoalsRoute: Char123LangChar125GoalsRoute,
     Char123LangChar125HistoryRoute: Char123LangChar125HistoryRoute,
     Char123LangChar125LabsRoute: Char123LangChar125LabsRoute,
