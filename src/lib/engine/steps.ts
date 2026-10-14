@@ -200,17 +200,17 @@ const STEPS: Record<string, Steps> = {
   loseWeight: {
     en: [
       "Pick one change to your plate: a smaller portion of the heaviest meal, or no sugary drinks. Hold it for four weeks.",
-      "Walk a step floor you can hit on bad days, and add one short strength session.",
+      "Choose the stairs whenever there is a choice, and take a 10-minute walk after dinner. Small, easy, and it counts. Add one short strength session.",
       "Sleep 7–8 hours: short sleep raises hunger. Do not use a crash diet, cleanse or skipped meals.",
     ],
     no: [
       "Velg én endring på tallerkenen: mindre porsjon av det tyngste måltidet, eller ingen søte drikker. Hold den i fire uker.",
-      "Gå et skrittminimum du klarer på dårlige dager, og legg til én kort styrkeøkt.",
+      "Velg trappen når du har et valg, og ta en 10 minutters gåtur etter middag. Smått, enkelt og det teller. Legg til én kort styrkeøkt.",
       "Sov 7–8 timer: for lite søvn øker sulten. Ikke bruk krasjdiett, cleanse eller hoppede måltider.",
     ],
     pl: [
       "Wybierz jedną zmianę na talerzu: mniejszą porcję najcięższego posiłku albo brak słodzonych napojów. Utrzymaj ją cztery tygodnie.",
-      "Ustal minimum kroków, które osiągniesz nawet w gorsze dni, i dodaj jeden krótki trening siłowy.",
+      "Wybieraj schody, gdy masz wybór, i idź na 10-minutowy spacer po kolacji. Mało, prosto i się liczy. Dodaj jeden krótki trening siłowy.",
       "Śpij 7–8 godzin: krótki sen zwiększa głód. Bez drastycznej diety, oczyszczania i pomijania posiłków.",
     ],
   },
@@ -250,35 +250,35 @@ const STEPS: Record<string, Steps> = {
   },
   sleep: {
     en: [
-      "Pick a fixed wake time and a bedtime window around it, and keep both on weekends.",
-      "Last hour: lights low, screens away, no alcohol nightcap. Write tomorrow's worries on paper if your head is busy.",
-      "Get daylight in the morning and a walk during the day; both help you fall asleep at night.",
+      "Make the evening calm: lights low for the last hour before bed, warm tones if you can.",
+      "Keep a screen-free zone for the last 30 minutes. Charging the phone outside the bedroom makes it easy.",
+      "Cool, dark room and fresh bedding. Same bedtime window every day; write tomorrow's worries on paper if your head is busy.",
     ],
     no: [
-      "Velg en fast oppvåkningstid og et leggetidsvindu rundt den, og hold begge i helgene.",
-      "Siste timen: dempet lys, skjermer bort, ingen alkohol før sengetid. Skriv ned morgendagens bekymringer på papir hvis hodet er oppe i det.",
-      "Få dagslys om morgenen og en tur i løpet av dagen; begge hjelper deg å sovne om kvelden.",
+      "Gjør kvelden rolig: dempet lys den siste timen før leggetid, gjerne i varme toner.",
+      "Ha en skjermfri sone de siste 30 minuttene. Å lade mobilen utenfor soverommet gjør det enkelt.",
+      "Kjølig, mørkt rom og rent sengetøy. Samme leggetid hver dag; skriv ned morgendagens bekymringer på papir hvis hodet er oppe i det.",
     ],
     pl: [
-      "Wybierz stałą porę wstawania i okno kładzenia się wokół niej oraz trzymaj je także w weekendy.",
-      "Ostatnia godzina: przygaszone światło, bez ekranów, bez alkoholu przed snem. Zapisz jutrzejsze zmartwienia na kartce, jeśli głowa jest pełna.",
-      "Złap światło dzienne rano i spacer w ciągu dnia; oba pomagają zasnąć wieczorem.",
+      "Zadbaj o spokojny wieczór: przyciemnione światło przez ostatnią godzinę przed snem, najlepiej w ciepłych tonach.",
+      "Wprowadź strefę bez ekranów na ostatnie 30 minut. Ładowanie telefonu poza sypialnią to ułatwia.",
+      "Chłodny, ciemny pokój i świeża pościel. Ta sama pora kładzenia się codziennie; zapisz jutrzejsze zmartwienia na kartce, jeśli głowa jest pełna.",
     ],
   },
   betterDays: {
     en: [
       "Go outside for daylight every morning, even for ten minutes.",
-      "Walk daily at a set time. Make it a rule you do not renegotiate.",
+      "Choose the stairs whenever there is a choice, and take a 10-minute walk after dinner. Small, easy, and it counts.",
       "Have one real conversation with another person each day, and a few slow breaths when stress spikes.",
     ],
     no: [
       "Gå ut i dagslys hver morgen, selv i ti minutter.",
-      "Gå daglig til et fast tidspunkt. Gjør det til en regel du ikke forhandler om.",
+      "Velg trappen når du har et valg, og ta en 10 minutters gåtur etter middag. Smått, enkelt og det teller.",
       "Ha én ekte samtale med et annet menneske hver dag, og noen rolige åndedrag når stresset topper seg.",
     ],
     pl: [
       "Wychodź na światło dzienne każdego ranka, nawet na dziesięć minut.",
-      "Spaceruj codziennie o stałej porze. Zrób z tego zasadę, której się nie negocjuje.",
+      "Wybieraj schody, gdy masz wybór, i idź na 10-minutowy spacer po kolacji. Mało, prosto i się liczy.",
       "Codziennie porozmawiaj naprawdę z drugą osobą i weź kilka spokojnych oddechów, gdy stres rośnie.",
     ],
   },
@@ -305,7 +305,7 @@ export function stepsFor(id: string | undefined, bmi: number | null, _profile: P
   return out;
 }
 
-export type ActionImage = "daylight" | "sleep" | "walk" | "food" | "labs";
+export type ActionImage = "daylight" | "food" | "labs" | "drink" | "sleep" | "move";
 
 const IMAGE: Record<string, ActionImage> = {
   vitaminD: "daylight",
@@ -315,12 +315,12 @@ const IMAGE: Record<string, ActionImage> = {
   hemoglobin: "sleep",
   tsh: "sleep",
   crp: "sleep",
-  loseWeight: "walk",
-  muscle: "walk",
-  betterDays: "walk",
-  glucose: "food",
-  hba1c: "food",
-  triglycerides: "food",
+  loseWeight: "move",
+  muscle: "move",
+  betterDays: "move",
+  glucose: "drink",
+  hba1c: "drink",
+  triglycerides: "drink",
   cholesterol: "food",
   ldl: "food",
   b12: "food",
@@ -342,4 +342,18 @@ const DRINK_IDS = new Set(["glucose", "hba1c", "triglycerides", "foundation", "l
 
 export function tipFor(id: string | undefined, lang: Lang): string | undefined {
   return id && DRINK_IDS.has(id) ? DRINK_TIP[lang] : undefined;
+}
+
+const DOG: Record<Lang, { title: string; body: string; label: string }> = {
+  en: { title: "Thinking about a walking buddy?", body: "A dog never cancels a walk. It is also a big commitment, so only if it fits your life. If you are curious, doggmatch.com can help you find a breed that suits you.", label: "Find a breed at doggmatch.com" },
+  no: { title: "Tenker du på en turkamerat?", body: "En hund avlyser aldri en tur. Det er også en stor forpliktelse, så bare hvis det passer livet ditt. Er du nysgjerrig, kan doggmatch.com hjelpe deg å finne en rase som passer deg.", label: "Finn riktig rase på doggmatch.com" },
+  pl: { title: "Myślisz o towarzyszu spacerów?", body: "Pies nigdy nie odwoła spaceru. To także duże zobowiązanie, więc tylko jeśli pasuje do Twojego życia. Jeśli jesteś ciekaw/a, doggmatch.com pomoże znaleźć rasę, która do Ciebie pasuje.", label: "Znajdź rasę na doggmatch.com" },
+};
+const DOG_IDS = new Set(["loseWeight", "betterDays", "moreEnergy"]);
+
+/** Soft, optional dog idea for movement actions. Never shown for a blood-value action. */
+export function dogFor(id: string | undefined, lang: Lang) {
+  if (!id || !DOG_IDS.has(id)) return undefined;
+  const d = DOG[lang];
+  return { title: d.title, body: d.body, href: "https://doggmatch.com", label: d.label };
 }

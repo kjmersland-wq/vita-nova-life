@@ -2,20 +2,19 @@ import { socialMeta } from "@/lib/social";
 import { useMemo } from "react";
 import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
-import { RunGate, Page, StepHeader } from "@/components/site";
+import { RunGate, Page, StepHeader, ImageSlot } from "@/components/site";
 import { saveRun, useAppState, useHydrated } from "@/lib/store";
 import { analyze } from "@/lib/engine/rules";
 import { markerLabel } from "@/lib/engine/markers";
 import { buildProgram } from "@/lib/engine/program";
 import daylightImg from "@/assets/vita-daylight-person.jpg";
-import sleepImg from "@/assets/vita-sofa.jpg";
-import walkImg from "@/assets/vita-walk.jpg";
 import foodImg from "@/assets/vita-food-coffee.jpg";
 import labsImg from "@/assets/vita-table.jpg";
 import type { Finding } from "@/lib/engine/types";
 import { Button } from "@/components/ui/button";
 
-const ACTION_IMG = { daylight: daylightImg, sleep: sleepImg, walk: walkImg, food: foodImg, labs: labsImg } as const;
+const ACTION_IMG = { daylight: daylightImg, food: foodImg, labs: labsImg } as const;
+const isSlot = (k: string): k is "drink" | "sleep" | "move" => k === "drink" || k === "sleep" || k === "move";
 
 const T = {
   en: {
@@ -40,7 +39,7 @@ const T = {
     restTitle: "You do not need to think about these any more",
     restBody: "These sit inside your lab's range. Nothing to do here.",
     tipTitle: "A small drink swap",
-    alts: { daylight: "A person outdoors in soft morning light", sleep: "A woman relaxing on a sofa in a calm, softly lit living room", walk: "A person walking along a quiet coastal path", food: "A set table with a plate of beans and greens and a cup of coffee", labs: "A person reading a lab printout at a kitchen table" },
+    alts: { daylight: "A person outdoors in soft morning light", food: "A set table with a plate of beans and greens and a cup of coffee", labs: "A person reading a lab printout at a kitchen table", drink: "A clear glass of cold, unsweetened mineral water with fresh raspberries and a slice of lemon.", sleep: "A corner of a made bed with cool, washed-linen bedding in soft earth tones.", move: "A calm, green path winding through a park in beautiful morning light." },
     howTo: "How to do it",
     productSlot: "Product slot — intentionally empty. We name the nutrient, not a shelf.",
     doNotBuy: "You can leave these alone",
@@ -77,7 +76,7 @@ const T = {
     restTitle: "Dette trenger du ikke tenke mer på",
     restBody: "Disse ligger innenfor laboratoriets område. Ingenting å gjøre her.",
     tipTitle: "Et lite drikkebytte",
-    alts: { daylight: "En person ute i mykt morgenlys", sleep: "En kvinne som slapper av i en sofa i en rolig, dempet opplyst stue", walk: "En person som går på en rolig sti langs kysten", food: "Et dekket bord med en tallerken bønner og grønt og en kopp kaffe", labs: "En person som leser en labutskrift ved kjøkkenbordet" },
+    alts: { daylight: "En person ute i mykt morgenlys", food: "Et dekket bord med en tallerken bønner og grønt og en kopp kaffe", labs: "En person som leser en labutskrift ved kjøkkenbordet", drink: "Et klart glass med kaldt, usøtet mineralvann, friske bringebær og en sitronskive.", sleep: "Et hjørne av en oppredd seng med svalt sengetøy i vasket lin og dempede jordfarger.", move: "En rolig, grønn sti som slynger seg gjennom en park i vakkert morgenlys." },
     howTo: "Slik gjør du det",
     productSlot: "Produktplass — bevisst tom. Vi navngir næringsstoffet, ikke en hylle.",
     doNotBuy: "Dette kan du la ligge",
@@ -114,7 +113,7 @@ const T = {
     restTitle: "O tym nie musisz już myśleć",
     restBody: "Te wartości mieszczą się w zakresie laboratorium. Nic tu nie trzeba robić.",
     tipTitle: "Mała zamiana napoju",
-    alts: { daylight: "Osoba na zewnątrz w łagodnym porannym świetle", sleep: "Kobieta odpoczywająca na sofie w spokojnym, łagodnie oświetlonym salonie", walk: "Osoba idąca spokojną ścieżką nad wybrzeżem", food: "Nakryty stół z talerzem fasoli i zieleniny oraz filiżanką kawy", labs: "Osoba czytająca wydruk badań przy kuchennym stole" },
+    alts: { daylight: "Osoba na zewnątrz w łagodnym porannym świetle", food: "Nakryty stół z talerzem fasoli i zieleniny oraz filiżanką kawy", labs: "Osoba czytająca wydruk badań przy kuchennym stole", drink: "Przejrzysta szklanka zimnej, niesłodzonej wody mineralnej ze świeżymi malinami i plasterkiem cytryny.", sleep: "Fragment pościelonego łóżka z chłodną, prana lnianą pościelą w stonowanych, ziemistych kolorach.", move: "Spokojna, zielona ścieżka wijąca się przez park w pięknym porannym świetle." },
     howTo: "Jak to zrobić",
     productSlot: "Miejsce na produkt — celowo puste. Nazywamy składnik odżywczy, nie półkę sklepową.",
     doNotBuy: "Tych rzeczy możesz sobie odpuścić",
@@ -244,7 +243,11 @@ function ResultsPage() {
                 <span className="font-display text-3xl leading-none text-accent">{i + 1}</span>
                 <div className="min-w-0 flex-1">
                   {a.image ? (
-                    <img src={ACTION_IMG[a.image]} alt={t.alts[a.image]} loading="lazy" width={1280} height={560} className="mb-3 aspect-[16/7] w-full rounded-md object-cover" />
+                    isSlot(a.image) ? (
+                      <ImageSlot slot={a.image} alt={t.alts[a.image]} className="mb-3 aspect-[16/7]" />
+                    ) : (
+                      <img src={ACTION_IMG[a.image]} alt={t.alts[a.image]} loading="lazy" width={1280} height={560} className="mb-3 aspect-[16/7] w-full rounded-md object-cover" />
+                    )
                   ) : null}
                   <h3 className="text-xl">{a.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{a.detail}</p>
@@ -262,6 +265,13 @@ function ResultsPage() {
                     <div className="mt-3 rounded-lg border border-border bg-secondary/60 p-4">
                       <p className="text-sm font-semibold">{t.tipTitle}</p>
                       <p className="mt-1 text-sm text-muted-foreground">{a.tip}</p>
+                    </div>
+                  ) : null}
+                  {a.idea ? (
+                    <div className="mt-3 rounded-lg border border-border bg-secondary/60 p-4">
+                      <p className="text-sm font-semibold">{a.idea.title}</p>
+                      <p className="mt-1 text-sm text-muted-foreground">{a.idea.body}</p>
+                      <a href={a.idea.href} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm underline">{a.idea.label}</a>
                     </div>
                   ) : null}
                   {a.affiliateSlot ? (

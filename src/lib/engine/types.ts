@@ -82,7 +82,10 @@ export type Action = {
   /** A short, warm tip shown in its own box (e.g. a drink swap for blood sugar). */
   tip?: string;
   /** Which illustration to show with the action. */
-  image?: "daylight" | "sleep" | "walk" | "food" | "labs";
+  image?: "daylight" | "food" | "labs" | "drink" | "sleep" | "move";
+  /** Optional soft link shown inside the tip box. */
+  /** Optional soft idea shown in its own box, with one link. */
+  idea?: { title: string; body: string; href: string; label: string };
 };
 
 export type RedFlag = { title: string; detail: string };

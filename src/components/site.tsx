@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import daylightImg from "@/assets/vita-daylight.jpg";
-import { ArrowRight, ArrowUpRight, Menu } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Image as ImageIcon, Menu } from "lucide-react";
 import logo from "@/assets/vita-logo.png";
 import lightLogo from "@/assets/vita-logo-light.png";
 import { SocialShare } from "@/components/social-share";
@@ -94,6 +94,27 @@ const NOTE_T = {
 export function DisclaimerNote() {
   const t = useDict(NOTE_T);
   return <p className="mt-8 text-xs leading-relaxed text-muted-foreground">{t}</p>;
+}
+
+const SLOT_FILES = import.meta.glob("../assets/slots/*.{jpg,jpeg,png,webp}", {
+  eager: true,
+  import: "default",
+}) as Record<string, string>;
+
+/**
+ * Image slot. Shows a real picture if a file named after the slot exists in src/assets/slots/
+ * (e.g. slots/drink.jpg, slots/sleep.jpg, slots/move.jpg, slots/method.jpg), otherwise a calm
+ * placeholder that shows the description of the picture that belongs here.
+ */
+export function ImageSlot({ slot, alt, className = "" }: { slot: string; alt: string; className?: string }) {
+  const src = Object.entries(SLOT_FILES).find(([p]) => p.split("/").pop()?.split(".")[0] === slot)?.[1];
+  if (src) return <img src={src} alt={alt} loading="lazy" className={`w-full rounded-md object-cover ${className}`} />;
+  return (
+    <div role="img" aria-label={alt} className={`flex w-full flex-col items-center justify-center gap-2 rounded-md border border-dashed border-border bg-secondary/60 px-6 py-8 text-center ${className}`}>
+      <ImageIcon size={22} strokeWidth={1.5} className="text-muted-foreground" aria-hidden="true" />
+      <p className="max-w-md text-xs leading-relaxed text-muted-foreground">{alt}</p>
+    </div>
+  );
 }
 
 export function Page({ children, flowStep }: { children: ReactNode; flowStep?: string }) {

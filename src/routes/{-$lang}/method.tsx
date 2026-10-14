@@ -1,8 +1,8 @@
 import { socialMeta } from "@/lib/social";
 import { createFileRoute } from "@tanstack/react-router";
 import { LangLink, toLang, useDict, useLangNavigate } from "@/lib/i18n";
-import { Page, StepHeader } from "@/components/site";
-import tableImg from "@/assets/vita-table.jpg";
+import { Page, StepHeader, ImageSlot } from "@/components/site";
+
 
 const T = {
   en: {
@@ -16,7 +16,7 @@ const T = {
     step: "Method",
     title: "The rules, in public",
     intro: "Here is how we think, in plain words: your lab's numbers, your everyday life, and a small plan you can actually keep. No guessing, no chatbot.",
-    imgAlt: "A person reading a lab printout at a kitchen table, with oatmeal and berries and a cup of coffee",
+    imgAlt: "A minimalist, calm image in warm tones: a cup of tea or water next to an open linen notebook on a wooden tray. Natural morning light.",
     prioTitle: "How we prioritise, in short",
     prioLine: "1. Compare. 2. Rank. 3. Choose up to three. 4. Plan four weeks.",
     prio: [
@@ -58,7 +58,7 @@ const T = {
     step: "Metode",
     title: "Reglene, åpent tilgjengelig",
     intro: "Slik tenker vi, på vanlig norsk: tallene fra laboratoriet ditt, hverdagen din og en liten plan du faktisk kan holde. Ingen gjetting, ingen chatbot.",
-    imgAlt: "En person som leser en labutskrift ved kjøkkenbordet, med havregrøt, bær og en kopp kaffe",
+    imgAlt: "Et minimalistisk, rolig bilde i varme toner: en kopp te eller vann ved siden av en åpen notatbok i lin på et trefat. Naturlig morgenlys.",
     prioTitle: "Slik prioriterer vi, kort fortalt",
     prioLine: "1. Sammenlign. 2. Rangér. 3. Velg opptil tre. 4. Plan for fire uker.",
     prio: [
@@ -100,7 +100,7 @@ const T = {
     step: "Metoda",
     title: "Zasady, jawnie",
     intro: "Oto jak myślimy, prostymi słowami: liczby z Twojego laboratorium, Twój zwykły dzień i mały plan, który naprawdę utrzymasz. Bez zgadywania i bez chatbota.",
-    imgAlt: "Osoba czytająca wydruk badań przy kuchennym stole, obok owsianka z jagodami i filiżanka kawy",
+    imgAlt: "Minimalistyczny, spokojny obraz w ciepłych tonach: filiżanka herbaty lub wody obok otwartego lnianego notesu na drewnianej tacy. Naturalne poranne światło.",
     prioTitle: "Jak ustalamy priorytety, w skrócie",
     prioLine: "1. Porównaj. 2. Uszereguj. 3. Wybierz do trzech. 4. Plan na cztery tygodnie.",
     prio: [
@@ -161,7 +161,8 @@ function MethodPage() {
           title={t.title}
           intro={t.intro}
         />
-        <img src={tableImg} alt={t.imgAlt} width={1280} height={864} className="mb-10 aspect-[16/9] w-full rounded-md object-cover" />
+        {/* Image slot: Et minimalistisk, rolig bilde i varme toner: en kopp te eller vann ved siden av en åpen notatbok i lin på et trefat. Naturlig morgenlys. Drop slots/method.jpg into src/assets/slots to replace the placeholder. */}
+        <ImageSlot slot="method" alt={t.imgAlt} className="mb-10 aspect-[16/9]" />
         <section className="card-surface mb-10 p-5 sm:p-6">
           <h2 className="text-2xl">{t.prioTitle}</h2>
           <p className="mt-1 text-sm font-medium text-primary">{t.prioLine}</p>

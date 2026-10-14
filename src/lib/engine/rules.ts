@@ -12,7 +12,7 @@ import type {
   RedFlag,
 } from "./types";
 import type { Lang } from "@/lib/i18n";
-import { imageFor, stepsFor, tipFor } from "./steps";
+import { dogFor, imageFor, stepsFor, tipFor } from "./steps";
 
 type Tr = Record<Lang, string>;
 function t(tr: Tr, lang: Lang): string {
@@ -310,9 +310,9 @@ function actionForFinding(
               kind: "supplement",
               title: t(
                 {
-                  en: "Address the low vitamin D",
-                  no: "Ta tak i den lave vitamin D-verdien",
-                  pl: "Zajmij się niskim poziomem witaminy D",
+                  en: "Give your vitamin D a boost",
+                  no: "Gi D-vitaminet ditt et løft",
+                  pl: "Podnieś swój poziom witaminy D",
                 },
                 lang,
               ),
@@ -343,7 +343,7 @@ function actionForFinding(
         action: {
           kind: supplementsAllowed ? "supplement" : "measure",
           title: t(
-            { en: "Cover the low B12", no: "Dekk opp den lave B12-verdien", pl: "Uzupełnij niski poziom B12" },
+            { en: "Top up your B12 the easy way", no: "Fyll opp B12 på den enkle måten", pl: "Uzupełnij B12 w prosty sposób" },
             lang,
           ),
           detail: supplementsAllowed
@@ -374,9 +374,9 @@ function actionForFinding(
           kind: "measure",
           title: t(
             {
-              en: "Low iron store — confirm it before training harder",
-              no: "Lavt jernlager — bekreft det før du trener hardere",
-              pl: "Niski magazyn żelaza — potwierdź to przed cięższym treningiem",
+              en: "Check your iron before you push harder",
+              no: "Sjekk jernet ditt før du presser deg hardere",
+              pl: "Sprawdź żelazo, zanim zaczniesz trenować ciężej",
             },
             lang,
           ),
@@ -397,7 +397,7 @@ function actionForFinding(
         action: {
           kind: "measure",
           title: t(
-            { en: "Repeat the thyroid test", no: "Ta skjoldbruskprøven på nytt", pl: "Powtórz badanie tarczycy" },
+            { en: "Take the thyroid test once more", no: "Ta skjoldbruskprøven en gang til", pl: "Zrób badanie tarczycy jeszcze raz" },
             lang,
           ),
           detail: t(
@@ -419,9 +419,9 @@ function actionForFinding(
           kind: "food",
           title: t(
             {
-              en: "Discuss the high blood sugar with a clinician",
-              no: "Snakk med lege om det høye blodsukkeret",
-              pl: "Omów podwyższony cukier z lekarzem",
+              en: "Talk through your blood sugar with someone who can help",
+              no: "Snakk gjennom blodsukkeret med noen som kan hjelpe",
+              pl: "Omów swój poziom cukru z kimś, kto pomoże",
             },
             lang,
           ),
@@ -492,9 +492,9 @@ function actionForFinding(
           kind: "measure",
           title: t(
             {
-              en: "Get the low hemoglobin looked at",
-              no: "Få den lave hemoglobinverdien undersøkt",
-              pl: "Zbadaj przyczynę niskiej hemoglobiny",
+              en: "Find out what is behind your hemoglobin",
+              no: "Finn ut hva som ligger bak hemoglobinverdien",
+              pl: "Dowiedz się, co stoi za Twoją hemoglobiną",
             },
             lang,
           ),
@@ -515,7 +515,7 @@ function actionForFinding(
         action: {
           kind: "measure",
           title: t(
-            { en: "Retest CRP when you are well", no: "Ta ny CRP-prøve når du er frisk", pl: "Powtórz CRP, gdy będziesz zdrowy" },
+            { en: "Retest CRP once you feel well again", no: "Ta ny CRP-prøve når du er frisk igjen", pl: "Powtórz CRP, gdy znów poczujesz się dobrze" },
             lang,
           ),
           detail: t(
@@ -972,7 +972,8 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
       const steps = stepsFor(a.id, bmi, profile, lang);
       const tip = tipFor(a.id, lang);
       const image = imageFor(a.id);
-      return { ...a, ...(steps ? { steps } : {}), ...(tip ? { tip } : {}), ...(image ? { image } : {}) };
+      const idea = dogFor(a.id, lang);
+      return { ...a, ...(steps ? { steps } : {}), ...(tip ? { tip } : {}), ...(image ? { image } : {}), ...(idea ? { idea } : {}) };
     }),
     avoid,
     redFlags,
