@@ -1,3 +1,4 @@
+import { socialMeta } from "@/lib/social";
 import { createFileRoute } from "@tanstack/react-router";
 import tableImg from "@/assets/vita-food-coffee.jpg";
 import { LangLink, toLang, useDict, useLangNavigate } from "@/lib/i18n";
@@ -134,6 +135,7 @@ export const Route = createFileRoute("/{-$lang}/")({
     const m = T[toLang(params.lang)].meta;
     return {
       meta: [
+        ...socialMeta(toLang(params.lang)),
         { property: "og:type", content: "website" },
         { name: "twitter:card", content: "summary_large_image" },
         { title: m.title },
