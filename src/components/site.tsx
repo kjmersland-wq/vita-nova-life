@@ -201,6 +201,8 @@ export function Field({
 export const inputClass =
   "mt-2 h-11 w-full rounded-md border border-input bg-card px-3 py-2 text-sm outline-none focus:border-primary focus:ring-2 focus:ring-ring/25";
 
+const YESNO = { en: { yes: "Yes", no: "No" }, no: { yes: "Ja", no: "Nei" }, pl: { yes: "Tak", no: "Nie" } };
+
 export function Toggle({
   label,
   value,
@@ -210,6 +212,7 @@ export function Toggle({
   value: boolean;
   onChange: (v: boolean) => void;
 }) {
+  const yn = useDict(YESNO);
   return (
     <div className="flex items-center justify-between gap-4 rounded-lg border border-border bg-card px-4 py-3">
       <span className="text-sm">{label}</span>
@@ -223,7 +226,7 @@ export function Toggle({
             onClick={() => onChange(v)}
             className="h-7 rounded-sm px-3 text-xs font-semibold"
           >
-            {v ? "Yes" : "No"}
+            {v ? yn.yes : yn.no}
           </Button>
         ))}
       </div>

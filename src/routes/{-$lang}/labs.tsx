@@ -4,7 +4,7 @@ import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n"
 import { createFileRoute } from "@tanstack/react-router";
 import { Page, StepHeader, inputClass, DisclaimerNote } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
-import { MARKERS, markerLabel } from "@/lib/engine/markers";
+import { MARKERS, markerLabel, markerPlain } from "@/lib/engine/markers";
 import { extractFromDocument, demoLabs, demoLabsInRange } from "@/lib/demo";
 import type { LabEntry } from "@/lib/engine/types";
 import { Button } from "@/components/ui/button";
@@ -248,7 +248,7 @@ function LabsPage() {
                     </Button>
                   ) : null}
                 </div>
-                <p className="mt-1 text-xs text-muted-foreground">{m.plain}</p>
+                <p className="mt-1 text-xs text-muted-foreground">{markerPlain(m.key, lang)}</p>
                 <div className="mt-3 grid gap-3 sm:grid-cols-5">
                   <label className="text-xs">
                     {t.value}
