@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import daylightImg from "@/assets/vita-daylight.jpg";
-import { ArrowRight, ArrowUpRight, HeartPulse, Menu } from "lucide-react";
+import { ArrowRight, ArrowUpRight, Menu } from "lucide-react";
+import logo from "@/assets/vita-logo.png";
+import lightLogo from "@/assets/vita-logo-light.png";
+import { SocialShare } from "@/components/social-share";
 import { useState } from "react";
 import { useRouterState } from "@tanstack/react-router";
 import { Button } from "@/components/ui/button";
@@ -42,9 +45,8 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-30 border-b border-border bg-background/95 backdrop-blur-xl">
       <div className="container-page flex h-[76px] items-center justify-between gap-4">
-        <LangLink to="/" className="flex items-center gap-2.5" onClick={() => setOpen(false)}>
-          <span className="flex size-9 items-center justify-center rounded-md bg-primary text-primary-foreground"><HeartPulse size={20} strokeWidth={2} /></span>
-          <span className="font-display text-[17px] font-bold leading-none">Vita Nova <span className="text-primary">Life</span></span>
+        <LangLink to="/" className="flex min-w-0 shrink items-center" onClick={() => setOpen(false)}>
+          <img src={logo} alt="Vita Nova Life" className="h-auto w-[172px] max-w-full sm:w-[216px]" />
         </LangLink>
         <nav className="hidden items-center gap-8 text-[13px] font-semibold text-muted-foreground lg:flex">
           {links.map((link) => <LangLink key={link.to} to={link.to} className="hover:text-primary" activeProps={{ className: "text-primary" }}>{link.label}</LangLink>)}
@@ -66,9 +68,10 @@ export function SiteFooter() {
     <footer className="mt-20 bg-deep py-14 text-sm text-primary-foreground/65">
       <div className="container-page grid gap-10 md:grid-cols-[1fr_auto]">
         <div>
-          <LangLink to="/" className="font-display text-xl font-semibold text-primary-foreground">Vita Nova Life</LangLink>
+          <LangLink to="/" className="inline-block"><img src={lightLogo} alt="Vita Nova Life" loading="lazy" className="h-auto w-[224px] max-w-full" /></LangLink>
           <p className="mt-4 max-w-md leading-relaxed">{t.tagline}</p>
           <p className="mt-5 max-w-xl text-xs leading-relaxed">{t.disclaimer}</p>
+          <SocialShare />
         </div>
         <div className="flex flex-col items-start gap-3 font-semibold text-primary-foreground">
           <LangLink to="/method" className="hover:opacity-70">{t.method} <ArrowUpRight className="inline size-3" /></LangLink>
