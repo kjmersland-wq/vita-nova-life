@@ -9,3 +9,6 @@
 - [x] Add one everyday-movement habit per applicable program week without displacing clinician-first safety.
 - [x] Add translated Pro daily-line preview and Method note; place quiet movement images on Home and Program only.
 - [x] Verify program caps, override safety, translations and preview.
+- [ ] Create and apply premium logo with desktop/mobile favicon.
+- [ ] Add English, Norwegian and Polish sharing images and platform sharing buttons.
+- [ ] Verify branding, localized metadata and sharing without exposing health data.
