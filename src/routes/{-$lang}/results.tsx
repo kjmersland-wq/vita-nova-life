@@ -10,10 +10,13 @@ import { buildProgram } from "@/lib/engine/program";
 import daylightImg from "@/assets/vita-daylight-person.jpg";
 import foodImg from "@/assets/vita-food-coffee.jpg";
 import labsImg from "@/assets/vita-table.jpg";
+import sleepImg from "@/assets/vita-sofa.jpg";
+import walkImg from "@/assets/vita-walk.jpg";
 import type { Finding } from "@/lib/engine/types";
 import { Button } from "@/components/ui/button";
 
 const ACTION_IMG = { daylight: daylightImg, food: foodImg, labs: labsImg } as const;
+const SLOT_FALLBACK = { drink: foodImg, sleep: sleepImg, move: walkImg } as const;
 const isSlot = (k: string): k is "drink" | "sleep" | "move" => k === "drink" || k === "sleep" || k === "move";
 
 const T = {
@@ -244,7 +247,7 @@ function ResultsPage() {
                 <div className="min-w-0 flex-1">
                   {a.image ? (
                     isSlot(a.image) ? (
-                      <ImageSlot slot={a.image} alt={t.alts[a.image]} className="mb-3 aspect-[16/7]" />
+                      <ImageSlot slot={a.image} alt={t.alts[a.image]} fallback={SLOT_FALLBACK[a.image]} className="mb-3 aspect-[16/7]" />
                     ) : (
                       <img src={ACTION_IMG[a.image]} alt={t.alts[a.image]} loading="lazy" width={1280} height={560} className="mb-3 aspect-[16/7] w-full rounded-md object-cover" />
                     )

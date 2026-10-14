@@ -2,6 +2,7 @@ import { socialMeta } from "@/lib/social";
 import { createFileRoute } from "@tanstack/react-router";
 import { LangLink, toLang, useDict, useLangNavigate } from "@/lib/i18n";
 import { Page, StepHeader, ImageSlot } from "@/components/site";
+import tableImg from "@/assets/vita-table.jpg";
 
 
 const T = {
@@ -162,7 +163,7 @@ function MethodPage() {
           intro={t.intro}
         />
         {/* Image slot: Et minimalistisk, rolig bilde i varme toner: en kopp te eller vann ved siden av en åpen notatbok i lin på et trefat. Naturlig morgenlys. Drop slots/method.jpg into src/assets/slots to replace the placeholder. */}
-        <ImageSlot slot="method" alt={t.imgAlt} className="mb-10 aspect-[16/9]" />
+        <ImageSlot slot="method" alt={t.imgAlt} fallback={tableImg} className="mb-10 aspect-[16/9]" />
         <section className="card-surface mb-10 p-5 sm:p-6">
           <h2 className="text-2xl">{t.prioTitle}</h2>
           <p className="mt-1 text-sm font-medium text-primary">{t.prioLine}</p>

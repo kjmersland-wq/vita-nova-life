@@ -107,12 +107,14 @@ const SLOT_FILES = import.meta.glob("../assets/slots/*.{jpg,jpeg,png,webp}", {
 
 /**
  * Image slot. Shows a real picture if a file named after the slot exists in src/assets/slots/
- * (e.g. slots/drink.jpg, slots/sleep.jpg, slots/move.jpg, slots/method.jpg), otherwise a calm
- * placeholder that shows the description of the picture that belongs here.
+ * (e.g. slots/drink.jpg, slots/sleep.jpg, slots/move.jpg, slots/method.jpg), otherwise the fallback
+ * picture if one is given, otherwise a calm placeholder that shows the description of the picture that belongs here.
  */
-export function ImageSlot({ slot, alt, className = "" }: { slot: string; alt: string; className?: string }) {
-  const src = Object.entries(SLOT_FILES).find(([p]) => p.split("/").pop()?.split(".")[0] === slot)?.[1];
-  if (src) return <img src={src} alt={alt} loading="lazy" className={`w-full rounded-md object-cover ${className}`} />;
+export function ImageSlot({ slot, alt, className = "", fallback }: { slot: string; alt: string; className?: string; fallback?: string }) {
+  const slotFile = Object.entries(SLOT_FILES).find(([p]) => p.split("/").pop()?.split(".")[0] === slot)?.[1];
+  const src = slotFile ?? fallback;
+  // A fallback photo is only a mood picture for the described image, so it is marked decorative.
+  if (src) return <img src={src} alt={slotFile ? alt : ""} loading="lazy" className={`w-full rounded-md object-cover ${className}`} />;
   return (
     <div role="img" aria-label={alt} className={`flex w-full flex-col items-center justify-center gap-2 rounded-md border border-dashed border-border bg-secondary/60 px-6 py-8 text-center ${className}`}>
       <ImageIcon size={22} strokeWidth={1.5} className="text-muted-foreground" aria-hidden="true" />
