@@ -31,6 +31,7 @@ const T = {
     step: "Your result",
     seeDoctor: "See a doctor about this",
     threeActions: "Your three actions",
+    howTo: "How to do it",
     productSlot: "Product slot — intentionally empty. We name the nutrient, not a shelf.",
     doNotBuy: "Do not buy, do not do",
     markerByMarker: "Marker by marker",
@@ -63,6 +64,7 @@ const T = {
     step: "Resultatet ditt",
     seeDoctor: "Oppsøk lege om dette",
     threeActions: "Dine tre tiltak",
+    howTo: "Slik gjør du det",
     productSlot: "Produktplass — bevisst tom. Vi navngir næringsstoffet, ikke en hylle.",
     doNotBuy: "Ikke kjøp, ikke gjør",
     markerByMarker: "Markør for markør",
@@ -95,6 +97,7 @@ const T = {
     step: "Twój wynik",
     seeDoctor: "Skonsultuj się z lekarzem w tej sprawie",
     threeActions: "Twoje trzy działania",
+    howTo: "Jak to zrobić",
     productSlot: "Miejsce na produkt — celowo puste. Nazywamy składnik odżywczy, nie półkę sklepową.",
     doNotBuy: "Czego nie kupować, czego nie robić",
     markerByMarker: "Marker po markerze",
@@ -222,6 +225,16 @@ function ResultsPage() {
                 <div>
                   <h3 className="text-xl">{a.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{a.detail}</p>
+                  {a.steps?.length ? (
+                    <div className="mt-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t.howTo}</p>
+                      <ul className="mt-1 list-disc space-y-1 pl-5 text-sm">
+                        {a.steps.map((st) => (
+                          <li key={st}>{st}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  ) : null}
                   {a.affiliateSlot ? (
                     <p className="mt-3 rounded-md border border-dashed border-border px-3 py-2 text-xs text-muted-foreground">
                       {t.productSlot}

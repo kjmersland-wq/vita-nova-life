@@ -1,5 +1,6 @@
 import { useSyncExternalStore } from "react";
 import type { Goals, Labs, Profile, Run } from "./engine/types";
+import { RUN_SCHEMA_VERSION } from "./history";
 
 const KEY = "vitanova.v1";
 
@@ -104,7 +105,7 @@ export function resetRun() {
 }
 
 export function saveRun(run: Run) {
-  setState((s) => ({ runs: [run, ...s.runs].slice(0, 20), guestRunUsed: true }));
+  setState((s) => ({ runs: [{ ...run, schemaVersion: RUN_SCHEMA_VERSION }, ...s.runs].slice(0, 20), guestRunUsed: true }));
 }
 
 export function deleteRun(id: string) {

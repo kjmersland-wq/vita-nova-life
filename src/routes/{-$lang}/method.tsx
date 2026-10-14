@@ -15,6 +15,17 @@ const T = {
     step: "Method",
     title: "The rules, in public",
     intro: "Vita Nova Life is a rules engine, not a chatbot. Here is exactly what it does and refuses to do.",
+    prioTitle: "How we prioritise, in short",
+    prioLine: "1. Compare. 2. Rank. 3. Choose up to three. 4. Plan four weeks.",
+    prio: [
+      { t: "Your lab's range decides", b: "Each value is compared with the low and high your own lab printed. We do not use our own optimal ranges." },
+      { t: "Rank by how far out and how much it matters", b: "Values outside your range are scored by distance, your goal, activity, daylight, diet and season. The top score becomes your one priority." },
+      { t: "Up to three actions, ranked by effect and ease", b: "Actions that help most and are easiest to keep come first. Lifestyle and food go before supplements. Fewer than three is fine." },
+      { t: "A four-week plan", b: "The actions become a simple plan: at most three habits per week." },
+    ],
+    noActionTitle: "This needs no action",
+    noActionBody: "A value inside your lab's range is shown as 'in range', and nothing is suggested for it. If everything is in range, we say so plainly and suggest no fix. Not acting is a valid result.",
+    sellNote: "We do not sell tests and we do not push supplements. A supplement is only named when a value is below your lab's range.",
     rules: [
       { t: "We use your lab's range, not ours", b: "Reference ranges differ between labs and between countries. You type the low and high your lab printed, and that is what a value is judged against. If you leave the range out, the marker is marked unknown." },
       { t: "Empty means empty", b: "A missing value produces \"insufficient data\" for that marker. We do not estimate, interpolate, or read numbers off a blurry photo without your confirmation." },
@@ -45,6 +56,17 @@ const T = {
     step: "Metode",
     title: "Reglene, åpent tilgjengelig",
     intro: "Vita Nova Life er en regelmotor, ikke en chatbot. Her er nøyaktig hva den gjør og nekter å gjøre.",
+    prioTitle: "Slik prioriterer vi, kort fortalt",
+    prioLine: "1. Sammenlign. 2. Rangér. 3. Velg opptil tre. 4. Plan for fire uker.",
+    prio: [
+      { t: "Laboratoriets område avgjør", b: "Hver verdi sammenlignes med nedre og øvre grense ditt eget laboratorium oppga. Vi bruker ikke våre egne optimalområder." },
+      { t: "Rangert etter avstand og betydning", b: "Verdier utenfor området får poeng ut fra avstand, målet ditt, aktivitet, dagslys, kosthold og årstid. Høyeste poengsum blir din ene prioritet." },
+      { t: "Opptil tre tiltak, rangert etter effekt og enkelhet", b: "Tiltakene som hjelper mest og er lettest å holde, kommer først. Livsstil og mat før kosttilskudd. Færre enn tre er helt greit." },
+      { t: "En plan for fire uker", b: "Tiltakene blir en enkel plan: høyst tre vaner per uke." },
+    ],
+    noActionTitle: "Dette trenger ikke handling",
+    noActionBody: "En verdi innenfor laboratoriets område vises som «innenfor», og vi foreslår ingenting for den. Er alt innenfor, sier vi det rett ut og foreslår ingen løsning. Å ikke gjøre noe er et gyldig resultat.",
+    sellNote: "Vi selger ikke tester og presser ikke kosttilskudd. Et tilskudd nevnes bare når en verdi ligger under laboratoriets område.",
     rules: [
       { t: "Vi bruker referanseområdet fra ditt laboratorium, ikke vårt eget", b: "Referanseområder varierer mellom laboratorier og land. Du skriver inn nedre og øvre grense slik ditt laboratorium har oppgitt, og det er det en verdi vurderes mot. Utelater du området, merkes markøren som ukjent." },
       { t: "Tomt betyr tomt", b: "En manglende verdi gir \"utilstrekkelig data\" for den markøren. Vi anslår ikke, interpolerer ikke, og leser ikke tall fra et uklart bilde uten din bekreftelse." },
@@ -75,6 +97,17 @@ const T = {
     step: "Metoda",
     title: "Zasady, jawnie",
     intro: "Vita Nova Life to silnik reguł, nie chatbot. Oto dokładnie, co robi, a czego odmawia.",
+    prioTitle: "Jak ustalamy priorytety, w skrócie",
+    prioLine: "1. Porównaj. 2. Uszereguj. 3. Wybierz do trzech. 4. Plan na cztery tygodnie.",
+    prio: [
+      { t: "Decyduje zakres Twojego laboratorium", b: "Każda wartość jest porównywana z dolną i górną granicą podaną przez Twoje laboratorium. Nie używamy własnych zakresów optymalnych." },
+      { t: "Kolejność wg odległości i znaczenia", b: "Wartości poza zakresem dostają punkty za odległość, cel, aktywność, światło, dietę i porę roku. Najwyższy wynik to Twój jeden priorytet." },
+      { t: "Do trzech działań, wg efektu i prostoty", b: "Najpierw działania, które najbardziej pomagają i najłatwiej je utrzymać. Styl życia i jedzenie przed suplementami. Mniej niż trzy to w porządku." },
+      { t: "Plan na cztery tygodnie", b: "Działania stają się prostym planem: najwyżej trzy nawyki tygodniowo." },
+    ],
+    noActionTitle: "To nie wymaga działania",
+    noActionBody: "Wartość w zakresie laboratorium jest oznaczona jako 'w zakresie' i nic dla niej nie sugerujemy. Jeśli wszystko jest w normie, mówimy to wprost i nie proponujemy poprawek. Brak działania to prawidłowy wynik.",
+    sellNote: "Nie sprzedajemy badań i nie namawiamy do suplementów. Suplement jest wymieniany tylko wtedy, gdy wartość jest poniżej zakresu laboratorium.",
     rules: [
       { t: "Korzystamy z zakresu Twojego laboratorium, nie naszego", b: "Zakresy referencyjne różnią się między laboratoriami i krajami. Wpisujesz dolną i górną granicę podaną przez Twoje laboratorium, i względem niej ocenia się wartość. Jeśli pominiesz zakres, marker zostaje oznaczony jako nieznany." },
       { t: "Puste znaczy puste", b: "Brakująca wartość daje \"niewystarczające dane\" dla danego markera. Nie szacujemy, nie interpolujemy i nie odczytujemy liczb z niewyraźnego zdjęcia bez Twojego potwierdzenia." },
@@ -124,6 +157,26 @@ function MethodPage() {
           title={t.title}
           intro={t.intro}
         />
+        <section className="card-surface mb-10 p-5 sm:p-6">
+          <h2 className="text-2xl">{t.prioTitle}</h2>
+          <p className="mt-1 text-sm font-medium text-primary">{t.prioLine}</p>
+          <ol className="mt-4 space-y-3">
+            {t.prio.map((p, i) => (
+              <li key={p.t} className="flex gap-3">
+                <span className="w-6 shrink-0 font-display text-2xl leading-none text-accent">{i + 1}</span>
+                <div>
+                  <p className="font-semibold">{p.t}</p>
+                  <p className="text-sm text-muted-foreground">{p.b}</p>
+                </div>
+              </li>
+            ))}
+          </ol>
+          <div className="mt-5 rounded-lg border border-border bg-secondary/60 p-4">
+            <p className="font-semibold">{t.noActionTitle}</p>
+            <p className="mt-1 text-sm text-muted-foreground">{t.noActionBody}</p>
+          </div>
+          <p className="mt-4 text-sm text-muted-foreground">{t.sellNote}</p>
+        </section>
         <div className="space-y-6">
           {t.rules.map((r) => (
             <div key={r.t} className="border-l-2 border-accent/60 pl-5">

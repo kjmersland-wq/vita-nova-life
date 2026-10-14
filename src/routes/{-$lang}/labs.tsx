@@ -2,7 +2,7 @@ import { socialMeta } from "@/lib/social";
 import { useRef } from "react";
 import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
-import { Page, StepHeader, inputClass } from "@/components/site";
+import { Page, StepHeader, inputClass, DisclaimerNote } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 import { MARKERS, markerLabel } from "@/lib/engine/markers";
 import { extractFromDocument, demoLabs, demoLabsInRange } from "@/lib/demo";
@@ -330,6 +330,7 @@ function LabsPage() {
           ) : filled === 0 ? (
             <span role="status" className="text-xs text-muted-foreground">{t.enterOne}</span>
           ) : null}</div>
+          <DisclaimerNote />
         </div>
       </div>
     </Page>

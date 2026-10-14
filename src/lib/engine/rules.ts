@@ -12,6 +12,7 @@ import type {
   RedFlag,
 } from "./types";
 import type { Lang } from "@/lib/i18n";
+import { stepsFor } from "./steps";
 
 type Tr = Record<Lang, string>;
 function t(tr: Tr, lang: Lang): string {
@@ -786,7 +787,7 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
     if (goals.primary === "loseWeight" && glycemicHigh && (s.id === "glucose" || s.id === "hba1c")) continue;
     if (s.candidate && !seenIds.has(s.id) && !actions.some((x) => x.title === s.candidate!.action.title)) {
       seenIds.add(s.id);
-      actions.push(s.candidate.action);
+      actions.push({ ...s.candidate.action, id: s.id });
     }
   }
   // Lifestyle before pills: stable-sort supplements to the back.
@@ -795,6 +796,7 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
   // Blood sugar above the user's own range + weight-loss goal: no calorie cut first.
   if (goals.primary === "loseWeight" && glycemicHigh) {
     actions.unshift({
+      id: "foundation",
       kind: "measure",
       title: t(
         {
@@ -818,7 +820,7 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
 
   for (const a of goalActions(goals.primary === "loseWeight" && glycemicHigh ? null : goals.primary, profile, bmi, lang)) {
     if (actions.length >= 3) break;
-    if (!actions.some((x) => x.title === a.title)) actions.push(a);
+    if (!actions.some((x) => x.title === a.title)) actions.push(goals.primary ? { ...a, id: goals.primary } : a);
   }
   if (actions.length === 0) {
     actions.push({
@@ -966,7 +968,10 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
     headline,
     summary,
     findings,
-    actions: actions.slice(0, 3),
+    actions: actions.slice(0, 3).map((a) => {
+      const steps = stepsFor(a.id, bmi, profile, lang);
+      return steps ? { ...a, steps } : a;
+    }),
     avoid,
     redFlags,
     doctorGate: redFlags.length > 0,

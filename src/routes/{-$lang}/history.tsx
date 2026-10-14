@@ -2,7 +2,7 @@ import { socialMeta } from "@/lib/social";
 import { useState } from "react";
 import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
-import { Page, StepHeader, inputClass } from "@/components/site";
+import { Page, StepHeader, inputClass, DisclaimerNote } from "@/components/site";
 import { deleteRun, setState, useAppState } from "@/lib/store";
 import { MARKERS, markerLabel } from "@/lib/engine/markers";
 import type { Lang } from "@/lib/i18n";
@@ -285,6 +285,7 @@ function HistoryPage() {
             {t.signOut}
           </button>
         </div>
+        <DisclaimerNote />
       </div>
     </Page>
   );

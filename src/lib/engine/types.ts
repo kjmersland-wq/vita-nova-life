@@ -75,6 +75,10 @@ export type Action = {
   detail: string;
   kind: "lifestyle" | "food" | "supplement" | "measure";
   affiliateSlot?: boolean;
+  /** Stable id (marker key, goal key or "foundation") used to look up concrete steps. */
+  id?: string;
+  /** Concrete, practical steps for this action, including sleep, movement and stress where relevant. */
+  steps?: string[];
 };
 
 export type RedFlag = { title: string; detail: string };
@@ -104,6 +108,8 @@ export type Program = {
 
 export type Run = {
   id: string;
+  /** Storage shape version, see RUN_SCHEMA_VERSION in lib/history.ts. */
+  schemaVersion?: number;
   createdAt: string;
   profile: Profile;
   goals: Goals;

@@ -84,6 +84,18 @@ export function SiteFooter() {
   );
 }
 
+const NOTE_T = {
+  en: "Not medical advice. Vita Nova Life does not diagnose or treat. Talk to a doctor about your results.",
+  no: "Ikke medisinsk råd. Vita Nova Life stiller ikke diagnoser og behandler ikke. Snakk med lege om resultatene dine.",
+  pl: "To nie porada medyczna. Vita Nova Life nie diagnozuje ani nie leczy. Omów wyniki z lekarzem.",
+};
+
+/** Short not-medical-advice line for pages that handle lab values. */
+export function DisclaimerNote() {
+  const t = useDict(NOTE_T);
+  return <p className="mt-8 text-xs leading-relaxed text-muted-foreground">{t}</p>;
+}
+
 export function Page({ children, flowStep }: { children: ReactNode; flowStep?: string }) {
   return (
     <div className="flex min-h-screen flex-col bg-background">
