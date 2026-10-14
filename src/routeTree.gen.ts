@@ -12,15 +12,19 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as EnterRouteImport } from './routes/enter'
 import { Route as Char123LangChar125RouteRouteImport } from './routes/{-$lang}/route'
 import { Route as Char123LangChar125IndexRouteImport } from './routes/{-$lang}/index'
+import { Route as Char123LangChar125ContactRouteImport } from './routes/{-$lang}/contact'
 import { Route as Char123LangChar125GoalsRouteImport } from './routes/{-$lang}/goals'
 import { Route as Char123LangChar125HistoryRouteImport } from './routes/{-$lang}/history'
 import { Route as Char123LangChar125LabsRouteImport } from './routes/{-$lang}/labs'
-import { Route as Char123LangChar125LegalRouteImport } from './routes/{-$lang}/legal'
 import { Route as Char123LangChar125MethodRouteImport } from './routes/{-$lang}/method'
 import { Route as Char123LangChar125PricingRouteImport } from './routes/{-$lang}/pricing'
 import { Route as Char123LangChar125ProgramRouteImport } from './routes/{-$lang}/program'
 import { Route as Char123LangChar125ResultsRouteImport } from './routes/{-$lang}/results'
 import { Route as Char123LangChar125StartRouteImport } from './routes/{-$lang}/start'
+import { Route as Char123LangChar125LegalIndexRouteImport } from './routes/{-$lang}/legal.index'
+import { Route as Char123LangChar125LegalDpaRouteImport } from './routes/{-$lang}/legal.dpa'
+import { Route as Char123LangChar125LegalPrivacyRouteImport } from './routes/{-$lang}/legal.privacy'
+import { Route as Char123LangChar125LegalTermsRouteImport } from './routes/{-$lang}/legal.terms'
 
 const EnterRoute = EnterRouteImport.update({
   id: '/enter',
@@ -37,6 +41,12 @@ const Char123LangChar125IndexRoute = Char123LangChar125IndexRouteImport.update({
   path: '/',
   getParentRoute: () => Char123LangChar125RouteRoute,
 } as any)
+const Char123LangChar125ContactRoute =
+  Char123LangChar125ContactRouteImport.update({
+    id: '/contact',
+    path: '/contact',
+    getParentRoute: () => Char123LangChar125RouteRoute,
+  } as any)
 const Char123LangChar125GoalsRoute = Char123LangChar125GoalsRouteImport.update({
   id: '/goals',
   path: '/goals',
@@ -51,11 +61,6 @@ const Char123LangChar125HistoryRoute =
 const Char123LangChar125LabsRoute = Char123LangChar125LabsRouteImport.update({
   id: '/labs',
   path: '/labs',
-  getParentRoute: () => Char123LangChar125RouteRoute,
-} as any)
-const Char123LangChar125LegalRoute = Char123LangChar125LegalRouteImport.update({
-  id: '/legal',
-  path: '/legal',
   getParentRoute: () => Char123LangChar125RouteRoute,
 } as any)
 const Char123LangChar125MethodRoute =
@@ -87,91 +92,139 @@ const Char123LangChar125StartRoute = Char123LangChar125StartRouteImport.update({
   path: '/start',
   getParentRoute: () => Char123LangChar125RouteRoute,
 } as any)
+const Char123LangChar125LegalIndexRoute =
+  Char123LangChar125LegalIndexRouteImport.update({
+    id: '/legal/',
+    path: '/legal/',
+    getParentRoute: () => Char123LangChar125RouteRoute,
+  } as any)
+const Char123LangChar125LegalDpaRoute =
+  Char123LangChar125LegalDpaRouteImport.update({
+    id: '/legal/dpa',
+    path: '/legal/dpa',
+    getParentRoute: () => Char123LangChar125RouteRoute,
+  } as any)
+const Char123LangChar125LegalPrivacyRoute =
+  Char123LangChar125LegalPrivacyRouteImport.update({
+    id: '/legal/privacy',
+    path: '/legal/privacy',
+    getParentRoute: () => Char123LangChar125RouteRoute,
+  } as any)
+const Char123LangChar125LegalTermsRoute =
+  Char123LangChar125LegalTermsRouteImport.update({
+    id: '/legal/terms',
+    path: '/legal/terms',
+    getParentRoute: () => Char123LangChar125RouteRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/{-$lang}': typeof Char123LangChar125RouteRouteWithChildren
   '/enter': typeof EnterRoute
+  '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
   '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
   '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
   '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
-  '/{-$lang}/legal': typeof Char123LangChar125LegalRoute
   '/{-$lang}/method': typeof Char123LangChar125MethodRoute
   '/{-$lang}/pricing': typeof Char123LangChar125PricingRoute
   '/{-$lang}/program': typeof Char123LangChar125ProgramRoute
   '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
   '/{-$lang}/start': typeof Char123LangChar125StartRoute
   '/{-$lang}/': typeof Char123LangChar125IndexRoute
+  '/{-$lang}/legal/dpa': typeof Char123LangChar125LegalDpaRoute
+  '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
+  '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
+  '/{-$lang}/legal/': typeof Char123LangChar125LegalIndexRoute
 }
 export interface FileRoutesByTo {
   '/enter': typeof EnterRoute
+  '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
   '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
   '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
   '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
-  '/{-$lang}/legal': typeof Char123LangChar125LegalRoute
   '/{-$lang}/method': typeof Char123LangChar125MethodRoute
   '/{-$lang}/pricing': typeof Char123LangChar125PricingRoute
   '/{-$lang}/program': typeof Char123LangChar125ProgramRoute
   '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
   '/{-$lang}/start': typeof Char123LangChar125StartRoute
   '/{-$lang}': typeof Char123LangChar125IndexRoute
+  '/{-$lang}/legal/dpa': typeof Char123LangChar125LegalDpaRoute
+  '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
+  '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
+  '/{-$lang}/legal': typeof Char123LangChar125LegalIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/{-$lang}': typeof Char123LangChar125RouteRouteWithChildren
   '/enter': typeof EnterRoute
+  '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
   '/{-$lang}/goals': typeof Char123LangChar125GoalsRoute
   '/{-$lang}/history': typeof Char123LangChar125HistoryRoute
   '/{-$lang}/labs': typeof Char123LangChar125LabsRoute
-  '/{-$lang}/legal': typeof Char123LangChar125LegalRoute
   '/{-$lang}/method': typeof Char123LangChar125MethodRoute
   '/{-$lang}/pricing': typeof Char123LangChar125PricingRoute
   '/{-$lang}/program': typeof Char123LangChar125ProgramRoute
   '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
   '/{-$lang}/start': typeof Char123LangChar125StartRoute
   '/{-$lang}/': typeof Char123LangChar125IndexRoute
+  '/{-$lang}/legal/dpa': typeof Char123LangChar125LegalDpaRoute
+  '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
+  '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
+  '/{-$lang}/legal/': typeof Char123LangChar125LegalIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/{-$lang}'
     | '/enter'
+    | '/{-$lang}/contact'
     | '/{-$lang}/goals'
     | '/{-$lang}/history'
     | '/{-$lang}/labs'
-    | '/{-$lang}/legal'
     | '/{-$lang}/method'
     | '/{-$lang}/pricing'
     | '/{-$lang}/program'
     | '/{-$lang}/results'
     | '/{-$lang}/start'
     | '/{-$lang}/'
+    | '/{-$lang}/legal/dpa'
+    | '/{-$lang}/legal/privacy'
+    | '/{-$lang}/legal/terms'
+    | '/{-$lang}/legal/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/enter'
+    | '/{-$lang}/contact'
     | '/{-$lang}/goals'
     | '/{-$lang}/history'
     | '/{-$lang}/labs'
-    | '/{-$lang}/legal'
     | '/{-$lang}/method'
     | '/{-$lang}/pricing'
     | '/{-$lang}/program'
     | '/{-$lang}/results'
     | '/{-$lang}/start'
     | '/{-$lang}'
+    | '/{-$lang}/legal/dpa'
+    | '/{-$lang}/legal/privacy'
+    | '/{-$lang}/legal/terms'
+    | '/{-$lang}/legal'
   id:
     | '__root__'
     | '/{-$lang}'
     | '/enter'
+    | '/{-$lang}/contact'
     | '/{-$lang}/goals'
     | '/{-$lang}/history'
     | '/{-$lang}/labs'
-    | '/{-$lang}/legal'
     | '/{-$lang}/method'
     | '/{-$lang}/pricing'
     | '/{-$lang}/program'
     | '/{-$lang}/results'
     | '/{-$lang}/start'
     | '/{-$lang}/'
+    | '/{-$lang}/legal/dpa'
+    | '/{-$lang}/legal/privacy'
+    | '/{-$lang}/legal/terms'
+    | '/{-$lang}/legal/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -202,6 +255,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LangChar125IndexRouteImport
       parentRoute: typeof Char123LangChar125RouteRoute
     }
+    '/{-$lang}/contact': {
+      id: '/{-$lang}/contact'
+      path: '/contact'
+      fullPath: '/{-$lang}/contact'
+      preLoaderRoute: typeof Char123LangChar125ContactRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
+    }
     '/{-$lang}/goals': {
       id: '/{-$lang}/goals'
       path: '/goals'
@@ -221,13 +281,6 @@ declare module '@tanstack/react-router' {
       path: '/labs'
       fullPath: '/{-$lang}/labs'
       preLoaderRoute: typeof Char123LangChar125LabsRouteImport
-      parentRoute: typeof Char123LangChar125RouteRoute
-    }
-    '/{-$lang}/legal': {
-      id: '/{-$lang}/legal'
-      path: '/legal'
-      fullPath: '/{-$lang}/legal'
-      preLoaderRoute: typeof Char123LangChar125LegalRouteImport
       parentRoute: typeof Char123LangChar125RouteRoute
     }
     '/{-$lang}/method': {
@@ -265,34 +318,70 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LangChar125StartRouteImport
       parentRoute: typeof Char123LangChar125RouteRoute
     }
+    '/{-$lang}/legal/': {
+      id: '/{-$lang}/legal/'
+      path: '/legal'
+      fullPath: '/{-$lang}/legal/'
+      preLoaderRoute: typeof Char123LangChar125LegalIndexRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
+    }
+    '/{-$lang}/legal/dpa': {
+      id: '/{-$lang}/legal/dpa'
+      path: '/legal/dpa'
+      fullPath: '/{-$lang}/legal/dpa'
+      preLoaderRoute: typeof Char123LangChar125LegalDpaRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
+    }
+    '/{-$lang}/legal/privacy': {
+      id: '/{-$lang}/legal/privacy'
+      path: '/legal/privacy'
+      fullPath: '/{-$lang}/legal/privacy'
+      preLoaderRoute: typeof Char123LangChar125LegalPrivacyRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
+    }
+    '/{-$lang}/legal/terms': {
+      id: '/{-$lang}/legal/terms'
+      path: '/legal/terms'
+      fullPath: '/{-$lang}/legal/terms'
+      preLoaderRoute: typeof Char123LangChar125LegalTermsRouteImport
+      parentRoute: typeof Char123LangChar125RouteRoute
+    }
   }
 }
 
 interface Char123LangChar125RouteRouteChildren {
+  Char123LangChar125ContactRoute: typeof Char123LangChar125ContactRoute
   Char123LangChar125GoalsRoute: typeof Char123LangChar125GoalsRoute
   Char123LangChar125HistoryRoute: typeof Char123LangChar125HistoryRoute
   Char123LangChar125LabsRoute: typeof Char123LangChar125LabsRoute
-  Char123LangChar125LegalRoute: typeof Char123LangChar125LegalRoute
   Char123LangChar125MethodRoute: typeof Char123LangChar125MethodRoute
   Char123LangChar125PricingRoute: typeof Char123LangChar125PricingRoute
   Char123LangChar125ProgramRoute: typeof Char123LangChar125ProgramRoute
   Char123LangChar125ResultsRoute: typeof Char123LangChar125ResultsRoute
   Char123LangChar125StartRoute: typeof Char123LangChar125StartRoute
   Char123LangChar125IndexRoute: typeof Char123LangChar125IndexRoute
+  Char123LangChar125LegalDpaRoute: typeof Char123LangChar125LegalDpaRoute
+  Char123LangChar125LegalPrivacyRoute: typeof Char123LangChar125LegalPrivacyRoute
+  Char123LangChar125LegalTermsRoute: typeof Char123LangChar125LegalTermsRoute
+  Char123LangChar125LegalIndexRoute: typeof Char123LangChar125LegalIndexRoute
 }
 
 const Char123LangChar125RouteRouteChildren: Char123LangChar125RouteRouteChildren =
   {
+    Char123LangChar125ContactRoute: Char123LangChar125ContactRoute,
     Char123LangChar125GoalsRoute: Char123LangChar125GoalsRoute,
     Char123LangChar125HistoryRoute: Char123LangChar125HistoryRoute,
     Char123LangChar125LabsRoute: Char123LangChar125LabsRoute,
-    Char123LangChar125LegalRoute: Char123LangChar125LegalRoute,
     Char123LangChar125MethodRoute: Char123LangChar125MethodRoute,
     Char123LangChar125PricingRoute: Char123LangChar125PricingRoute,
     Char123LangChar125ProgramRoute: Char123LangChar125ProgramRoute,
     Char123LangChar125ResultsRoute: Char123LangChar125ResultsRoute,
     Char123LangChar125StartRoute: Char123LangChar125StartRoute,
     Char123LangChar125IndexRoute: Char123LangChar125IndexRoute,
+    Char123LangChar125LegalDpaRoute: Char123LangChar125LegalDpaRoute,
+    Char123LangChar125LegalPrivacyRoute: Char123LangChar125LegalPrivacyRoute,
+    Char123LangChar125LegalTermsRoute: Char123LangChar125LegalTermsRoute,
+    Char123LangChar125LegalIndexRoute: Char123LangChar125LegalIndexRoute,
   }
 
 const Char123LangChar125RouteRouteWithChildren =

@@ -10,9 +10,9 @@ import { Button } from "@/components/ui/button";
 import { LANGS, LANG_LABEL, LangLink, useDict, useLang, type AppPath } from "@/lib/i18n";
 
 const SITE_T = {
-  en: { method: "Our approach", history: "My history", pricing: "Pricing", legal: "Legal", start: "Get started", menu: "Toggle menu", tagline: "Make sense of your labs. Build a plan for your everyday life.", disclaimer: "Vita Nova Life isn't a doctor, a clinic or a lab. Nothing here is medical advice, a diagnosis or treatment.", terms: "Terms & privacy", lang: "Language" },
-  no: { method: "Metoden vår", history: "Historikken min", pricing: "Priser", legal: "Juridisk", start: "Kom i gang", menu: "Åpne meny", tagline: "Forstå blodprøvene dine. Legg en plan for hverdagen din.", disclaimer: "Vita Nova Life er ikke en lege, en klinikk eller et laboratorium. Ingenting her er medisinsk rådgivning, diagnose eller behandling.", terms: "Vilkår og personvern", lang: "Språk" },
-  pl: { method: "Nasze podejście", history: "Moja historia", pricing: "Cennik", legal: "Informacje prawne", start: "Zacznij", menu: "Otwórz menu", tagline: "Zrozum swoje badania. Ułóż plan na co dzień.", disclaimer: "Vita Nova Life nie jest lekarzem, kliniką ani laboratorium. Nic tutaj nie jest poradą medyczną, diagnozą ani leczeniem.", terms: "Regulamin i prywatność", lang: "Język" },
+  en: { privacy: "Privacy policy", termsOfUse: "Terms of use", dpa: "Data processing agreement", contact: "Contact", company: "VitaNovaLife. Operated by KM TECH LABS, org. no. 934 044 029, Kristiansand, Norway.", method: "Our approach", history: "My history", pricing: "Pricing", legal: "Legal", start: "Get started", menu: "Toggle menu", tagline: "Make sense of your labs. Build a plan for your everyday life.", disclaimer: "Vita Nova Life isn't a doctor, a clinic or a lab. Nothing here is medical advice, a diagnosis or treatment.", terms: "Terms & privacy", lang: "Language" },
+  no: { privacy: "Personvernerklæring", termsOfUse: "Brukervilkår", dpa: "Databehandleravtale", contact: "Kontakt", company: "VitaNovaLife. Drevet av KM TECH LABS, org.nr. 934 044 029, Kristiansand, Norge.", method: "Metoden vår", history: "Historikken min", pricing: "Priser", legal: "Juridisk", start: "Kom i gang", menu: "Åpne meny", tagline: "Forstå blodprøvene dine. Legg en plan for hverdagen din.", disclaimer: "Vita Nova Life er ikke en lege, en klinikk eller et laboratorium. Ingenting her er medisinsk rådgivning, diagnose eller behandling.", terms: "Vilkår og personvern", lang: "Språk" },
+  pl: { privacy: "Polityka prywatności", termsOfUse: "Warunki korzystania", dpa: "Umowa powierzenia przetwarzania danych", contact: "Kontakt", company: "VitaNovaLife. Prowadzone przez KM TECH LABS, nr org. 934 044 029, Kristiansand, Norwegia.", method: "Nasze podejście", history: "Moja historia", pricing: "Cennik", legal: "Informacje prawne", start: "Zacznij", menu: "Otwórz menu", tagline: "Zrozum swoje badania. Ułóż plan na co dzień.", disclaimer: "Vita Nova Life nie jest lekarzem, kliniką ani laboratorium. Nic tutaj nie jest poradą medyczną, diagnozą ani leczeniem.", terms: "Regulamin i prywatność", lang: "Język" },
 };
 
 function currentPath(pathname: string): AppPath {
@@ -75,11 +75,15 @@ export function SiteFooter() {
         </div>
         <div className="flex flex-col items-start gap-3 font-semibold text-primary-foreground">
           <LangLink to="/method" className="hover:opacity-70">{t.method} <ArrowUpRight className="inline size-3" /></LangLink>
-          <LangLink to="/legal" className="hover:opacity-70">{t.terms} <ArrowUpRight className="inline size-3" /></LangLink>
           <LangLink to="/pricing" className="hover:opacity-70">{t.pricing} <ArrowUpRight className="inline size-3" /></LangLink>
+          <LangLink to="/contact" className="hover:opacity-70">{t.contact} <ArrowUpRight className="inline size-3" /></LangLink>
+          <LangLink to="/legal/privacy" className="hover:opacity-70">{t.privacy} <ArrowUpRight className="inline size-3" /></LangLink>
+          <LangLink to="/legal/terms" className="hover:opacity-70">{t.termsOfUse} <ArrowUpRight className="inline size-3" /></LangLink>
+          <LangLink to="/legal/dpa" className="hover:opacity-70">{t.dpa} <ArrowUpRight className="inline size-3" /></LangLink>
+          <LangLink to="/legal" className="hover:opacity-70">{t.legal} <ArrowUpRight className="inline size-3" /></LangLink>
         </div>
       </div>
-      <div className="container-page mt-12 border-t border-primary-foreground/15 pt-6 text-xs">© Vita Nova Life</div>
+      <div className="container-page mt-12 border-t border-primary-foreground/15 pt-6 text-xs leading-relaxed">{t.company}</div>
     </footer>
   );
 }

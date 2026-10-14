@@ -15,7 +15,11 @@ export type AppPath =
   | "/history"
   | "/method"
   | "/pricing"
-  | "/legal";
+  | "/legal"
+  | "/legal/privacy"
+  | "/legal/terms"
+  | "/legal/dpa"
+  | "/contact";
 
 export function toLang(v: unknown): Lang {
   return v === "no" || v === "pl" ? v : "en";

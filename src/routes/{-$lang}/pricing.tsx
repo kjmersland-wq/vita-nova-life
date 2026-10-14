@@ -15,7 +15,7 @@ const T = {
     },
     step: "Pricing",
     title: "Start free. Pay only if you keep using it.",
-    intro: "Payments are not live yet. Pro is shown here so you know what it will include.",
+    intro: "Payments are not live yet. The paid plans are shown here so you know what they will include.",
     tiers: [
       {
         name: "Guest",
@@ -37,19 +37,44 @@ const T = {
           "Regenerate the program after new labs",
         ],
       },
+    ],
+    paid: [
       {
-        name: "Pro",
-        price: "Coming soon",
+        name: "Essential",
+        price: "€9.90",
+        period: "/ month",
         points: [
+          "Everything in Account",
           "Full marker panel",
+        ],
+      },
+      {
+        name: "Premium",
+        price: "€19.90",
+        period: "/ month",
+        points: [
+          "Everything in Essential",
           "Weekly program check-ins",
-           "Planned daily line: a walk, a few stairs or a movement break, when your results allow. Check-off later.",
+          "A daily line: a walk, a few stairs or a movement break, when your results allow",
           "PDF export of your own summary",
           "Not a letter to your doctor, and never a diagnosis",
+        ],
+      },
+      {
+        name: "Annual Premium",
+        price: "€149.00",
+        period: "/ year",
+        points: [
+          "Everything in Premium",
+          "Billed once a year",
+          "About €12.42 a month",
         ],
         highlight: true,
       },
     ],
+    freeHeading: "Free",
+    paidHeading: "Paid plans",
+    soon: "Coming soon",
     proActive: "Pro preview active",
     proOn: "Turn on Pro preview",
     startRun: "Start a run",
@@ -67,7 +92,7 @@ const T = {
     },
     step: "Priser",
     title: "Start gratis. Betal kun hvis du fortsetter å bruke det.",
-    intro: "Betaling er ikke i drift ennå. Pro vises her slik at du vet hva den vil inneholde.",
+    intro: "Betaling er ikke i drift ennå. De betalte planene vises her slik at du vet hva de vil inneholde.",
     tiers: [
       {
         name: "Gjest",
@@ -89,19 +114,44 @@ const T = {
           "Regenerer programmet etter nye prøver",
         ],
       },
+    ],
+    paid: [
       {
-        name: "Pro",
-        price: "Kommer snart",
+        name: "Essensielt",
+        price: "€ 9,90",
+        period: "/ mnd",
         points: [
+          "Alt i Konto",
           "Fullt markørpanel",
+        ],
+      },
+      {
+        name: "Premium",
+        price: "€ 19,90",
+        period: "/ mnd",
+        points: [
+          "Alt i Essensielt",
           "Ukentlig oppfølging av programmet",
-           "Planlagt dagslinje: en tur, noen trapper eller en bevegelsespause når prøvesvaret ditt tillater det. Avkryssing senere.",
+          "En dagslinje: en tur, noen trapper eller en bevegelsespause når prøvesvaret ditt tillater det",
           "PDF-eksport av ditt eget sammendrag",
           "Ikke et brev til legen din, og aldri en diagnose",
+        ],
+      },
+      {
+        name: "Årlig Premium",
+        price: "€ 149,00",
+        period: "/ år",
+        points: [
+          "Alt i Premium",
+          "Faktureres én gang i året",
+          "Omtrent € 12,42 i måneden",
         ],
         highlight: true,
       },
     ],
+    freeHeading: "Gratis",
+    paidHeading: "Betalte planer",
+    soon: "Kommer snart",
     proActive: "Pro-forhåndsvisning aktiv",
     proOn: "Slå på Pro-forhåndsvisning",
     startRun: "Start en kjøring",
@@ -119,7 +169,7 @@ const T = {
     },
     step: "Cennik",
     title: "Zacznij za darmo. Płać tylko wtedy, gdy nadal korzystasz.",
-    intro: "Płatności jeszcze nie działają. Pro jest tutaj pokazane, żebyś wiedział, co będzie zawierać.",
+    intro: "Płatności jeszcze nie działają. Płatne plany są tu pokazane, żebyś wiedział, co będą zawierać.",
     tiers: [
       {
         name: "Gość",
@@ -141,19 +191,44 @@ const T = {
           "Regeneracja programu po nowych badaniach",
         ],
       },
+    ],
+    paid: [
       {
-        name: "Pro",
-        price: "Wkrótce",
+        name: "Podstawowy",
+        price: "9,90 €",
+        period: "/ mies.",
         points: [
+          "Wszystko z planu Konto",
           "Pełny panel markerów",
+        ],
+      },
+      {
+        name: "Premium",
+        price: "19,90 €",
+        period: "/ mies.",
+        points: [
+          "Wszystko z planu Podstawowy",
           "Cotygodniowe kontrole postępów programu",
-           "Planowana codzienna wskazówka: spacer, kilka pięter schodami lub przerwa na ruch, gdy pozwalają na to Twoje wyniki. Odznaczanie później.",
+          "Codzienna wskazówka: spacer, kilka pięter schodami lub przerwa na ruch, gdy pozwalają na to Twoje wyniki",
           "Eksport PDF własnego podsumowania",
           "To nie jest list do Twojego lekarza i nigdy nie jest diagnozą",
+        ],
+      },
+      {
+        name: "Premium roczny",
+        price: "149,00 €",
+        period: "/ rok",
+        points: [
+          "Wszystko z planu Premium",
+          "Płatność raz w roku",
+          "Około 12,42 € miesięcznie",
         ],
         highlight: true,
       },
     ],
+    freeHeading: "Za darmo",
+    paidHeading: "Plany płatne",
+    soon: "Wkrótce",
     proActive: "Podgląd Pro aktywny",
     proOn: "Włącz podgląd Pro",
     startRun: "Rozpocznij uruchomienie",
@@ -192,12 +267,10 @@ function PricingPage() {
           title={t.title}
           intro={t.intro}
         />
-        <div className="grid gap-4 md:grid-cols-3">
+        <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground">{t.freeHeading}</h2>
+        <div className="grid gap-4 sm:grid-cols-2">
           {t.tiers.map((tier) => (
-            <div
-              key={tier.name}
-              className={`card-surface flex flex-col p-6 ${tier.highlight ? "border-primary/50" : ""}`}
-            >
+            <div key={tier.name} className="card-surface flex flex-col p-6">
               <p className="eyebrow">{tier.name}</p>
               <p className="mt-2 font-display text-4xl">{tier.price}</p>
               <ul className="mt-5 flex-1 space-y-2 text-sm text-muted-foreground">
@@ -208,28 +281,52 @@ function PricingPage() {
                   </li>
                 ))}
               </ul>
-              {tier.highlight ? (
-                <button
-                  type="button"
-                  onClick={() =>
-                    setState({ account: account ? { ...account, pro: true } : null })
-                  }
-                  disabled={!account || account.pro}
-                  className="mt-6 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground disabled:opacity-40"
-                >
-                  {account?.pro ? t.proActive : t.proOn}
-                </button>
-              ) : (
-                <LangLink
-                  to="/start"
-                  className="mt-6 rounded-full border border-border px-5 py-2.5 text-center text-sm hover:border-primary/50"
-                >
-                  {t.startRun}
-                </LangLink>
-              )}
+              <LangLink
+                to="/start"
+                className="mt-6 rounded-full border border-border px-5 py-2.5 text-center text-sm hover:border-primary/50"
+              >
+                {t.startRun}
+              </LangLink>
             </div>
           ))}
         </div>
+        <h2 className="mb-3 mt-10 text-sm font-bold uppercase tracking-wide text-muted-foreground">{t.paidHeading}</h2>
+        <div className="grid gap-4 md:grid-cols-3">
+          {t.paid.map((tier) => (
+            <div
+              key={tier.name}
+              className={`card-surface flex flex-col p-6 ${"highlight" in tier && tier.highlight ? "border-primary/50" : ""}`}
+            >
+              <p className="eyebrow">{tier.name}</p>
+              <p className="mt-2 font-display text-4xl">
+                {tier.price} <span className="text-base font-normal text-muted-foreground">{tier.period}</span>
+              </p>
+              <ul className="mt-5 flex-1 space-y-2 text-sm text-muted-foreground">
+                {tier.points.map((p) => (
+                  <li key={p} className="flex gap-2">
+                    <span className="mt-1.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent" />
+                    {p}
+                  </li>
+                ))}
+              </ul>
+              <button
+                type="button"
+                disabled
+                className="mt-6 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground disabled:opacity-40"
+              >
+                {t.soon}
+              </button>
+            </div>
+          ))}
+        </div>
+        <button
+          type="button"
+          onClick={() => setState({ account: account ? { ...account, pro: true } : null })}
+          disabled={!account || account.pro}
+          className="mt-6 rounded-full border border-border px-5 py-2.5 text-sm disabled:opacity-40"
+        >
+          {account?.pro ? t.proActive : t.proOn}
+        </button>
         {!account ? (
           <p className="mt-6 text-sm text-muted-foreground">
             {t.createAccountPre}{" "}
