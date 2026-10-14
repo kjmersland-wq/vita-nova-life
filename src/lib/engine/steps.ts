@@ -334,9 +334,9 @@ export function imageFor(id: string | undefined): ActionImage | undefined {
 
 // One warm drink tip for blood sugar and metabolic actions. Practical, not moralising.
 const DRINK_TIP: Record<Lang, string> = {
-  en: "Small swap, big payoff: change just one daily soda, cola or sweet mineral water to plain water or unsweetened sparkling water. One is plenty to start, and you do not need to be perfect. Good to know: both sugary and sugar-free sodas are acidic and can wear down tooth enamel, so water is kind to your teeth too. A few mint leaves or cucumber slices add taste without the acid.",
-  no: "Liten bytte, stor effekt: bytt bare én daglig brus, cola eller søt mineralvann med vanlig vann eller usøtet mineralvann. Én er mer enn nok til å begynne, og du trenger ikke være perfekt. Greit å vite: både sukkerholdig og sukkerfri brus er syrlig og kan skade tannemaljen, så vann er snilt mot tennene også. Noen mynteblader eller agurkskiver gir smak uten syren.",
-  pl: "Mała zamiana, duży efekt: zamień tylko jeden codzienny napój gazowany, colę lub słodką wodę mineralną na zwykłą wodę lub niesłodzoną wodę gazowaną. Jeden w zupełności wystarczy na start i nie musisz być perfekcyjny. Warto wiedzieć: zarówno słodzone, jak i bezcukrowe napoje gazowane są kwaśne i mogą niszczyć szkliwo, więc woda jest łagodniejsza także dla zębów. Kilka listków mięty lub plasterków ogórka doda smaku bez kwasu.",
+  en: "Small swap, big payoff: change just one daily soda, cola or sweet mineral water to plain water or unsweetened sparkling water. One is plenty to start, and you do not need to be perfect. Good to know: both sugary and sugar-free (diet) sodas are acidic and can wear down tooth enamel, so plain water gives your teeth a well-deserved break. A few mint leaves or cucumber slices add taste without the acid.",
+  no: "Liten bytte, stor effekt: bytt bare én daglig brus, cola eller søt mineralvann med vanlig vann eller usøtet mineralvann. Én er mer enn nok til å begynne, og du trenger ikke være perfekt. Greit å vite: både sukkerholdig og sukkerfri brus (lettbrus) er syrlig og kan skade tannemaljen, så rent vann gir tennene dine en velfortjent pause. Noen mynteblader eller agurkskiver gir smak uten syren.",
+  pl: "Mała zamiana, duży efekt: zamień tylko jeden codzienny napój gazowany, colę lub słodką wodę mineralną na zwykłą wodę lub niesłodzoną wodę gazowaną. Jeden w zupełności wystarczy na start i nie musisz być perfekcyjny. Warto wiedzieć: zarówno słodzone, jak i bezcukrowe napoje gazowane (typu light) są kwaśne i mogą niszczyć szkliwo, więc zwykła woda daje zębom zasłużoną przerwę. Kilka listków mięty lub plasterków ogórka doda smaku bez kwasu.",
 };
 const DRINK_IDS = new Set(["glucose", "hba1c", "triglycerides", "foundation", "loseWeight"]);
 
@@ -349,11 +349,20 @@ const DOG: Record<Lang, { title: string; body: string; label: string }> = {
   no: { title: "Tenker du på en turkamerat?", body: "En hund avlyser aldri en tur. Det er også en stor forpliktelse, så bare hvis det passer livet ditt. Er du nysgjerrig, kan doggmatch.com hjelpe deg å finne en rase som passer deg.", label: "Finn riktig rase på doggmatch.com" },
   pl: { title: "Myślisz o towarzyszu spacerów?", body: "Pies nigdy nie odwoła spaceru. To także duże zobowiązanie, więc tylko jeśli pasuje do Twojego życia. Jeśli jesteś ciekaw/a, doggmatch.com pomoże znaleźć rasę, która do Ciebie pasuje.", label: "Znajdź rasę na doggmatch.com" },
 };
+// DoggMatch serves English at the root and every other language under a path prefix.
+// Unknown or unsupported languages fall back to the root.
+const DOGGMATCH_BASE = "https://doggmatch.com";
+const DOGGMATCH_PREFIXES = new Set(["no", "pl", "dk", "se", "fi", "de", "fr", "nl"]);
+
+export function doggMatchUrl(lang: string): string {
+  return DOGGMATCH_PREFIXES.has(lang) ? `${DOGGMATCH_BASE}/${lang}` : DOGGMATCH_BASE;
+}
+
 const DOG_IDS = new Set(["loseWeight", "betterDays", "moreEnergy"]);
 
 /** Soft, optional dog idea for movement actions. Never shown for a blood-value action. */
 export function dogFor(id: string | undefined, lang: Lang) {
   if (!id || !DOG_IDS.has(id)) return undefined;
   const d = DOG[lang];
-  return { title: d.title, body: d.body, href: "https://doggmatch.com", label: d.label };
+  return { title: d.title, body: d.body, href: doggMatchUrl(lang), label: d.label };
 }
