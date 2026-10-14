@@ -1,3 +1,4 @@
+import { socialMeta } from "@/lib/social";
 import { useMemo } from "react";
 import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
@@ -113,8 +114,9 @@ export const Route = createFileRoute("/{-$lang}/results")({
     const m = T[toLang(params.lang)].meta;
     return {
       meta: [
+        ...socialMeta(toLang(params.lang)),
         { property: "og:type", content: "website" },
-        { name: "twitter:card", content: "summary" },
+        { name: "twitter:card", content: "summary_large_image" },
         { title: m.title },
         { name: "description", content: m.description },
         { property: "og:title", content: m.title },
