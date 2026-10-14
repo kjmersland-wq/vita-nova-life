@@ -42,6 +42,8 @@ export type AppPath =
   | "/method"
   | "/pricing"
   | "/legal"
+  | "/dashboard"
+  | "/enter"
   | "/legal/privacy"
   | "/legal/terms"
   | "/legal/dpa"

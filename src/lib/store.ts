@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react";
 import type { Goals, Labs, Profile, Run } from "./engine/types";
 import { RUN_SCHEMA_VERSION } from "./history";
+import type { HealthLog } from "./logs";
 
 const KEY = "vitanova.v1";
 
@@ -15,6 +16,7 @@ export type AppState = {
   guestRunUsed: boolean;
   uploadPending: string[];
   uploadFileName: string | null;
+  logs: HealthLog[];
 };
 
 export const emptyProfile: Profile = {
@@ -47,6 +49,7 @@ const initial: AppState = {
   guestRunUsed: false,
   uploadPending: [],
   uploadFileName: null,
+  logs: [],
 };
 
 let state: AppState = initial;
@@ -116,4 +119,12 @@ const noopSubscribe = () => () => {};
 /** False during server render and hydration, true after — avoids showing default state as if it were the user's. */
 export function useHydrated(): boolean {
   return useSyncExternalStore(noopSubscribe, () => true, () => false);
+}
+
+export function addLog(log: Omit<HealthLog, "id">) {
+  setState((s) => ({ logs: [{ ...log, id: crypto.randomUUID() }, ...s.logs].slice(0, 400) }));
+}
+
+export function deleteLog(id: string) {
+  setState((s) => ({ logs: s.logs.filter((l) => l.id !== id) }));
 }

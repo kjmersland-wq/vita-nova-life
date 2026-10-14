@@ -1,3 +1,4 @@
+import { requireAuth } from "@/lib/auth.guard";
 import { socialMeta } from "@/lib/social";
 import { useMemo } from "react";
 import { LangLink, toLang, useDict, useLang } from "@/lib/i18n";
@@ -211,6 +212,7 @@ const T = {
 };
 
 export const Route = createFileRoute("/{-$lang}/program")({
+  beforeLoad: requireAuth,
   head: ({ params }) => {
     const m = T[toLang(params.lang)].meta;
     return {

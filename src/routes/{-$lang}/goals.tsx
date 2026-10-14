@@ -1,3 +1,4 @@
+import { requireAuth } from "@/lib/auth.guard";
 import { socialMeta } from "@/lib/social";
 import { createFileRoute } from "@tanstack/react-router";
 import { toLang, useDict, useLangNavigate, type Lang } from "@/lib/i18n";
@@ -337,6 +338,7 @@ const T = {
 };
 
 export const Route = createFileRoute("/{-$lang}/goals")({
+  beforeLoad: requireAuth,
   head: ({ params }) => {
     const m = T[toLang(params.lang)].meta;
     return {
