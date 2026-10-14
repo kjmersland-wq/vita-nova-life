@@ -12,7 +12,7 @@ import type {
   RedFlag,
 } from "./types";
 import type { Lang } from "@/lib/i18n";
-import { stepsFor } from "./steps";
+import { imageFor, stepsFor, tipFor } from "./steps";
 
 type Tr = Record<Lang, string>;
 function t(tr: Tr, lang: Lang): string {
@@ -827,9 +827,9 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
       kind: "lifestyle",
       title: t(
         {
-          en: "Nothing in your results needs fixing right now",
-          no: "Ingenting i resultatene dine trenger å fikses akkurat nå",
-          pl: "Nic w Twoich wynikach nie wymaga teraz poprawy",
+          en: "Good news: nothing needs fixing right now",
+          no: "Gode nyheter: ingenting trenger å fikses akkurat nå",
+          pl: "Dobra wiadomość: nic nie wymaga teraz poprawy",
         },
         lang,
       ),
@@ -851,9 +851,9 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
   const headline = top
     ? t(
         {
-          en: `${top.label} is your first thing to deal with.`,
-          no: `${top.label} er det første du bør ta tak i.`,
-          pl: `${top.label} to pierwsza rzecz, którą warto się zająć.`,
+          en: `What gives you the most right now: ${top.label}.`,
+          no: `Det som gir deg mest igjen akkurat nå: ${top.label}.`,
+          pl: `To, co da Ci teraz najwięcej: ${top.label}.`,
         },
         lang,
       )
@@ -970,7 +970,9 @@ export function analyze(profile: Profile, goals: Goals, labs: Labs, lang: Lang =
     findings,
     actions: actions.slice(0, 3).map((a) => {
       const steps = stepsFor(a.id, bmi, profile, lang);
-      return steps ? { ...a, steps } : a;
+      const tip = tipFor(a.id, lang);
+      const image = imageFor(a.id);
+      return { ...a, ...(steps ? { steps } : {}), ...(tip ? { tip } : {}), ...(image ? { image } : {}) };
     }),
     avoid,
     redFlags,

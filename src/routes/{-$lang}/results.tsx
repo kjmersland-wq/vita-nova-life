@@ -8,8 +8,14 @@ import { analyze } from "@/lib/engine/rules";
 import { markerLabel } from "@/lib/engine/markers";
 import { buildProgram } from "@/lib/engine/program";
 import daylightImg from "@/assets/vita-daylight-person.jpg";
+import sleepImg from "@/assets/vita-sofa.jpg";
+import walkImg from "@/assets/vita-walk.jpg";
+import foodImg from "@/assets/vita-food-coffee.jpg";
+import labsImg from "@/assets/vita-table.jpg";
 import type { Finding } from "@/lib/engine/types";
 import { Button } from "@/components/ui/button";
+
+const ACTION_IMG = { daylight: daylightImg, sleep: sleepImg, walk: walkImg, food: foodImg, labs: labsImg } as const;
 
 const T = {
   en: {
@@ -30,10 +36,14 @@ const T = {
     intlDirectory: "International directory: findahelpline.com",
     step: "Your result",
     seeDoctor: "See a doctor about this",
-    threeActions: "Your three actions",
+    threeActions: "What gives you the most right now",
+    restTitle: "You do not need to think about these any more",
+    restBody: "These sit inside your lab's range. Nothing to do here.",
+    tipTitle: "A small drink swap",
+    alts: { daylight: "A person outdoors in soft morning light", sleep: "A woman relaxing on a sofa in a calm, softly lit living room", walk: "A person walking along a quiet coastal path", food: "A set table with a plate of beans and greens and a cup of coffee", labs: "A person reading a lab printout at a kitchen table" },
     howTo: "How to do it",
     productSlot: "Product slot — intentionally empty. We name the nutrient, not a shelf.",
-    doNotBuy: "Do not buy, do not do",
+    doNotBuy: "You can leave these alone",
     markerByMarker: "Marker by marker",
     statusLabel: { low: "Low", high: "High", inRange: "In range", unknown: "Unknown" } as Record<
       Finding["status"],
@@ -63,10 +73,14 @@ const T = {
     intlDirectory: "Internasjonal oversikt: findahelpline.com",
     step: "Resultatet ditt",
     seeDoctor: "Oppsøk lege om dette",
-    threeActions: "Dine tre tiltak",
+    threeActions: "Det som gir deg mest igjen akkurat nå",
+    restTitle: "Dette trenger du ikke tenke mer på",
+    restBody: "Disse ligger innenfor laboratoriets område. Ingenting å gjøre her.",
+    tipTitle: "Et lite drikkebytte",
+    alts: { daylight: "En person ute i mykt morgenlys", sleep: "En kvinne som slapper av i en sofa i en rolig, dempet opplyst stue", walk: "En person som går på en rolig sti langs kysten", food: "Et dekket bord med en tallerken bønner og grønt og en kopp kaffe", labs: "En person som leser en labutskrift ved kjøkkenbordet" },
     howTo: "Slik gjør du det",
     productSlot: "Produktplass — bevisst tom. Vi navngir næringsstoffet, ikke en hylle.",
-    doNotBuy: "Ikke kjøp, ikke gjør",
+    doNotBuy: "Dette kan du la ligge",
     markerByMarker: "Markør for markør",
     statusLabel: { low: "Lav", high: "Høy", inRange: "Innenfor område", unknown: "Ukjent" } as Record<
       Finding["status"],
@@ -96,10 +110,14 @@ const T = {
     intlDirectory: "Katalog międzynarodowy: findahelpline.com",
     step: "Twój wynik",
     seeDoctor: "Skonsultuj się z lekarzem w tej sprawie",
-    threeActions: "Twoje trzy działania",
+    threeActions: "To, co daje Ci teraz najwięcej",
+    restTitle: "O tym nie musisz już myśleć",
+    restBody: "Te wartości mieszczą się w zakresie laboratorium. Nic tu nie trzeba robić.",
+    tipTitle: "Mała zamiana napoju",
+    alts: { daylight: "Osoba na zewnątrz w łagodnym porannym świetle", sleep: "Kobieta odpoczywająca na sofie w spokojnym, łagodnie oświetlonym salonie", walk: "Osoba idąca spokojną ścieżką nad wybrzeżem", food: "Nakryty stół z talerzem fasoli i zieleniny oraz filiżanką kawy", labs: "Osoba czytająca wydruk badań przy kuchennym stole" },
     howTo: "Jak to zrobić",
     productSlot: "Miejsce na produkt — celowo puste. Nazywamy składnik odżywczy, nie półkę sklepową.",
-    doNotBuy: "Czego nie kupować, czego nie robić",
+    doNotBuy: "Tych rzeczy możesz sobie odpuścić",
     markerByMarker: "Marker po markerze",
     statusLabel: { low: "Niski", high: "Wysoki", inRange: "W zakresie", unknown: "Nieznany" } as Record<
       Finding["status"],
@@ -197,6 +215,8 @@ function ResultsPage() {
     return rank(a) - rank(b) || b.severity - a.severity;
   });
 
+  const inRangeNames = analysis.findings.filter((f) => f.status === "inRange").map((f) => markerLabel(f.key, lang));
+
   return (
     <Page>
       <div className="container-page max-w-4xl py-12">
@@ -222,7 +242,10 @@ function ResultsPage() {
             {analysis.actions.map((a, i) => (
               <li key={a.title} className="card-surface flex gap-4 p-5">
                 <span className="font-display text-3xl leading-none text-accent">{i + 1}</span>
-                <div>
+                <div className="min-w-0 flex-1">
+                  {a.image ? (
+                    <img src={ACTION_IMG[a.image]} alt={t.alts[a.image]} loading="lazy" width={1280} height={560} className="mb-3 aspect-[16/7] w-full rounded-md object-cover" />
+                  ) : null}
                   <h3 className="text-xl">{a.title}</h3>
                   <p className="mt-1 text-sm text-muted-foreground">{a.detail}</p>
                   {a.steps?.length ? (
@@ -233,6 +256,12 @@ function ResultsPage() {
                           <li key={st}>{st}</li>
                         ))}
                       </ul>
+                    </div>
+                  ) : null}
+                  {a.tip ? (
+                    <div className="mt-3 rounded-lg border border-border bg-secondary/60 p-4">
+                      <p className="text-sm font-semibold">{t.tipTitle}</p>
+                      <p className="mt-1 text-sm text-muted-foreground">{a.tip}</p>
                     </div>
                   ) : null}
                   {a.affiliateSlot ? (
@@ -263,6 +292,14 @@ function ResultsPage() {
           }}>{t.saveAndSee}</Button>
           <Button variant="ghost" asChild><LangLink to="/labs">{t.editValues}</LangLink></Button>
         </div>
+
+        {inRangeNames.length ? (
+          <section className="mb-10 rounded-xl border border-border bg-secondary/60 p-5">
+            <h2 className="text-2xl">{t.restTitle}</h2>
+            <p className="mt-1 text-sm text-muted-foreground">{t.restBody}</p>
+            <p className="mt-3 text-sm font-medium">{inRangeNames.join(" · ")}</p>
+          </section>
+        ) : null}
 
         <section className="mb-10">
           <h2 className="mb-4 text-3xl">{t.markerByMarker}</h2>

@@ -79,6 +79,10 @@ export type Action = {
   id?: string;
   /** Concrete, practical steps for this action, including sleep, movement and stress where relevant. */
   steps?: string[];
+  /** A short, warm tip shown in its own box (e.g. a drink swap for blood sugar). */
+  tip?: string;
+  /** Which illustration to show with the action. */
+  image?: "daylight" | "sleep" | "walk" | "food" | "labs";
 };
 
 export type RedFlag = { title: string; detail: string };

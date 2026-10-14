@@ -2,6 +2,7 @@ import { socialMeta } from "@/lib/social";
 import { createFileRoute } from "@tanstack/react-router";
 import { LangLink, toLang, useDict, useLangNavigate } from "@/lib/i18n";
 import { Page, StepHeader } from "@/components/site";
+import tableImg from "@/assets/vita-table.jpg";
 
 const T = {
   en: {
@@ -14,7 +15,8 @@ const T = {
     },
     step: "Method",
     title: "The rules, in public",
-    intro: "Vita Nova Life is a rules engine, not a chatbot. Here is exactly what it does and refuses to do.",
+    intro: "Here is how we think, in plain words: your lab's numbers, your everyday life, and a small plan you can actually keep. No guessing, no chatbot.",
+    imgAlt: "A person reading a lab printout at a kitchen table, with oatmeal and berries and a cup of coffee",
     prioTitle: "How we prioritise, in short",
     prioLine: "1. Compare. 2. Rank. 3. Choose up to three. 4. Plan four weeks.",
     prio: [
@@ -55,7 +57,8 @@ const T = {
     },
     step: "Metode",
     title: "Reglene, åpent tilgjengelig",
-    intro: "Vita Nova Life er en regelmotor, ikke en chatbot. Her er nøyaktig hva den gjør og nekter å gjøre.",
+    intro: "Slik tenker vi, på vanlig norsk: tallene fra laboratoriet ditt, hverdagen din og en liten plan du faktisk kan holde. Ingen gjetting, ingen chatbot.",
+    imgAlt: "En person som leser en labutskrift ved kjøkkenbordet, med havregrøt, bær og en kopp kaffe",
     prioTitle: "Slik prioriterer vi, kort fortalt",
     prioLine: "1. Sammenlign. 2. Rangér. 3. Velg opptil tre. 4. Plan for fire uker.",
     prio: [
@@ -96,7 +99,8 @@ const T = {
     },
     step: "Metoda",
     title: "Zasady, jawnie",
-    intro: "Vita Nova Life to silnik reguł, nie chatbot. Oto dokładnie, co robi, a czego odmawia.",
+    intro: "Oto jak myślimy, prostymi słowami: liczby z Twojego laboratorium, Twój zwykły dzień i mały plan, który naprawdę utrzymasz. Bez zgadywania i bez chatbota.",
+    imgAlt: "Osoba czytająca wydruk badań przy kuchennym stole, obok owsianka z jagodami i filiżanka kawy",
     prioTitle: "Jak ustalamy priorytety, w skrócie",
     prioLine: "1. Porównaj. 2. Uszereguj. 3. Wybierz do trzech. 4. Plan na cztery tygodnie.",
     prio: [
@@ -157,6 +161,7 @@ function MethodPage() {
           title={t.title}
           intro={t.intro}
         />
+        <img src={tableImg} alt={t.imgAlt} width={1280} height={864} className="mb-10 aspect-[16/9] w-full rounded-md object-cover" />
         <section className="card-surface mb-10 p-5 sm:p-6">
           <h2 className="text-2xl">{t.prioTitle}</h2>
           <p className="mt-1 text-sm font-medium text-primary">{t.prioLine}</p>

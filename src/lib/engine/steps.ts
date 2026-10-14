@@ -304,3 +304,42 @@ export function stepsFor(id: string | undefined, bmi: number | null, _profile: P
   if (bmi !== null && bmi >= 27 && WEIGHT_IDS.has(id)) out.push(WEIGHT_OPTION[lang]);
   return out;
 }
+
+export type ActionImage = "daylight" | "sleep" | "walk" | "food" | "labs";
+
+const IMAGE: Record<string, ActionImage> = {
+  vitaminD: "daylight",
+  moreEnergy: "daylight",
+  sleep: "sleep",
+  ferritin: "sleep",
+  hemoglobin: "sleep",
+  tsh: "sleep",
+  crp: "sleep",
+  loseWeight: "walk",
+  muscle: "walk",
+  betterDays: "walk",
+  glucose: "food",
+  hba1c: "food",
+  triglycerides: "food",
+  cholesterol: "food",
+  ldl: "food",
+  b12: "food",
+  magnesium: "food",
+  foundation: "labs",
+};
+
+export function imageFor(id: string | undefined): ActionImage | undefined {
+  return id ? IMAGE[id] : undefined;
+}
+
+// One warm drink tip for blood sugar and metabolic actions. Practical, not moralising.
+const DRINK_TIP: Record<Lang, string> = {
+  en: "Small swap, big payoff: change just one daily soda, cola or sweet mineral water to plain water or unsweetened sparkling water. One is plenty to start, and you do not need to be perfect. Good to know: both sugary and sugar-free sodas are acidic and can wear down tooth enamel, so water is kind to your teeth too. A few mint leaves or cucumber slices add taste without the acid.",
+  no: "Liten bytte, stor effekt: bytt bare én daglig brus, cola eller søt mineralvann med vanlig vann eller usøtet mineralvann. Én er mer enn nok til å begynne, og du trenger ikke være perfekt. Greit å vite: både sukkerholdig og sukkerfri brus er syrlig og kan skade tannemaljen, så vann er snilt mot tennene også. Noen mynteblader eller agurkskiver gir smak uten syren.",
+  pl: "Mała zamiana, duży efekt: zamień tylko jeden codzienny napój gazowany, colę lub słodką wodę mineralną na zwykłą wodę lub niesłodzoną wodę gazowaną. Jeden w zupełności wystarczy na start i nie musisz być perfekcyjny. Warto wiedzieć: zarówno słodzone, jak i bezcukrowe napoje gazowane są kwaśne i mogą niszczyć szkliwo, więc woda jest łagodniejsza także dla zębów. Kilka listków mięty lub plasterków ogórka doda smaku bez kwasu.",
+};
+const DRINK_IDS = new Set(["glucose", "hba1c", "triglycerides", "foundation", "loseWeight"]);
+
+export function tipFor(id: string | undefined, lang: Lang): string | undefined {
+  return id && DRINK_IDS.has(id) ? DRINK_TIP[lang] : undefined;
+}
