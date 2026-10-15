@@ -2,7 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { accessForProduct } from "@/lib/billing.server";
 
-type Obj = Record<string, any>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type Obj = any;
 
 function verify(body: string, signature: string | null, secret: string): boolean {
   if (!signature) return false;
