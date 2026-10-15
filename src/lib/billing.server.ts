@@ -41,7 +41,11 @@ export function accessFromRow(row: SubRow): Access {
   return "free";
 }
 
+/** Owner accounts get full Premium access without paying (server-side only). */
+const OWNER_EMAILS = ["kjmersland@gmail.com"];
+
 export async function getAccessForEmail(email: string): Promise<Access> {
+  if (OWNER_EMAILS.includes(email.toLowerCase())) return "premium";
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data } = await supabaseAdmin
     .from("subscriptions")
