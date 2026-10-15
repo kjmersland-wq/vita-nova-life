@@ -29,6 +29,7 @@ import { Route as Char123LangChar125LegalIndexRouteImport } from './routes/{-$la
 import { Route as Char123LangChar125LegalDpaRouteImport } from './routes/{-$lang}/legal.dpa'
 import { Route as Char123LangChar125LegalPrivacyRouteImport } from './routes/{-$lang}/legal.privacy'
 import { Route as Char123LangChar125LegalTermsRouteImport } from './routes/{-$lang}/legal.terms'
+import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const Char123LangChar125RouteRoute = Char123LangChar125RouteRouteImport.update({
   id: '/{-$lang}',
@@ -142,6 +143,12 @@ const Char123LangChar125LegalTermsRoute =
     path: '/legal/terms',
     getParentRoute: () => Char123LangChar125RouteRoute,
   } as any)
+const LovableEmailTransactionalPreviewRoute =
+  LovableEmailTransactionalPreviewRouteImport.update({
+    id: '/lovable/email/transactional/preview',
+    path: '/lovable/email/transactional/preview',
+    getParentRoute: () => rootRouteImport,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/{-$lang}': typeof Char123LangChar125RouteRouteWithChildren
@@ -164,6 +171,7 @@ export interface FileRoutesByFullPath {
   '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
   '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
   '/{-$lang}/legal/': typeof Char123LangChar125LegalIndexRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
   '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
@@ -185,6 +193,7 @@ export interface FileRoutesByTo {
   '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
   '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
   '/{-$lang}/legal': typeof Char123LangChar125LegalIndexRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -208,6 +217,7 @@ export interface FileRoutesById {
   '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
   '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
   '/{-$lang}/legal/': typeof Char123LangChar125LegalIndexRoute
+  '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -232,6 +242,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/legal/privacy'
     | '/{-$lang}/legal/terms'
     | '/{-$lang}/legal/'
+    | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/{-$lang}/contact'
@@ -253,6 +264,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/legal/privacy'
     | '/{-$lang}/legal/terms'
     | '/{-$lang}/legal'
+    | '/lovable/email/transactional/preview'
   id:
     | '__root__'
     | '/{-$lang}'
@@ -275,11 +287,13 @@ export interface FileRouteTypes {
     | '/{-$lang}/legal/privacy'
     | '/{-$lang}/legal/terms'
     | '/{-$lang}/legal/'
+    | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   Char123LangChar125RouteRoute: typeof Char123LangChar125RouteRouteWithChildren
   ApiPublicCreemWebhookRoute: typeof ApiPublicCreemWebhookRoute
+  LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -424,6 +438,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LangChar125LegalTermsRouteImport
       parentRoute: typeof Char123LangChar125RouteRoute
     }
+    '/lovable/email/transactional/preview': {
+      id: '/lovable/email/transactional/preview'
+      path: '/lovable/email/transactional/preview'
+      fullPath: '/lovable/email/transactional/preview'
+      preLoaderRoute: typeof LovableEmailTransactionalPreviewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -478,6 +499,7 @@ const Char123LangChar125RouteRouteWithChildren =
 const rootRouteChildren: RootRouteChildren = {
   Char123LangChar125RouteRoute: Char123LangChar125RouteRouteWithChildren,
   ApiPublicCreemWebhookRoute: ApiPublicCreemWebhookRoute,
+  LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
