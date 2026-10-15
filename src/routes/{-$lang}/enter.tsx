@@ -2,6 +2,13 @@ import { createFileRoute, redirect, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { getAuth, requestCode, verifyCode } from "@/lib/auth.functions";
+import { signInWithPassword } from "@/lib/password.functions";
+
+const PW = {
+  en: { usePw: "Sign in with password instead", useCode: "Send me a code instead", pwLabel: "Password", signIn: "Sign in", wrong: "E-mail or password doesn't match. You can always use a code instead.", tooMany: "Too many tries. Wait 15 minutes, or use a code." },
+  no: { usePw: "Logg inn med passord i stedet", useCode: "Send meg en kode i stedet", pwLabel: "Passord", signIn: "Logg inn", wrong: "E-post eller passord stemmer ikke. Du kan alltid bruke en kode i stedet.", tooMany: "For mange forsøk. Vent 15 minutter, eller bruk en kode." },
+  pl: { usePw: "Zaloguj się hasłem", useCode: "Wyślij mi kod", pwLabel: "Hasło", signIn: "Zaloguj się", wrong: "E-mail lub hasło się nie zgadza. Zawsze możesz użyć kodu.", tooMany: "Zbyt wiele prób. Odczekaj 15 minut lub użyj kodu." },
+};
 import { isProtectedPath } from "@/lib/auth.guard";
 import { toLang, useDict, useLang, langParam } from "@/lib/i18n";
 import { Page, StepHeader, Field, inputClass } from "@/components/site";
@@ -303,6 +310,27 @@ function EnterPage() {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<ErrKey | null>(null);
   const [devCode, setDevCode] = useState<string | null>(null);
+  const pwFn = useServerFn(signInWithPassword);
+  const pt = PW[lang as keyof typeof PW] ?? PW.en;
+  const [usePw, setUsePw] = useState(false);
+  const [pw, setPw] = useState("");
+  const [pwErr, setPwErr] = useState<"wrong" | "tooMany" | null>(null);
+
+  async function pwLogin(e: React.FormEvent) {
+    e.preventDefault();
+    setBusy(true);
+    setPwErr(null);
+    try {
+      const r = await pwFn({ data: { email, password: pw } });
+      if (r.ok) {
+        setStep("done");
+        await router.navigate({ to: `/{-$lang}${back ?? "/dashboard"}` as "/{-$lang}/dashboard", params: { lang: langParam(lang) } });
+      } else setPwErr(r.error ?? "wrong");
+    } catch {
+      setPwErr("wrong");
+    }
+    setBusy(false);
+  }
 
   async function send(e?: React.FormEvent) {
     e?.preventDefault();
@@ -346,12 +374,21 @@ function EnterPage() {
         <StepHeader step={t.step} title={step === "code" ? t.checkTitle : t.h1} intro={step === "code" ? t.checkBody(email) : t.intro} />
         {step === "done" ? <p role="status" className="text-sm font-medium text-primary">{t.welcome}</p> : null}
         {step === "email" ? (
-          <form onSubmit={send} className="space-y-4" noValidate>
+          <form onSubmit={usePw ? pwLogin : send} className="space-y-4" noValidate>
             <Field label={t.emailLabel}>
               <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required autoComplete="email" inputMode="email" placeholder={t.emailPlaceholder} className={inputClass} />
             </Field>
+            {usePw ? (
+              <Field label={pt.pwLabel}>
+                <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} autoComplete="current-password" className={inputClass} />
+              </Field>
+            ) : null}
             {error ? <p role="alert" className="text-sm text-destructive">{t.errors[error]}</p> : null}
-            <Button type="submit" disabled={busy || !email}>{busy ? t.sending : t.send}</Button>
+            {pwErr ? <p role="alert" className="text-sm text-destructive">{pwErr === "tooMany" ? pt.tooMany : pt.wrong}</p> : null}
+            <Button type="submit" disabled={busy || !email || (usePw && !pw)}>{usePw ? pt.signIn : busy ? t.sending : t.send}</Button>
+            <div>
+              <button type="button" className="text-sm underline" onClick={() => { setUsePw(!usePw); setPwErr(null); setError(null); }}>{usePw ? pt.useCode : pt.usePw}</button>
+            </div>
             <p className="text-xs text-muted-foreground">{t.privacy}</p>
           </form>
         ) : null}
