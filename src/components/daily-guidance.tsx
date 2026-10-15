@@ -12,7 +12,7 @@ import { SourceLine, type SourceId } from "@/components/guidance-sources";
  */
 
 type Pillar = { t: string; b: string };
-type Copy = {
+export type Copy = {
   photo: string;
   eyebrow: string;
   title: string;
@@ -223,10 +223,10 @@ export function guidanceCopy(lang: Lang): Copy {
 
 const ProGuidance = lazy(() => import("@/components/daily-guidance-pro"));
 
-const PILLAR_SRC: SourceId[] = ["protAge", "nnrProtein", "helsedirFish", "whoSugars", "whoActivity", "sleep", "social"];
+export const PILLAR_SRC: SourceId[] = ["protAge", "nnrProtein", "helsedirFish", "whoSugars", "whoActivity", "sleep", "social"];
 const SUPP_BOX_SRC: SourceId[][] = [["issnCreatine", "creatineOlder"], ["helsedirVitD"], ["odsB12"], ["efsaOmega3"], ["magnesiumSleep", "efsaUl"]];
 
-function NuanceBox({ c }: { c: Copy }) {
+export function NuanceBox({ c }: { c: Copy }) {
   return (
     <div className="rounded-xl border border-border bg-secondary/60 p-5">
       <h3 className="text-lg font-medium">{c.nuanceTitle}</h3>
@@ -234,6 +234,25 @@ function NuanceBox({ c }: { c: Copy }) {
         {c.nuance.map((n) => <li key={n}>{n}</li>)}
       </ul>
     </div>
+  );
+}
+
+export function SuppBox({ c }: { c: Copy }) {
+  return (
+    <div className="card-surface mt-5 p-5 sm:p-6">
+        <h3 className="text-xl">{c.suppBoxTitle}</h3>
+        <p className="mt-1 text-sm text-muted-foreground">{c.suppBoxLead}</p>
+        <ul className="mt-4 space-y-4">
+          {c.suppBox.map((x, i) => (
+            <li key={x.t}>
+              <p className="font-semibold">{x.t} <span className="ml-1 text-xs font-medium text-primary">{x.level}</span></p>
+              <p className="text-sm text-muted-foreground">{x.line}</p>
+              <SourceLine ids={SUPP_BOX_SRC[i] ?? []} label={c.sources} />
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-xs text-muted-foreground">{c.suppBoxFoot}</p>
+      </div>
   );
 }
 
@@ -258,20 +277,7 @@ export function GuidanceIntro() {
         <LangLink to="/enter" className="mt-4 inline-block text-sm underline">{c.signIn}</LangLink>
       </div>
       <div className="mt-5"><NuanceBox c={c} /></div>
-      <div className="card-surface mt-5 p-5 sm:p-6">
-        <h3 className="text-xl">{c.suppBoxTitle}</h3>
-        <p className="mt-1 text-sm text-muted-foreground">{c.suppBoxLead}</p>
-        <ul className="mt-4 space-y-4">
-          {c.suppBox.map((x, i) => (
-            <li key={x.t}>
-              <p className="font-semibold">{x.t} <span className="ml-1 text-xs font-medium text-primary">{x.level}</span></p>
-              <p className="text-sm text-muted-foreground">{x.line}</p>
-              <SourceLine ids={SUPP_BOX_SRC[i] ?? []} label={c.sources} />
-            </li>
-          ))}
-        </ul>
-        <p className="mt-4 text-xs text-muted-foreground">{c.suppBoxFoot}</p>
-      </div>
+      <SuppBox c={c} />
       <SourceLine ids={PILLAR_SRC} label={c.sources} />
       <p className="mt-3 text-xs text-muted-foreground">{c.disclaimer}</p>
     </section>

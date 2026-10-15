@@ -16,6 +16,7 @@ import walkImg from "@/assets/vita-walk.jpg";
 import type { Finding } from "@/lib/engine/types";
 import { Button } from "@/components/ui/button";
 import { DailyGuidance } from "@/components/daily-guidance";
+import { ActionInsert } from "@/components/action-insert";
 
 const ACTION_IMG = { daylight: daylightImg, food: foodImg, labs: labsImg } as const;
 const SLOT_FALLBACK = { drink: foodImg, sleep: sleepImg, move: walkImg } as const;
@@ -496,6 +497,7 @@ function ResultsPage() {
                       <a href={a.idea.href} target="_blank" rel="noopener noreferrer" className="mt-2 inline-block text-sm underline">{a.idea.label}</a>
                     </div>
                   ) : null}
+                  {!analysis.doctorGate ? <ActionInsert image={a.image} /> : null}
                   {a.affiliateSlot ? (
                     <p className="mt-3 rounded-md border border-dashed border-border px-3 py-2 text-xs text-muted-foreground">
                       {t.productSlot}

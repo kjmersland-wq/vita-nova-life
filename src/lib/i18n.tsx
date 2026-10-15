@@ -48,7 +48,8 @@ export type AppPath =
   | "/legal/privacy"
   | "/legal/terms"
   | "/legal/dpa"
-  | "/contact";
+  | "/contact"
+  | "/healthy-aging";
 
 export function toLang(v: unknown): Lang {
   return typeof v === "string" && (PREFIXED_LANGS as string[]).includes(v) ? (v as Lang) : "en";
