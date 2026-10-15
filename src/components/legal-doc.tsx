@@ -325,5 +325,12 @@ export function LegalDoc({ kind }: { kind: LegalKind }) {
 
 export function legalMeta(kind: LegalKind, lang: Lang) {
   const p = LEGAL_PAGES[lang][kind];
-  return [{ title: `${p.title} — Vita Nova Life` }, { name: "description", content: p.intro }];
+  const title = `${p.title} — Vita Nova Life`;
+  return [
+    { title },
+    { name: "description", content: p.intro },
+    { property: "og:title", content: title },
+    { property: "og:description", content: p.intro },
+    { property: "og:type", content: "website" },
+  ];
 }

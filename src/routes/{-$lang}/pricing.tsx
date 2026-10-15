@@ -426,7 +426,7 @@ const T = {
     meta: {
       title: "Kostenlos und Bezahlpläne — Vita Nova Life",
       description:
-        "Erstelle ein kostenloses Profil mit einem schnellen E-Mail-Code. Die Bezahlpläne bieten das komplette Panel, wöchentliche Check-ins und ein PDF deiner eigenen Zusammenfassung.",
+        "Preise und Pläne von Vita Nova Life: kostenlos starten, später mehr Funktionen freischalten. Alle Preise in Euro.",
       ogTitle: "Kostenlos und Bezahlpläne — Vita Nova Life",
       ogDescription: "Kostenloses Profil mit E-Mail-Code. Die Bezahlpläne bringen das komplette Panel, Check-ins und deine eigene PDF-Zusammenfassung.",
     },
@@ -494,7 +494,7 @@ const T = {
     meta: {
       title: "Gratuit et formules payantes — Vita Nova Life",
       description:
-        "Créez un profil gratuit avec un code rapide reçu par e-mail. Les formules payantes ajoutent le panel complet, des points de suivi hebdomadaires et un PDF de votre propre synthèse.",
+        "Tarifs et formules de Vita Nova Life : commencez gratuitement, débloquez plus de fonctions plus tard. Tous les prix en euros.",
       ogTitle: "Gratuit et formules payantes — Vita Nova Life",
       ogDescription: "Profil gratuit avec code e-mail. Les formules payantes ajoutent le panel complet, le suivi et votre propre synthèse PDF.",
     },
@@ -562,7 +562,7 @@ const T = {
     meta: {
       title: "Gratis en betaalde abonnementen — Vita Nova Life",
       description:
-        "Maak een gratis profiel aan met een snelle e-mailcode. De betaalde abonnementen bieden het volledige paneel, wekelijkse check-ins en een pdf van je eigen samenvatting.",
+        "Prijzen en abonnementen van Vita Nova Life: begin gratis, ontgrendel later meer functies. Alle prijzen in euro.",
       ogTitle: "Gratis en betaalde abonnementen — Vita Nova Life",
       ogDescription: "Gratis profiel met e-mailcode. Betaalde abonnementen voegen het volledige paneel, check-ins en je eigen pdf-samenvatting toe.",
     },

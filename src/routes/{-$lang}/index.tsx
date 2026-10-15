@@ -1,7 +1,7 @@
-import { socialMeta } from "@/lib/social";
+import { socialMeta, SITE_ORIGIN } from "@/lib/social";
 import { createFileRoute } from "@tanstack/react-router";
 import tableImg from "@/assets/vita-food-coffee.jpg";
-import { LangLink, toLang, useDict, useLangNavigate } from "@/lib/i18n";
+import { LANG_META, LangLink, toLang, useDict, useLangNavigate } from "@/lib/i18n";
 import { Page } from "@/components/site";
 import { ArrowRight, Check, FileText, Fingerprint, HeartPulse, Leaf, ShieldCheck } from "lucide-react";
 import heroImage from "@/assets/vita-hero.jpg";
@@ -10,9 +10,9 @@ import stairsImage from "@/assets/vita-stairs.jpg";
 const T = {
   en: {
     meta: {
-      title: "Vita Nova Life — Bring your own blood test, get three actions",
+      title: "Understand your blood test results | Vita Nova Life",
       description:
-        "Enter your own lab values and get one clear takeaway, up to three actions and a four-week plan. Everyday habits before pills. Not medical advice.",
+        "Bring your own blood test. We read it against your lab's own reference ranges and give you one priority, up to three practical actions and a 4-week plan.",
       ogTitle: "Vita Nova Life — Bring your own blood test",
       ogDescription: "One takeaway, three actions, a four-week plan. Built on your own lab's ranges.",
     },
@@ -50,9 +50,9 @@ const T = {
   },
   no: {
     meta: {
-      title: "Vita Nova Life — Bruk din egen blodprøve, få tre tiltak",
+      title: "Forstå blodprøvesvarene dine | Vita Nova Life",
       description:
-        "Legg inn egne prøvesvar og få ett tydelig svar, maks tre tiltak og en fireukersplan. Hverdagsvaner før piller. Ikke medisinske råd.",
+        "Ta med din egen blodprøve. Vi leser den mot laboratoriets egne referanseområder og gir deg én prioritet, opptil tre praktiske tiltak og en 4-ukers plan.",
       ogTitle: "Vita Nova Life — Bruk din egen blodprøve",
       ogDescription: "Ett svar, tre tiltak, en fireukersplan. Bygget på referanseverdiene fra ditt eget laboratorium.",
     },
@@ -90,9 +90,9 @@ const T = {
   },
   pl: {
     meta: {
-      title: "Vita Nova Life — weź swoje badanie krwi, otrzymaj trzy działania",
+      title: "Zrozum wyniki badania krwi | Vita Nova Life",
       description:
-        "Wpisz swoje wyniki i dostaniesz jeden jasny wniosek, maksymalnie trzy działania i czterotygodniowy plan. Codzienne nawyki przed tabletkami. To nie porada medyczna.",
+        "Przynieś własne badanie krwi. Porównamy je z zakresami referencyjnymi twojego laboratorium i damy jeden priorytet, do trzech działań i plan na 4 tygodnie.",
       ogTitle: "Vita Nova Life — weź swoje badanie krwi",
       ogDescription: "Jeden wniosek, trzy działania, czterotygodniowy plan. Oparte na zakresach Twojego laboratorium.",
     },
@@ -130,9 +130,9 @@ const T = {
   },
   dk: {
     meta: {
-      title: "Vita Nova Life — Tag din egen blodprøve med, og få tre tiltag",
+      title: "Forstå dine blodprøvesvar | Vita Nova Life",
       description:
-        "Indtast dine egne laboratorieværdier og få ét klart hovedbudskab, op til tre tiltag og en plan for fire uger. Hverdagsvaner før piller. Ikke medicinsk rådgivning.",
+        "Tag din egen blodprøve med. Vi læser den mod dit laboratoriums referenceintervaller og giver dig én prioritet, op til tre tiltag og en 4-ugers plan.",
       ogTitle: "Vita Nova Life — Tag din egen blodprøve med",
       ogDescription: "Ét hovedbudskab, tre tiltag, en plan for fire uger. Bygget på dit eget laboratoriums intervaller.",
     },
@@ -170,9 +170,9 @@ const T = {
   },
   se: {
     meta: {
-      title: "Vita Nova Life — Ta med ditt eget blodprov och få tre åtgärder",
+      title: "Förstå dina blodprovssvar | Vita Nova Life",
       description:
-        "Fyll i dina egna laboratorievärden och få ett tydligt huvudbudskap, upp till tre åtgärder och en plan för fyra veckor. Vardagsvanor före piller. Inte medicinsk rådgivning.",
+        "Ta med ditt eget blodprov. Vi läser det mot ditt labbs referensintervall och ger dig en prioritet, upp till tre åtgärder och en 4-veckorsplan.",
       ogTitle: "Vita Nova Life — Ta med ditt eget blodprov",
       ogDescription: "Ett huvudbudskap, tre åtgärder, en plan för fyra veckor. Byggt på ditt eget laboratoriums intervall.",
     },
@@ -210,9 +210,9 @@ const T = {
   },
   fi: {
     meta: {
-      title: "Vita Nova Life — Tuo oma verikokeesi ja saat kolme tekoa",
+      title: "Ymmärrä verikoetuloksesi | Vita Nova Life",
       description:
-        "Syötä omat laboratorioarvosi ja saat yhden selkeän pääviestin, enintään kolme tekoa ja neljän viikon suunnitelman. Arjen tavat ennen pillereitä. Ei lääketieteellistä neuvontaa.",
+        "Tuo oma verikokeesi. Luemme sen laboratoriosi viitealueita vasten ja annamme yhden ykkösasian, enintään kolme toimea ja neljän viikon suunnitelman.",
       ogTitle: "Vita Nova Life — Tuo oma verikokeesi",
       ogDescription: "Yksi pääviesti, kolme tekoa, neljän viikon suunnitelma. Rakennettu oman laboratoriosi viitealueille.",
     },
@@ -250,9 +250,9 @@ const T = {
   },
   de: {
     meta: {
-      title: "Vita Nova Life — Bring deine eigene Blutuntersuchung mit, erhalte drei Maßnahmen",
+      title: "Blutwerte verstehen | Vita Nova Life",
       description:
-        "Gib deine eigenen Laborwerte ein und erhalte eine klare Kernaussage, bis zu drei Maßnahmen und einen Vier-Wochen-Plan. Alltagsgewohnheiten vor Pillen. Keine medizinische Beratung.",
+        "Bring deinen Laborbefund mit. Wir lesen ihn mit den Referenzbereichen deines Labors und geben dir eine Priorität, bis zu drei Maßnahmen und einen 4-Wochen-Plan.",
       ogTitle: "Vita Nova Life — Bring deine eigene Blutuntersuchung mit",
       ogDescription: "Eine Kernaussage, drei Maßnahmen, ein Vier-Wochen-Plan. Aufgebaut auf den Bereichen deines eigenen Labors.",
     },
@@ -290,9 +290,9 @@ const T = {
   },
   fr: {
     meta: {
-      title: "Vita Nova Life — Apportez votre propre prise de sang, obtenez trois actions",
+      title: "Comprendre vos analyses de sang | Vita Nova Life",
       description:
-        "Saisissez vos propres valeurs d'analyses et obtenez un message clé clair, jusqu'à trois actions et un plan sur quatre semaines. Les habitudes du quotidien avant les pilules. Pas un avis médical.",
+        "Apportez vos analyses. Nous les lisons avec les valeurs de référence de votre laboratoire : une priorité, jusqu'à trois actions et un plan de 4 semaines.",
       ogTitle: "Vita Nova Life — Apportez votre propre prise de sang",
       ogDescription: "Un message clé, trois actions, un plan sur quatre semaines. Construit sur les intervalles de votre propre laboratoire.",
     },
@@ -330,9 +330,9 @@ const T = {
   },
   nl: {
     meta: {
-      title: "Vita Nova Life — Neem je eigen bloedonderzoek mee en krijg drie acties",
+      title: "Je bloedonderzoek begrijpen | Vita Nova Life",
       description:
-        "Voer je eigen bloedwaarden in en krijg één duidelijke boodschap, maximaal drie acties en een plan voor vier weken. Dagelijkse gewoontes voor pillen. Geen medisch advies.",
+        "Neem je eigen bloedonderzoek mee. We lezen het met de referentiewaarden van je lab en geven je één prioriteit, maximaal drie acties en een plan van 4 weken.",
       ogTitle: "Vita Nova Life — Neem je eigen bloedonderzoek mee",
       ogDescription: "Eén boodschap, drie acties, een plan voor vier weken. Gebouwd op de referentiewaarden van je eigen laboratorium.",
     },
@@ -382,6 +382,32 @@ export const Route = createFileRoute("/{-$lang}/")({
         { name: "description", content: m.description },
         { property: "og:title", content: m.ogTitle },
         { property: "og:description", content: m.ogDescription },
+      ],
+      scripts: [
+        {
+          type: "application/ld+json",
+          children: JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "Organization",
+                "@id": `${SITE_ORIGIN}/#organization`,
+                name: "Vita Nova Life",
+                url: `${SITE_ORIGIN}/`,
+                logo: `${SITE_ORIGIN}/icon-512.png`,
+              },
+              {
+                "@type": "WebSite",
+                "@id": `${SITE_ORIGIN}/#website`,
+                url: `${SITE_ORIGIN}/`,
+                name: "Vita Nova Life",
+                description: m.description,
+                inLanguage: LANG_META[toLang(params.lang)].html,
+                publisher: { "@id": `${SITE_ORIGIN}/#organization` },
+              },
+            ],
+          }),
+        },
       ],
     };
   },

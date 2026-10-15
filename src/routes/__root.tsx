@@ -14,6 +14,7 @@ import type { ErrorComponentProps } from "@tanstack/react-router";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LANG_META, langFromPath } from "../lib/i18n";
+import { seoLinks, seoMeta } from "../lib/seo";
 
 const SYS_T = {
   en: { nf: "Page not found", nfBody: "The page you're looking for doesn't exist or has been moved.", home: "Go home", err: "This page didn't load", errBody: "Something went wrong on our end. You can try refreshing or head back home.", retry: "Try again" },
@@ -146,6 +147,13 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang={LANG_META[langFromPath(pathname)].html}>
       <head>
         <HeadContent />
+        {/* Canonical, hreflang, og:url and robots depend only on the URL, so they are set here for every page. */}
+        {seoMeta(pathname).map((m) => (
+          <meta key={`${m.name ?? m.property}:${m.content}`} {...m} />
+        ))}
+        {seoLinks(pathname).map((l) => (
+          <link key={`${l.rel}:${l.hrefLang ?? ""}`} {...l} />
+        ))}
       </head>
       <body>
         {children}

@@ -290,7 +290,7 @@ export const Route = createFileRoute("/{-$lang}/enter")({
   },
   head: ({ params }) => {
     const m = T[toLang(params.lang)];
-    return { meta: [{ title: m.title }, { name: "description", content: m.description }, { name: "robots", content: "noindex, nofollow" }] };
+    return { meta: [{ title: m.title }, { name: "description", content: m.description }] };
   },
   component: EnterPage,
 });

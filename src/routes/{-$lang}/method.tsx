@@ -10,9 +10,9 @@ import { HealthyAgingLink } from "@/components/healthy-aging";
 const T = {
   en: {
     meta: {
-      title: "Method — how Vita Nova Life decides",
+      title: "How we interpret your blood test | Vita Nova Life",
       description:
-        "We use your lab's own ranges, cap actions at three, put lifestyle before pills, and stop when a value needs a doctor.",
+        "We use your lab's own reference ranges, open rules and a cap of three actions. Lifestyle comes before pills, and a doctor comes first when a value needs one.",
       ogTitle: "Method — how Vita Nova Life decides",
       ogDescription: "Fixed rules, written in public. No free-form chatbot diagnosing you.",
     },
@@ -52,9 +52,9 @@ const T = {
   },
   no: {
     meta: {
-      title: "Metode — hvordan Vita Nova Life bestemmer",
+      title: "Slik tolker vi blodprøven din | Vita Nova Life",
       description:
-        "Vi bruker referanseverdiene fra ditt eget laboratorium, setter et tak på tre tiltak, setter livsstil foran piller, og stopper når en verdi krever lege.",
+        "Vi bruker laboratoriets egne referanseområder, åpne regler og maks tre tiltak. Livsstil kommer før piller, og legen først når en verdi krever det.",
       ogTitle: "Metode — hvordan Vita Nova Life bestemmer",
       ogDescription: "Faste regler, skrevet åpent. Ingen fri chatbot som stiller diagnose.",
     },
@@ -94,9 +94,9 @@ const T = {
   },
   pl: {
     meta: {
-      title: "Metoda — jak działa Vita Nova Life",
+      title: "Jak interpretujemy twoje badanie krwi | Vita Nova Life",
       description:
-        "Korzystamy z zakresów referencyjnych Twojego laboratorium, ograniczamy działania do trzech, stawiamy styl życia przed tabletkami i zatrzymujemy się, gdy wartość wymaga lekarza.",
+        "Używamy zakresów referencyjnych twojego laboratorium, jawnych reguł i maksymalnie trzech działań. Najpierw styl życia, a gdy wynik tego wymaga, lekarz.",
       ogTitle: "Metoda — jak działa Vita Nova Life",
       ogDescription: "Ustalone reguły, opisane publicznie. Żadnego swobodnego chatbota stawiającego diagnozy.",
     },
@@ -136,9 +136,9 @@ const T = {
   },
   dk: {
     meta: {
-      title: "Metode — sådan beslutter Vita Nova Life",
+      title: "Sådan tolker vi din blodprøve | Vita Nova Life",
       description:
-        "Vi bruger dit eget laboratoriums referenceintervaller, begrænser os til tre tiltag, sætter livsstil før piller og stopper, når en værdi kræver en læge.",
+        "Vi bruger dit laboratoriums referenceintervaller, åbne regler og højst tre tiltag. Livsstil før piller, og lægen først, når en værdi kræver det.",
       ogTitle: "Metode — sådan beslutter Vita Nova Life",
       ogDescription: "Faste regler, skrevet åbent. Ingen fri chatbot, der stiller diagnoser.",
     },
@@ -178,9 +178,9 @@ const T = {
   },
   se: {
     meta: {
-      title: "Metod — så bestämmer Vita Nova Life",
+      title: "Så tolkar vi ditt blodprov | Vita Nova Life",
       description:
-        "Vi använder ditt eget laboratoriums referensintervall, begränsar oss till tre åtgärder, sätter livsstil före piller och stannar när ett värde kräver en läkare.",
+        "Vi använder ditt labbs referensintervall, öppna regler och högst tre åtgärder. Livsstil före piller, och läkaren först när ett värde kräver det.",
       ogTitle: "Metod — så bestämmer Vita Nova Life",
       ogDescription: "Fasta regler, skrivna öppet. Ingen fri chatbot som ställer diagnoser.",
     },
@@ -220,9 +220,9 @@ const T = {
   },
   fi: {
     meta: {
-      title: "Menetelmä — näin Vita Nova Life päättää",
+      title: "Näin tulkitsemme verikokeesi | Vita Nova Life",
       description:
-        "Käytämme oman laboratoriosi viitealueita, rajaamme teot kolmeen, panemme elämäntavat pillereiden edelle ja pysähdymme, kun arvo vaatii lääkäriä.",
+        "Käytämme laboratoriosi viitealueita, avoimia sääntöjä ja enintään kolmea toimea. Elämäntavat ennen pillereitä, ja lääkäri ensin, kun arvo sitä vaatii.",
       ogTitle: "Menetelmä — näin Vita Nova Life päättää",
       ogDescription: "Kiinteät säännöt, kirjoitettu avoimesti. Ei vapaata chatbottia, joka tekisi diagnooseja.",
     },
@@ -262,9 +262,9 @@ const T = {
   },
   de: {
     meta: {
-      title: "Methode — so entscheidet Vita Nova Life",
+      title: "So deuten wir deine Blutwerte | Vita Nova Life",
       description:
-        "Wir nutzen die Referenzbereiche deines eigenen Labors, begrenzen die Maßnahmen auf drei, stellen Lebensstil vor Pillen und hören auf, wenn ein Wert ärztliche Hilfe braucht.",
+        "Wir nutzen die Referenzbereiche deines Labors, offene Regeln und höchstens drei Maßnahmen. Lebensstil vor Tabletten, bei auffälligen Werten zuerst die Ärztin.",
       ogTitle: "Methode — so entscheidet Vita Nova Life",
       ogDescription: "Feste Regeln, offen aufgeschrieben. Kein freier Chatbot, der Diagnosen stellt.",
     },
@@ -304,9 +304,9 @@ const T = {
   },
   fr: {
     meta: {
-      title: "Méthode — comment Vita Nova Life décide",
+      title: "Comment nous interprétons vos analyses | Vita Nova Life",
       description:
-        "Nous utilisons les intervalles de référence de votre propre laboratoire, limitons les actions à trois, plaçons le mode de vie avant les pilules et nous arrêtons quand une valeur demande un médecin.",
+        "Valeurs de référence de votre laboratoire, règles ouvertes, trois actions maximum. Le mode de vie avant les pilules, le médecin d'abord si une valeur l'exige.",
       ogTitle: "Méthode — comment Vita Nova Life décide",
       ogDescription: "Des règles fixes, écrites au grand jour. Pas de chatbot libre qui pose des diagnostics.",
     },
@@ -346,9 +346,9 @@ const T = {
   },
   nl: {
     meta: {
-      title: "Methode — zo beslist Vita Nova Life",
+      title: "Zo duiden we je bloedonderzoek | Vita Nova Life",
       description:
-        "We gebruiken de referentiewaarden van je eigen laboratorium, beperken acties tot drie, zetten leefstijl voor pillen en stoppen als een waarde een arts nodig heeft.",
+        "We gebruiken de referentiewaarden van je lab, open regels en maximaal drie acties. Leefstijl vóór pillen, en eerst naar de arts als een waarde dat vraagt.",
       ogTitle: "Methode — zo beslist Vita Nova Life",
       ogDescription: "Vaste regels, openlijk opgeschreven. Geen vrije chatbot die diagnoses stelt.",
     },

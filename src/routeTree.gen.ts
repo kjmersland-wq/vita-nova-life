@@ -9,6 +9,8 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as Char123LangChar125RouteRouteImport } from './routes/{-$lang}/route'
 import { Route as Char123LangChar125IndexRouteImport } from './routes/{-$lang}/index'
 import { Route as Char123LangChar125ContactRouteImport } from './routes/{-$lang}/contact'
@@ -31,6 +33,16 @@ import { Route as Char123LangChar125LegalPrivacyRouteImport } from './routes/{-$
 import { Route as Char123LangChar125LegalTermsRouteImport } from './routes/{-$lang}/legal.terms'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char123LangChar125RouteRoute = Char123LangChar125RouteRouteImport.update({
   id: '/{-$lang}',
   path: '/{-$lang}',
@@ -152,6 +164,8 @@ const LovableEmailTransactionalPreviewRoute =
 
 export interface FileRoutesByFullPath {
   '/{-$lang}': typeof Char123LangChar125RouteRouteWithChildren
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
   '/{-$lang}/dashboard': typeof Char123LangChar125DashboardRoute
   '/{-$lang}/enter': typeof Char123LangChar125EnterRoute
@@ -174,6 +188,8 @@ export interface FileRoutesByFullPath {
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
   '/{-$lang}/dashboard': typeof Char123LangChar125DashboardRoute
   '/{-$lang}/enter': typeof Char123LangChar125EnterRoute
@@ -198,6 +214,8 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/{-$lang}': typeof Char123LangChar125RouteRouteWithChildren
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/{-$lang}/contact': typeof Char123LangChar125ContactRoute
   '/{-$lang}/dashboard': typeof Char123LangChar125DashboardRoute
   '/{-$lang}/enter': typeof Char123LangChar125EnterRoute
@@ -223,6 +241,8 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/{-$lang}'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/{-$lang}/contact'
     | '/{-$lang}/dashboard'
     | '/{-$lang}/enter'
@@ -245,6 +265,8 @@ export interface FileRouteTypes {
     | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/{-$lang}/contact'
     | '/{-$lang}/dashboard'
     | '/{-$lang}/enter'
@@ -268,6 +290,8 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/{-$lang}'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/{-$lang}/contact'
     | '/{-$lang}/dashboard'
     | '/{-$lang}/enter'
@@ -292,12 +316,28 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   Char123LangChar125RouteRoute: typeof Char123LangChar125RouteRouteWithChildren
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ApiPublicCreemWebhookRoute: typeof ApiPublicCreemWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/{-$lang}': {
       id: '/{-$lang}'
       path: '/{-$lang}'
@@ -498,6 +538,8 @@ const Char123LangChar125RouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   Char123LangChar125RouteRoute: Char123LangChar125RouteRouteWithChildren,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   ApiPublicCreemWebhookRoute: ApiPublicCreemWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
