@@ -273,7 +273,7 @@ const T = {
 
 export const Route = createFileRoute("/{-$lang}/enter")({
   validateSearch: (s: Record<string, unknown>): { redirect?: string } => ({
-    ...(typeof s["redirect"] === "string" && isProtectedPath(s["redirect"]) ? { redirect: s["redirect"] } : {}),
+    ...(typeof s["redirect"] === "string" && (isProtectedPath(s["redirect"]) || s["redirect"] === "/pricing") ? { redirect: s["redirect"] } : {}),
   }),
   beforeLoad: async ({ params, search }) => {
     const { email } = await getAuth();
