@@ -23,7 +23,10 @@ export type SourceId =
   | "cochraneCognition"
   | "cochraneFolate"
   | "magnesiumSleep"
-  | "efsaUl";
+  | "efsaUl"
+  | "dogActivity"
+  | "ahaPets"
+  | "petsAging";
 
 export type Source = { short: string; full: string; href: string };
 
@@ -127,6 +130,21 @@ export const SOURCES: Record<SourceId, Source> = {
     short: "EFSA: upper intake levels, magnesium",
     full: "European Food Safety Authority. Tolerable Upper Intake Levels for Vitamins and Minerals (2006): 250 mg per day for supplemental magnesium.",
     href: "https://www.efsa.europa.eu/sites/default/files/efsa_rep/blobserver_assets/ndatolerableuil.pdf",
+  },
+  dogActivity: {
+    short: "Dog ownership and physical activity, Christian 2013",
+    full: "Christian HE et al. Dog ownership and physical activity: a review of the evidence. J Phys Act Health 2013 (dog owners walk and are active more than non-owners; small to moderate effect).",
+    href: "https://pubmed.ncbi.nlm.nih.gov/23006510/",
+  },
+  ahaPets: {
+    short: "AHA statement: pet ownership, Levine 2013",
+    full: "Levine GN et al. Pet ownership and cardiovascular risk: a scientific statement from the American Heart Association. Circulation 2013 (dog ownership probably linked to lower risk; pets should not be acquired mainly for health).",
+    href: "https://professional.heart.org/en/science-news/pet-ownership-and-cardiovascular-risk",
+  },
+  petsAging: {
+    short: "Umbrella review, animals and older adults 2025 (loneliness: mixed)",
+    full: "Umbrella review of systematic reviews on animals and older adults, BMC Geriatrics 2025. Dog-assisted programmes in care settings reduced loneliness; findings for community-dwelling owners are mixed.",
+    href: "https://link.springer.com/article/10.1186/s12877-025-06487-3",
   },
 };
 

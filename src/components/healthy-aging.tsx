@@ -157,6 +157,37 @@ function copyFor(lang: string): Copy {
   return lang === "no" || lang === "pl" ? COPY[lang] : COPY.en;
 }
 
+
+/**
+ * A short, warm note about a dog as a walking and social companion, with one discreet text link.
+ * Placed under the habits (movement and company). Shown in all nine languages.
+ */
+const DOG: Record<string, { text: string; link: string; note: string; sources: string }> = {
+  en: { text: "Many people find that a dog brings both more walking and good company. If you are thinking about getting one, there are honest guides at", link: "doggmatch.com", note: "A dog is a long commitment, so choose with care. The evidence is about more activity; for loneliness it is mixed.", sources: "Sources" },
+  no: { text: "Mange merker at en hund gir både mer gåing og godt selskap. Hvis du vurderer å skaffe hund, finnes det ærlige guider på", link: "doggmatch.com", note: "En hund er en lang forpliktelse, så velg med omhu. Dokumentasjonen gjelder mer aktivitet; for ensomhet er den blandet.", sources: "Kilder" },
+  pl: { text: "Wiele osób zauważa, że pies daje zarówno więcej spacerów, jak i dobre towarzystwo. Jeśli myślisz o psie, uczciwe poradniki znajdziesz na", link: "doggmatch.com", note: "Pies to długie zobowiązanie, więc wybieraj z namysłem. Dowody dotyczą większej aktywności; w kwestii samotności są niejednoznaczne.", sources: "Źródła" },
+  dk: { text: "Mange oplever, at en hund giver både flere gåture og godt selskab. Hvis du overvejer at få hund, findes der ærlige guider på", link: "doggmatch.com", note: "En hund er en lang forpligtelse, så vælg med omhu. Dokumentationen handler om mere aktivitet; for ensomhed er den blandet.", sources: "Kilder" },
+  se: { text: "Många märker att en hund ger både mer promenader och gott sällskap. Om du funderar på att skaffa hund finns det ärliga guider på", link: "doggmatch.com", note: "En hund är ett långt åtagande, så välj med omsorg. Underlaget gäller mer aktivitet; för ensamhet är det blandat.", sources: "Källor" },
+  fi: { text: "Monet huomaavat, että koira tuo sekä enemmän kävelyä että hyvää seuraa. Jos harkitset koiran hankkimista, rehellisiä oppaita löytyy osoitteesta", link: "doggmatch.com", note: "Koira on pitkä sitoumus, joten valitse harkiten. Näyttö koskee lisääntynyttä liikuntaa; yksinäisyyden osalta se on ristiriitaista.", sources: "Lähteet" },
+  de: { text: "Viele merken, dass ein Hund sowohl mehr Bewegung als auch gute Gesellschaft bringt. Wenn du darüber nachdenkst, dir einen Hund anzuschaffen, gibt es ehrliche Ratgeber auf", link: "doggmatch.com", note: "Ein Hund ist eine lange Verpflichtung, also wähle mit Bedacht. Die Belege betreffen mehr Aktivität; bei Einsamkeit sind sie gemischt.", sources: "Quellen" },
+  fr: { text: "Beaucoup constatent qu'un chien apporte à la fois plus de marche et une bonne compagnie. Si vous envisagez d'en adopter un, des guides honnêtes existent sur", link: "doggmatch.com", note: "Un chien est un engagement durable, alors choisissez avec soin. Les preuves portent sur plus d'activité ; pour la solitude, elles sont mitigées.", sources: "Sources" },
+  nl: { text: "Veel mensen merken dat een hond zowel meer wandelen als goed gezelschap brengt. Overweeg je een hond te nemen, dan vind je eerlijke gidsen op", link: "doggmatch.com", note: "Een hond is een lange verplichting, dus kies zorgvuldig. Het bewijs gaat over meer beweging; voor eenzaamheid is het gemengd.", sources: "Bronnen" },
+};
+
+function DogCompanion() {
+  const d = DOG[useLang()] ?? DOG["en"]!;
+  return (
+    <div className="mt-5 border-l-2 border-accent/60 pl-4">
+      <p className="text-sm leading-relaxed">
+        {d.text}{" "}
+        <a href="https://doggmatch.com" target="_blank" rel="noopener noreferrer" className="font-medium underline">{d.link}</a>.
+      </p>
+      <p className="mt-1 text-xs text-muted-foreground">{d.note}</p>
+      <SourceLine ids={["dogActivity", "ahaPets", "petsAging"]} label={d.sources} />
+    </div>
+  );
+}
+
 /** A quiet link card, used on the Method page. */
 export function HealthyAgingLink() {
   const c = copyFor(useLang());
@@ -192,6 +223,7 @@ export function HealthyAgingContent() {
           ))}
         </ul>
         <SourceLine ids={PILLAR_SRC} label={g.sources} />
+        <DogCompanion />
       </section>
 
       <section className="mt-10 rounded-xl border border-primary/30 bg-primary/5 p-5 sm:p-6" aria-labelledby="ha-differ">
