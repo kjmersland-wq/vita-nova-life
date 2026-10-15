@@ -28,7 +28,7 @@ const SignInCode = ({ code = '000000', lang }: Props) => {
 
 export const template = {
   component: SignInCode,
-  subject: (d: Record<string, any>) => AUTH_MAIL[toLang(d.lang)].subject(String(d.code ?? '')),
+  subject: (d: Record<string, any>) => AUTH_MAIL[toLang(d['lang'])].subject(String(d['code'] ?? '')),
   displayName: 'Sign-in code',
   previewData: { code: '482913', lang: 'en' },
 } satisfies TemplateEntry

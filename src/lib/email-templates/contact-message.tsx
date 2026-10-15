@@ -22,7 +22,7 @@ const ContactMessage = ({ name = '', email = '', message = '' }: Props) => (
 
 export const template = {
   component: ContactMessage,
-  subject: (d: Record<string, any>) => `Contact form: ${String(d.name ?? 'visitor').slice(0, 80)}`,
+  subject: (d: Record<string, any>) => `Contact form: ${String(d['name'] ?? 'visitor').slice(0, 80)}`,
   displayName: 'Contact form message',
   to: 'support@vitanovalife.com',
   previewData: { name: 'Jane', email: 'jane@example.com', message: 'Hello!' },
