@@ -1,4 +1,5 @@
 import { requireAuth } from "@/lib/auth.guard";
+import { WhatNow, SeasonsOverview } from "@/components/year-round";
 import { socialMeta } from "@/lib/social";
 import { useMemo } from "react";
 import { LangLink, toLang, useDict, useLang } from "@/lib/i18n";
@@ -287,6 +288,9 @@ function ProgramPage() {
             </div>
           ))}
         </div>
+
+        <WhatNow />
+        <SeasonsOverview />
 
         <img src={sofaImg} alt="" loading="lazy" width={1440} height={960} className="mt-8 aspect-[21/9] w-full rounded-md object-cover" />
 
