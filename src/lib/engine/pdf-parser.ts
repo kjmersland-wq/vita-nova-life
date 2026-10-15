@@ -94,7 +94,7 @@ const MARKER_NAMES: Record<MarkerKey, RegExp> = {
   tsh: /\btsh\b/i,
   glucose: /(?:glucose|glukose|glukos|glykemi|blodsukker|blodsocker)/i,
   hba1c: /hb\s*a\s*1\s*c/i,
-  cholesterol: /(?:total\s*)?(?:cholesterol|kolesterol)(?!\s*(?:hdl|ldl))/i,
+  cholesterol: /^(?!.*(?:hdl|ldl)).*(?:cholesterol|kolesterol)/i,
   hdl: /\bhdl\b/i,
   ldl: /\bldl\b/i,
   triglycerides: /(?:triglycerid|triglyserid|trigly)/i,

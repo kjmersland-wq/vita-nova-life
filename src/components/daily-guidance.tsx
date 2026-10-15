@@ -2,6 +2,7 @@ import { lazy, Suspense } from "react";
 import { LangLink, useLang, type Lang } from "@/lib/i18n";
 import { useAppState } from "@/lib/store";
 import { GuideFigure, type GuideImgKey } from "@/components/guidance-images";
+import { SourceLine, type SourceId } from "@/components/guidance-sources";
 
 /**
  * Everyday health and food guidance.
@@ -30,6 +31,19 @@ type Copy = {
   signIn: string;
   alts: Record<"walk" | "strength", string>;
   disclaimer: string;
+  sources: string;
+  nuanceTitle: string;
+  nuance: string[];
+  ownTitle: string;
+  ownNote: string;
+  noteMuscle: string;
+  noteVitD: string;
+  noteB12: string;
+  noteSugar: string;
+  suppBoxTitle: string;
+  suppBoxLead: string;
+  suppBox: { t: string; level: string; line: string }[];
+  suppBoxFoot: string;
 };
 
 const COPY: Record<"en" | "no" | "pl", Copy> = {
@@ -64,6 +78,30 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
       strength: "A relaxed group exercise class where older adults gently stretch resistance bands.",
     },
     disclaimer: "General wellbeing information, not medical advice. Talk to your doctor before changing your diet or starting supplements, especially with kidney disease, medicines or pregnancy.",
+    sources: "Sources",
+    nuanceTitle: "Our honest take on supplements",
+    nuance: [
+      "We rarely recommend supplements first.",
+      "Many people get more from sleep, strength training and cutting sweet drinks.",
+      "If a supplement makes sense, it is because your own lab value points that way, and we will say so.",
+      "We do not sell supplements and earn nothing from them.",
+    ],
+    ownTitle: "From your own values",
+    ownNote: "Your priority above always decides. These lines just explain the everyday context.",
+    noteMuscle: "At your age, protein and strength training are the two things that protect muscle most. That is where your everyday priority comes from.",
+    noteVitD: "Your vitamin D is below your lab's range. This is one of the places where a supplement can make sense, and your doctor can help you choose the dose.",
+    noteB12: "Your B12 is below your lab's range. Older adults absorb B12 from food less well, so this is worth a chat with your doctor.",
+    noteSugar: "Your blood sugar is above your lab's range. Swapping sweet drinks for water is a simple, well-studied place to start.",
+    suppBoxTitle: "Supplements with the best documentation, as support",
+    suppBoxLead: "Food, movement and sleep come first. If you and your doctor decide to add something, these have the most behind them.",
+    suppBox: [
+      { t: "Creatine monohydrate", level: "Good for muscle with training", line: "Best documented as a support alongside strength training in older adults. Early evidence for memory. Considered safe for healthy people; check with your doctor if you have kidney disease." },
+      { t: "Vitamin D", level: "Strong where levels are low", line: "Especially relevant in Norway. The recommendation is higher over 75, and your own blood test shows if you need it." },
+      { t: "Vitamin B12", level: "Strong for fixing a shortfall", line: "Older adults absorb B12 from food less well. Useful when a result shows a shortfall." },
+      { t: "Omega-3 (EPA, DHA)", level: "A stand-in for fish", line: "Relevant if you rarely eat fatty fish. Fish itself does the job well." },
+      { t: "Magnesium", level: "Limited", line: "Evidence for better sleep in older adults is small and of low quality. Not for everyone." },
+    ],
+    suppBoxFoot: "None of these treats or reverses established dementia. They can help prevent shortfalls and support a good lifestyle. Doses and details are in your Pro guide.",
   },
   no: {
     photo: "Foto",
@@ -96,6 +134,30 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
       strength: "En avslappet treningstime der eldre rolig tøyer strikk.",
     },
     disclaimer: "Generell velværeinformasjon, ikke medisinsk rådgivning. Snakk med legen din før du endrer kostholdet eller starter med tilskudd, særlig ved nyresykdom, medisinbruk eller graviditet.",
+    sources: "Kilder",
+    nuanceTitle: "Vårt ærlige syn på tilskudd",
+    nuance: [
+      "Vi anbefaler sjelden tilskudd først.",
+      "Mange får mer igjen for søvn, styrketrening og å kutte søte drikker.",
+      "Hvis et tilskudd gir mening, er det fordi dine egne laboratorieverdier peker den veien, og da sier vi det.",
+      "Vi selger ikke tilskudd og tjener ingenting på dem.",
+    ],
+    ownTitle: "Fra dine egne verdier",
+    ownNote: "Prioriteten din ovenfor avgjør alltid. Disse linjene forklarer bare hverdagssammenhengen.",
+    noteMuscle: "I din alder er protein og styrketrening de to tingene som beskytter musklene mest. Det er derfra hverdagsprioriteten din kommer.",
+    noteVitD: "Vitamin D-verdien din ligger under laboratoriets område. Dette er et av stedene der et tilskudd kan gi mening, og legen din kan hjelpe deg å velge dose.",
+    noteB12: "B12-verdien din ligger under laboratoriets område. Eldre tar opp B12 fra mat dårligere, så dette er verdt en prat med legen.",
+    noteSugar: "Blodsukkeret ditt ligger over laboratoriets område. Å bytte søte drikker med vann er et enkelt og godt undersøkt sted å begynne.",
+    suppBoxTitle: "Tilskudd med best dokumentasjon, som støtte",
+    suppBoxLead: "Mat, bevegelse og søvn kommer først. Hvis du og legen din bestemmer dere for å legge til noe, er dette det som har mest bak seg.",
+    suppBox: [
+      { t: "Kreatinmonohydrat", level: "God for muskler sammen med trening", line: "Best dokumentert som støtte sammen med styrketrening hos eldre. Tidlige tegn på effekt for hukommelsen. Regnes som trygt for friske; sjekk med legen ved nyresykdom." },
+      { t: "Vitamin D", level: "Sterk når nivået er lavt", line: "Særlig relevant i Norge. Anbefalingen er høyere over 75 år, og din egen blodprøve viser om du trenger det." },
+      { t: "Vitamin B12", level: "Sterk for å rette opp mangel", line: "Eldre tar opp B12 fra mat dårligere. Nyttig når et prøvesvar viser mangel." },
+      { t: "Omega-3 (EPA, DHA)", level: "Et alternativ til fisk", line: "Relevant hvis du sjelden spiser fet fisk. Fisk i seg selv gjør jobben godt." },
+      { t: "Magnesium", level: "Begrenset", line: "Dokumentasjonen for bedre søvn hos eldre er liten og av lav kvalitet. Ikke for alle." },
+    ],
+    suppBoxFoot: "Ingen av disse behandler eller reverserer etablert demens. De kan bidra til å forebygge mangler og støtte en god livsstil. Doser og detaljer finner du i Pro-guiden din.",
   },
   pl: {
     photo: "Zdjęcie",
@@ -128,6 +190,30 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
       strength: "Spokojne zajęcia ruchowe, na których starsze osoby delikatnie rozciągają gumy oporowe.",
     },
     disclaimer: "Ogólne informacje o dobrostanie, nie porada medyczna. Porozmawiaj z lekarzem przed zmianą diety lub rozpoczęciem suplementacji, zwłaszcza przy chorobie nerek, przyjmowaniu leków lub w ciąży.",
+    sources: "Źródła",
+    nuanceTitle: "Nasze uczciwe podejście do suplementów",
+    nuance: [
+      "Rzadko zaczynamy od suplementów.",
+      "Wiele osób zyskuje więcej dzięki snu, treningowi siłowemu i rezygnacji ze słodkich napojów.",
+      "Jeśli suplement ma sens, to dlatego, że wskazuje na niego twój własny wynik z laboratorium, i wtedy to powiemy.",
+      "Nie sprzedajemy suplementów i nic na nich nie zarabiamy.",
+    ],
+    ownTitle: "Z twoich własnych wyników",
+    ownNote: "Twój priorytet powyżej zawsze rozstrzyga. Te zdania tylko wyjaśniają codzienny kontekst.",
+    noteMuscle: "W twoim wieku białko i trening siłowy to dwie rzeczy, które najlepiej chronią mięśnie. Stąd bierze się twój codzienny priorytet.",
+    noteVitD: "Twoja witamina D jest poniżej zakresu twojego laboratorium. To jedno z miejsc, gdzie suplement może mieć sens, a lekarz pomoże dobrać dawkę.",
+    noteB12: "Twoja witamina B12 jest poniżej zakresu twojego laboratorium. Osoby starsze gorzej przyswajają B12 z pożywienia, więc warto porozmawiać z lekarzem.",
+    noteSugar: "Twój poziom cukru jest powyżej zakresu twojego laboratorium. Zamiana słodkich napojów na wodę to proste i dobrze przebadane miejsce na początek.",
+    suppBoxTitle: "Suplementy z najlepszą dokumentacją, jako wsparcie",
+    suppBoxLead: "Najpierw jedzenie, ruch i sen. Jeśli ty i twój lekarz zdecydujecie się coś dodać, te mają za sobą najwięcej badań.",
+    suppBox: [
+      { t: "Monohydrat kreatyny", level: "Dobry dla mięśni z treningiem", line: "Najlepiej udokumentowany jako wsparcie treningu siłowego u osób starszych. Wczesne dowody dla pamięci. Uznawany za bezpieczny dla zdrowych osób; przy chorobie nerek skonsultuj się z lekarzem." },
+      { t: "Witamina D", level: "Mocne dowody przy niskim poziomie", line: "Szczególnie ważna w Norwegii. Zalecenie jest wyższe po 75. roku życia, a twoje własne badanie krwi pokaże, czy jej potrzebujesz." },
+      { t: "Witamina B12", level: "Mocne dowody przy niedoborze", line: "Osoby starsze gorzej przyswajają B12 z pożywienia. Przydatna, gdy wynik pokazuje niedobór." },
+      { t: "Omega-3 (EPA, DHA)", level: "Zamiennik ryb", line: "Ma sens, jeśli rzadko jesz tłuste ryby. Same ryby świetnie robią swoje." },
+      { t: "Magnez", level: "Ograniczone", line: "Dowody na lepszy sen u osób starszych są skąpe i niskiej jakości. Nie dla każdego." },
+    ],
+    suppBoxFoot: "Żaden z nich nie leczy ani nie odwraca rozwiniętej demencji. Mogą pomóc zapobiegać niedoborom i wspierać dobry styl życia. Dawki i szczegóły znajdziesz w swoim przewodniku Pro.",
   },
 };
 
@@ -136,6 +222,20 @@ export function guidanceCopy(lang: Lang): Copy {
 }
 
 const ProGuidance = lazy(() => import("@/components/daily-guidance-pro"));
+
+const PILLAR_SRC: SourceId[] = ["protAge", "nnrProtein", "helsedirFish", "whoSugars", "whoActivity", "sleep", "social"];
+const SUPP_BOX_SRC: SourceId[][] = [["issnCreatine", "creatineOlder"], ["helsedirVitD"], ["odsB12"], ["efsaOmega3"], ["magnesiumSleep", "efsaUl"]];
+
+function NuanceBox({ c }: { c: Copy }) {
+  return (
+    <div className="rounded-xl border border-border bg-secondary/60 p-5">
+      <h3 className="text-lg font-medium">{c.nuanceTitle}</h3>
+      <ul className="mt-2 list-disc space-y-1 pl-5 text-sm text-muted-foreground">
+        {c.nuance.map((n) => <li key={n}>{n}</li>)}
+      </ul>
+    </div>
+  );
+}
 
 /** Public teaser for the Method page. Short on purpose: the detail lives behind sign-in and Pro. */
 export function GuidanceIntro() {
@@ -157,6 +257,22 @@ export function GuidanceIntro() {
         </ul>
         <LangLink to="/enter" className="mt-4 inline-block text-sm underline">{c.signIn}</LangLink>
       </div>
+      <div className="mt-5"><NuanceBox c={c} /></div>
+      <div className="card-surface mt-5 p-5 sm:p-6">
+        <h3 className="text-xl">{c.suppBoxTitle}</h3>
+        <p className="mt-1 text-sm text-muted-foreground">{c.suppBoxLead}</p>
+        <ul className="mt-4 space-y-4">
+          {c.suppBox.map((x, i) => (
+            <li key={x.t}>
+              <p className="font-semibold">{x.t} <span className="ml-1 text-xs font-medium text-primary">{x.level}</span></p>
+              <p className="text-sm text-muted-foreground">{x.line}</p>
+              <SourceLine ids={SUPP_BOX_SRC[i] ?? []} label={c.sources} />
+            </li>
+          ))}
+        </ul>
+        <p className="mt-4 text-xs text-muted-foreground">{c.suppBoxFoot}</p>
+      </div>
+      <SourceLine ids={PILLAR_SRC} label={c.sources} />
       <p className="mt-3 text-xs text-muted-foreground">{c.disclaimer}</p>
     </section>
   );
@@ -166,10 +282,23 @@ export function GuidanceIntro() {
 export function DailyGuidance() {
   const lang = useLang();
   const c = guidanceCopy(lang);
-  const { profile, account } = useAppState();
+  const { profile, account, labs } = useAppState();
   const pro = Boolean(account?.pro);
   const priority = profile.age !== null && profile.age >= 60 ? c.priorityProtein : c.priorityEveryday;
   const strengthKey: GuideImgKey = "strength";
+  const below = (k: "vitaminD" | "b12") => {
+    const e = labs[k];
+    return e?.value != null && e.low != null && e.value < e.low;
+  };
+  const above = (k: "glucose" | "hba1c") => {
+    const e = labs[k];
+    return e?.value != null && e.high != null && e.value > e.high;
+  };
+  const notes: { text: string; ids: SourceId[] }[] = [];
+  if (profile.age !== null && profile.age >= 60) notes.push({ text: c.noteMuscle, ids: ["protAge", "whoActivity"] });
+  if (below("vitaminD")) notes.push({ text: c.noteVitD, ids: ["helsedirVitD"] });
+  if (below("b12")) notes.push({ text: c.noteB12, ids: ["odsB12"] });
+  if (above("glucose") || above("hba1c")) notes.push({ text: c.noteSugar, ids: ["whoSugars", "malik"] });
 
   return (
     <section className="mb-10" aria-labelledby="daily-guidance">
@@ -182,6 +311,23 @@ export function DailyGuidance() {
         <p className="mt-1 text-lg">{priority}</p>
         <p className="mt-2 text-xs text-muted-foreground">{c.bloodFirst}</p>
       </div>
+
+      {notes.length ? (
+        <div className="mt-5 rounded-xl border border-border bg-card p-5">
+          <h3 className="text-lg font-medium">{c.ownTitle}</h3>
+          <ul className="mt-2 space-y-3">
+            {notes.map((n) => (
+              <li key={n.text}>
+                <p className="text-sm">{n.text}</p>
+                <SourceLine ids={n.ids} label={c.sources} />
+              </li>
+            ))}
+          </ul>
+          <p className="mt-3 text-xs text-muted-foreground">{c.ownNote}</p>
+        </div>
+      ) : null}
+
+      <div className="mt-5"><NuanceBox c={c} /></div>
 
       {pro ? (
         <Suspense fallback={<p className="mt-5 text-sm text-muted-foreground">{c.loading}</p>}>
@@ -197,6 +343,7 @@ export function DailyGuidance() {
               </li>
             ))}
           </ul>
+          <SourceLine ids={PILLAR_SRC} label={c.sources} />
           <div className="card-surface mt-5 grid gap-4 p-5 sm:grid-cols-[1fr_1.2fr] sm:items-center">
             <GuideFigure img={strengthKey} alt={c.alts.strength} photoLabel={c.photo} className="aspect-[4/3]" />
             <div>

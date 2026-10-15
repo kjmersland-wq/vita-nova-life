@@ -1,14 +1,14 @@
 import { requireAuth } from "@/lib/auth.guard";
 import { socialMeta } from "@/lib/social";
-import { useRef } from "react";
 import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
 import { createFileRoute } from "@tanstack/react-router";
 import { Page, StepHeader, inputClass, DisclaimerNote } from "@/components/site";
 import { setState, useAppState } from "@/lib/store";
 import { MARKERS, markerLabel, markerPlain } from "@/lib/engine/markers";
-import { extractFromDocument, demoLabs, demoLabsInRange } from "@/lib/demo";
+import { demoLabs, demoLabsInRange } from "@/lib/demo";
 import type { LabEntry } from "@/lib/engine/types";
 import { Button } from "@/components/ui/button";
+import { LabUpload } from "@/components/lab-upload";
 
 const T = {
   en: {
@@ -341,13 +341,11 @@ export const Route = createFileRoute("/{-$lang}/labs")({
 });
 
 function LabsPage() {
-  const { labs, uploadPending, uploadFileName } = useAppState();
+  const { labs, uploadPending } = useAppState();
   const lang = useLang();
   const t = useDict(T);
   const navigate = useLangNavigate();
-  const fileRef = useRef<HTMLInputElement>(null);
   const pending = uploadPending ?? [];
-  const fileName = uploadFileName ?? null;
 
   const update = (key: string, patch: Partial<LabEntry>) => {
     const def = MARKERS.find((m) => m.key === key);
@@ -362,11 +360,6 @@ function LabsPage() {
     setState({ labs: { ...labs, [def.key]: { ...current, ...patch } }, uploadPending: pending.filter((k) => k !== key) });
   };
 
-  const onUpload = (file: File) => {
-    const extracted = extractFromDocument(file.name);
-    setState({ labs: { ...labs, ...extracted }, uploadFileName: file.name, uploadPending: Object.keys(extracted) });
-  };
-
   const filled = MARKERS.filter((m) => labs[m.key]?.value != null).length;
 
   return (
@@ -374,37 +367,7 @@ function LabsPage() {
       <div className="container-page max-w-4xl py-12">
         <StepHeader title={t.title} intro={t.intro} />
 
-        <div className="card-surface mb-8 p-5">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <div>
-              <h2 className="text-xl">{t.prefillTitle}</h2>
-              <p className="mt-1 text-sm text-muted-foreground">{t.prefillDesc}</p>
-            </div>
-            <input
-              ref={fileRef}
-              type="file"
-              accept=".pdf,.jpg,.jpeg,.png"
-              className="hidden"
-              onChange={(e) => {
-                const f = e.target.files?.[0];
-                if (f) onUpload(f);
-              }}
-            />
-            <Button variant="outline"
-              type="button"
-              onClick={() => fileRef.current?.click()}
-              className="rounded-full border border-border px-4 py-2 text-sm hover:border-primary/50"
-            >
-              {t.chooseFile}
-            </Button>
-          </div>
-          {fileName ? (
-            <p className="mt-3 text-sm">
-              {t.readFile(fileName)}{" "}
-              {pending.length ? t.pendingValues(pending.length) : t.allConfirmed}
-            </p>
-          ) : null}
-        </div>
+        <LabUpload />
 
          <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <p className="text-sm text-muted-foreground">{t.markersEntered(filled, MARKERS.length)}</p>

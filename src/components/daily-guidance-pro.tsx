@@ -1,22 +1,26 @@
 import type { Lang } from "@/lib/i18n";
 import { useAppState } from "@/lib/store";
 import { GuideFigure, type GuideImgKey } from "@/components/guidance-images";
+import { SourceLine, type SourceId } from "@/components/guidance-sources";
 
 /**
  * Pro-only part of the everyday guidance. Loaded lazily from daily-guidance.tsx, so it is not
  * in the main bundle and is only requested once a Pro account opens the Results page.
+ * Sources are language-independent and sit in the *_SRC lists, in the same order as the texts.
  */
 
 type Section = { t: string; lead: string; points: string[]; img?: GuideImgKey; imgAlt?: string };
+type Supp = { t: string; evidence: string; b: string };
 type Copy = {
   photo: string;
+  sources: string;
   foodTitle: string;
   food: Section[];
   moveTitle: string;
   move: Section[];
   suppTitle: string;
   suppLead: string;
-  supp: { t: string; b: string }[];
+  supp: Supp[];
   suppImgAlt: string;
   kidneyWarn: string;
   thinnerWarn: string;
@@ -25,14 +29,26 @@ type Copy = {
   noSell: string;
 };
 
+const FOOD_SRC: SourceId[][] = [["protAge", "nnrProtein"], ["helsedirFish"], ["whoSugars", "malik"]];
+const MOVE_SRC: SourceId[][] = [["whoActivity"], ["whoActivity"], ["sleep", "social"]];
+/** creatine, omega-3, vitamin D, B vitamins, magnesium */
+const SUPP_SRC: SourceId[][] = [
+  ["issnCreatine", "creatineOlder", "creatineMemory"],
+  ["efsaDri", "efsaOmega3"],
+  ["helsedirVitD", "tidsskriftVitD"],
+  ["odsB12", "cochraneFolate", "cochraneCognition"],
+  ["magnesiumSleep", "efsaUl"],
+];
+
 const COPY: Record<"en" | "no" | "pl", Copy> = {
   en: {
     photo: "Photo",
+    sources: "Sources",
     foodTitle: "Food, in plain words",
     food: [
       {
         t: "Protein: your muscle's favourite",
-        lead: "After 60 the body needs a little more protein to keep muscle. A good target is about 1.0–1.2 g per kilo of body weight a day, spread over the day rather than all at dinner.",
+        lead: "After 60 the body needs a little more protein to keep muscle. Expert groups suggest about 1.0–1.2 g per kilo of body weight a day, and the Nordic recommendations point to 1.2–1.5 g for older adults. Spread it across the day rather than all at dinner. With advanced kidney disease, ask your doctor first.",
         points: [
           "Breakfast: two eggs, or skyr or Greek yoghurt with berries.",
           "Lunch: fish, chicken, lentils or cottage cheese on top of your usual meal.",
@@ -46,15 +62,15 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
         t: "Plants, berries and good fats",
         lead: "Aim for something colourful at most meals. Frozen berries and vegetables are just as good and easy to keep at home.",
         points: [
-          "Vegetables and fruit every day. Half the plate at dinner is a lovely rule of thumb.",
-          "Fatty fish such as salmon, mackerel or herring 2–3 times a week. If you rarely eat fish, ask your doctor about omega-3.",
+          "Vegetables, berries and fruit every day. Half the plate at dinner is a lovely rule of thumb.",
+          "Fish: the Norwegian advice is 300–450 g a week, at least 200 g of it fatty fish such as salmon, mackerel or herring.",
           "Olive or rapeseed oil, nuts and seeds as your everyday fats.",
           "Whole grains and beans for steady energy and a happy gut.",
         ],
       },
       {
         t: "Drink well, skip the sweet",
-        lead: "Sweet drinks give the body sugar without any fullness. Cutting them is one of the easiest wins for blood sugar and teeth.",
+        lead: "Sweet drinks give you sugar without making you feel full. WHO advises keeping added sugar below 10% of your energy, and studies link sugary drinks with a higher risk of type 2 diabetes. Cutting them is kind to your teeth too.",
         points: [
           "Swap cola, soda, juice drinks and sweetened mineral water for water or plain sparkling water.",
           "Add a slice of lemon, cucumber or a few mint leaves if it makes it more fun.",
@@ -69,7 +85,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     move: [
       {
         t: "Strength twice or three times a week",
-        lead: "Strength training is the best known way to slow the loss of muscle with age (sarcopenia). Twenty to thirty minutes is plenty.",
+        lead: "WHO advises muscle-strengthening on 2 or more days a week for adults, and for people over 65 a mix of balance and strength work on 3 or more days. Twenty to thirty minutes is plenty.",
         points: [
           "Stand up from a chair without hands, 8–12 times. Rest, repeat once or twice.",
           "Calf raises holding a counter, wall push-ups, and resistance-band rows.",
@@ -81,9 +97,9 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
       },
       {
         t: "Walk daily, in daylight",
-        lead: "A walk after a meal helps blood sugar, and morning daylight helps sleep and mood.",
+        lead: "WHO suggests 150–300 minutes of moderate activity a week, which is roughly 20–40 minutes a day. A daily walk is the easiest way to get there.",
         points: [
-          "Aim for 20–30 minutes at your own pace. Ten minutes three times works too.",
+          "Aim for 20–40 minutes at your own pace. Ten minutes at a time works too.",
           "Take the stairs when it is only a few floors.",
           "Invite someone along: it doubles as good company.",
         ],
@@ -92,22 +108,22 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
       },
       {
         t: "Sleep and good company",
-        lead: "Sleep is when the body repairs muscle and the brain sorts memories. Social contact is linked to sharper thinking and better mood.",
+        lead: "Adults are advised at least 7 hours of sleep a night. And a large review found that people with strong social ties live longer than those without.",
         points: [
-          "Go to bed and get up at roughly the same time. 7–8 hours suits most adults.",
+          "Go to bed and get up at roughly the same time.",
           "Dim screens and bright lights in the last hour.",
           "Plan one thing with people each week: a coffee, a walk, a choir, a call.",
         ],
       },
     ],
     suppTitle: "Supplements: a small extra, never the main thing",
-    suppLead: "Food, movement and sleep come first. These are options to talk through with your doctor, based on your own results. We do not sell or link to any products.",
+    suppLead: "Food, movement and sleep come first. These are the options with the best documentation, to talk through with your doctor and your own results. None of them treats or reverses established dementia. We do not sell or link to any products.",
     supp: [
-      { t: "Creatine monohydrate", b: "3–5 g a day, stirred into water, coffee or yoghurt, any time of day. Studies suggest it can support muscle, strength and mental energy, especially alongside strength training. Check with your doctor first if you have kidney disease." },
-      { t: "Omega-3 (EPA and DHA)", b: "A useful option if you rarely eat fatty fish. Check the label for EPA + DHA, not just 'fish oil'. Higher doses can matter with blood thinners, so ask first." },
-      { t: "Vitamin D", b: "Often worth a thought in the dark months, and best guided by your own blood test. Your lab's range is what counts." },
-      { t: "B vitamins", b: "B12 in particular can fall with age, a plant-based diet or some medicines. Take it if your result or your doctor suggests it." },
-      { t: "Magnesium", b: "Helpful for some, for example with night cramps or poor sleep. Not a must for everyone, and ask first if you have kidney disease." },
+      { t: "Creatine monohydrate", evidence: "Evidence: good for muscle alongside training, early for memory", b: "3–5 g a day, stirred into water, coffee or yoghurt, any time of day. In older adults who trained with weights, it added about 1.4 kg of lean mass compared with training alone. Early studies suggest a small benefit for memory. It is considered safe for healthy people; with kidney disease, ask your doctor first." },
+      { t: "Omega-3 (EPA and DHA)", evidence: "Evidence: a sound stand-in for fish", b: "Worth a thought if you rarely eat fatty fish. EFSA sees 250–500 mg EPA + DHA a day as a sensible target for adults, and supplements up to 5 g a day raise no safety concern. Check the label for EPA + DHA, and ask your doctor if you use blood thinners." },
+      { t: "Vitamin D", evidence: "Evidence: strong where levels are low", b: "In Norway the recommendation is 10 µg a day, and 20 µg a day over 75. The aim is a blood level above 50 nmol/L, so your own result matters most. High doses are rarely needed." },
+      { t: "B vitamins (B12, folate)", evidence: "Evidence: strong for fixing a shortfall, weak for memory", b: "Older adults absorb B12 from food less well, but the B12 in supplements and fortified food is still absorbed. B vitamins lower homocysteine, yet trials have not shown that this protects thinking in healthy older people. Worth it when your result or your doctor says so." },
+      { t: "Magnesium", evidence: "Evidence: limited", b: "May help some, but the evidence for better sleep in older adults is small and of low quality. The EU upper limit for supplemental magnesium is 250 mg a day. Ask your doctor first, especially with kidney disease." },
     ],
     suppImgAlt: "A grey measuring scoop resting in a bed of fine white powder.",
     kidneyWarn: "Your profile mentions kidney disease. Please do not start creatine or magnesium unless your doctor agrees.",
@@ -118,11 +134,12 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
   },
   no: {
     photo: "Foto",
+    sources: "Kilder",
     foodTitle: "Mat, helt enkelt",
     food: [
       {
         t: "Protein: musklenes favoritt",
-        lead: "Etter 60 trenger kroppen litt mer protein for å holde på musklene. Et godt mål er omtrent 1,0–1,2 g per kilo kroppsvekt om dagen, fordelt utover dagen og ikke bare til middag.",
+        lead: "Etter 60 trenger kroppen litt mer protein for å holde på musklene. Ekspertgrupper foreslår omtrent 1,0–1,2 g per kilo kroppsvekt om dagen, og de nordiske anbefalingene peker på 1,2–1,5 g for eldre. Fordel det utover dagen, ikke bare til middag. Ved fremskreden nyresykdom bør du spørre legen først.",
         points: [
           "Frokost: to egg, eller skyr eller gresk yoghurt med bær.",
           "Lunsj: fisk, kylling, linser eller cottage cheese i tillegg til det du vanligvis spiser.",
@@ -136,15 +153,15 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
         t: "Planter, bær og gode fettkilder",
         lead: "Sikt på noe fargerikt til de fleste måltider. Frosne bær og grønnsaker er like gode og enkle å ha i huset.",
         points: [
-          "Grønnsaker og frukt hver dag. Halve tallerkenen til middag er en fin tommelfingerregel.",
-          "Fet fisk som laks, makrell eller sild 2–3 ganger i uken. Spiser du sjelden fisk, kan du snakke med legen om omega-3.",
+          "Grønnsaker, bær og frukt hver dag. Halve tallerkenen til middag er en fin tommelfingerregel.",
+          "Fisk: det norske rådet er 300–450 g i uken, minst 200 g av det fet fisk som laks, makrell eller sild.",
           "Olivenolje eller rapsolje, nøtter og frø som daglige fettkilder.",
           "Fullkorn og bønner gir jevn energi og glad mage.",
         ],
       },
       {
         t: "Drikk godt, hopp over det søte",
-        lead: "Søte drikker gir kroppen sukker uten å mette. Å kutte dem er en av de enkleste gevinstene for blodsukker og tenner.",
+        lead: "Søte drikker gir deg sukker uten å mette. WHO anbefaler å holde tilsatt sukker under 10 % av energiinntaket, og studier knytter sukkerholdig drikke til høyere risiko for type 2-diabetes. Å kutte dem er også snilt mot tennene.",
         points: [
           "Bytt ut cola, brus, saftdrikker og søte mineralvann med vann eller usøtet mineralvann.",
           "Ha i en skive sitron, agurk eller noen mynteblader hvis det gjør det triveligere.",
@@ -159,7 +176,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     move: [
       {
         t: "Styrke to–tre ganger i uken",
-        lead: "Styrketrening er den best kjente måten å bremse tapet av muskler med alderen (sarkopeni). Tjue til tretti minutter er mer enn nok.",
+        lead: "WHO anbefaler muskelstyrkende aktivitet to eller flere dager i uken for voksne, og for personer over 65 en blanding av balanse- og styrketrening tre eller flere dager. Tjue til tretti minutter er mer enn nok.",
         points: [
           "Reis deg fra en stol uten hjelp av hendene, 8–12 ganger. Hvil og gjenta én–to ganger.",
           "Tåhev med støtte i kjøkkenbenken, pushups mot vegg og roing med strikk.",
@@ -171,9 +188,9 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
       },
       {
         t: "Gå hver dag, i dagslys",
-        lead: "En tur etter måltidet hjelper blodsukkeret, og morgenlys hjelper søvn og humør.",
+        lead: "WHO foreslår 150–300 minutter moderat aktivitet i uken, omtrent 20–40 minutter om dagen. En daglig tur er den enkleste veien dit.",
         points: [
-          "Sikt på 20–30 minutter i ditt eget tempo. Ti minutter tre ganger fungerer også.",
+          "Sikt på 20–40 minutter i ditt eget tempo. Ti minutter om gangen fungerer også.",
           "Ta trappen når det bare er noen få etasjer.",
           "Spør noen om å bli med. Da får du godt selskap på kjøpet.",
         ],
@@ -182,22 +199,22 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
       },
       {
         t: "Søvn og godt selskap",
-        lead: "Under søvn reparerer kroppen muskler og hjernen sorterer minner. Sosial kontakt henger sammen med skarpere tanker og bedre humør.",
+        lead: "Voksne anbefales minst 7 timers søvn per natt. Og en stor oversikt fant at mennesker med sterke sosiale bånd lever lenger enn de uten.",
         points: [
-          "Legg deg og stå opp omtrent til samme tid. 7–8 timer passer for de fleste voksne.",
+          "Legg deg og stå opp omtrent til samme tid.",
           "Demp skjermer og sterkt lys den siste timen.",
           "Planlegg én ting med andre hver uke: en kaffe, en tur, et kor, en prat på telefonen.",
         ],
       },
     ],
     suppTitle: "Tilskudd: et lite ekstra, aldri hovedsaken",
-    suppLead: "Mat, bevegelse og søvn kommer først. Dette er alternativer du kan snakke gjennom med legen din, ut fra dine egne svar. Vi selger eller lenker ikke til noen produkter.",
+    suppLead: "Mat, bevegelse og søvn kommer først. Dette er alternativene med best dokumentasjon, til å snakke gjennom med legen din ut fra dine egne svar. Ingen av dem behandler eller reverserer etablert demens. Vi selger eller lenker ikke til noen produkter.",
     supp: [
-      { t: "Kreatinmonohydrat", b: "3–5 g om dagen, rørt ut i vann, kaffe eller yoghurt, når som helst på dagen. Studier tyder på at det kan støtte muskler, styrke og mental energi, særlig sammen med styrketrening. Sjekk med legen først hvis du har nyresykdom." },
-      { t: "Omega-3 (EPA og DHA)", b: "Et nyttig alternativ hvis du sjelden spiser fet fisk. Se etter EPA + DHA på etiketten, ikke bare «fiskeolje». Høyere doser kan ha betydning ved blodfortynnende, så spør først." },
-      { t: "Vitamin D", b: "Verdt å tenke på i den mørke årstiden, og best styrt av din egen blodprøve. Det er laboratoriets referanseområde som gjelder." },
-      { t: "B-vitaminer", b: "Særlig B12 kan synke med alderen, plantebasert kosthold eller enkelte medisiner. Ta det hvis svaret ditt eller legen din tilsier det." },
-      { t: "Magnesium", b: "Nyttig for noen, for eksempel ved nattlige kramper eller dårlig søvn. Ikke nødvendig for alle, og spør først hvis du har nyresykdom." },
+      { t: "Kreatinmonohydrat", evidence: "Dokumentasjon: god for muskler sammen med trening, tidlig for hukommelse", b: "3–5 g om dagen, rørt ut i vann, kaffe eller yoghurt, når som helst på dagen. Hos eldre som trente med vekter ga det omtrent 1,4 kg mer muskelmasse enn trening alene. Tidlige studier tyder på en liten gevinst for hukommelsen. Regnes som trygt for friske; ved nyresykdom bør du spørre legen først." },
+      { t: "Omega-3 (EPA og DHA)", evidence: "Dokumentasjon: et godt alternativ til fisk", b: "Verdt en tanke hvis du sjelden spiser fet fisk. EFSA mener 250–500 mg EPA + DHA om dagen er et fornuftig mål for voksne, og tilskudd opptil 5 g om dagen gir ingen sikkerhetsbekymring. Se etter EPA + DHA på etiketten, og spør legen hvis du bruker blodfortynnende." },
+      { t: "Vitamin D", evidence: "Dokumentasjon: sterk når nivået er lavt", b: "I Norge er anbefalingen 10 µg om dagen, og 20 µg om dagen over 75 år. Målet er et blodnivå over 50 nmol/L, så ditt eget prøvesvar betyr mest. Høye doser trengs sjelden." },
+      { t: "B-vitaminer (B12, folat)", evidence: "Dokumentasjon: sterk for å rette opp mangel, svak for hukommelse", b: "Eldre tar opp B12 fra mat dårligere, men B12 i tilskudd og beriket mat tas fortsatt opp. B-vitaminer senker homocystein, men studier har ikke vist at det beskytter tenkningen hos friske eldre. Verdt det når prøvesvaret eller legen din tilsier det." },
+      { t: "Magnesium", evidence: "Dokumentasjon: begrenset", b: "Kan hjelpe noen, men dokumentasjonen for bedre søvn hos eldre er liten og av lav kvalitet. Den europeiske øvre grensen for tilskudd av magnesium er 250 mg om dagen. Spør legen først, særlig ved nyresykdom." },
     ],
     suppImgAlt: "En grå målesje som hviler i fint, hvitt pulver.",
     kidneyWarn: "Profilen din nevner nyresykdom. Ikke start med kreatin eller magnesium uten at legen din er enig.",
@@ -208,11 +225,12 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
   },
   pl: {
     photo: "Zdjęcie",
+    sources: "Źródła",
     foodTitle: "Jedzenie – prosto i po ludzku",
     food: [
       {
         t: "Białko: ulubieniec twoich mięśni",
-        lead: "Po 60. roku życia organizm potrzebuje trochę więcej białka, by utrzymać mięśnie. Dobry cel to około 1,0–1,2 g na kilogram masy ciała dziennie, rozłożone na cały dzień, a nie tylko na obiad.",
+        lead: "Po 60. roku życia organizm potrzebuje trochę więcej białka, by utrzymać mięśnie. Grupy ekspertów sugerują około 1,0–1,2 g na kilogram masy ciała dziennie, a zalecenia nordyckie wskazują 1,2–1,5 g dla osób starszych. Rozłóż je na cały dzień, a nie tylko na obiad. Przy zaawansowanej chorobie nerek najpierw zapytaj lekarza.",
         points: [
           "Śniadanie: dwa jajka albo skyr lub jogurt grecki z jagodami.",
           "Lunch: ryba, kurczak, soczewica lub twaróg do twojego zwykłego posiłku.",
@@ -226,15 +244,15 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
         t: "Warzywa, jagody i dobre tłuszcze",
         lead: "Staraj się, by przy większości posiłków było coś kolorowego. Mrożone jagody i warzywa są równie dobre i łatwo je mieć w domu.",
         points: [
-          "Warzywa i owoce codziennie. Połowa talerza na obiad to piękna zasada.",
-          "Tłuste ryby, takie jak łosoś, makrela czy śledź, 2–3 razy w tygodniu. Jeśli rzadko jesz ryby, zapytaj lekarza o omega-3.",
+          "Warzywa, jagody i owoce codziennie. Połowa talerza na obiad to piękna zasada.",
+          "Ryby: norweskie zalecenie to 300–450 g tygodniowo, z czego co najmniej 200 g tłustych ryb, takich jak łosoś, makrela czy śledź.",
           "Oliwa lub olej rzepakowy, orzechy i nasiona jako codzienne tłuszcze.",
           "Pełne ziarna i strączki dla stabilnej energii i szczęśliwego brzucha.",
         ],
       },
       {
         t: "Pij dobrze, pomijaj słodkie",
-        lead: "Słodkie napoje dostarczają cukru bez poczucia sytości. Rezygnacja z nich to jedna z najłatwiejszych zmian dla cukru we krwi i zębów.",
+        lead: "Słodkie napoje dostarczają cukru bez poczucia sytości. WHO zaleca, by dodany cukier stanowił mniej niż 10% energii, a badania wiążą słodzone napoje z wyższym ryzykiem cukrzycy typu 2. Rezygnacja z nich jest też łagodna dla zębów.",
         points: [
           "Zamień colę, napoje gazowane, napoje owocowe i słodzone wody mineralne na wodę lub niesłodzoną wodę gazowaną.",
           "Dodaj plasterek cytryny, ogórka lub kilka listków mięty, jeśli to sprawia przyjemność.",
@@ -249,7 +267,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     move: [
       {
         t: "Siła dwa lub trzy razy w tygodniu",
-        lead: "Trening siłowy to najlepiej poznany sposób na spowolnienie utraty mięśni z wiekiem (sarkopenia). Dwadzieścia do trzydziestu minut w zupełności wystarczy.",
+        lead: "WHO zaleca ćwiczenia wzmacniające mięśnie w co najmniej 2 dni w tygodniu dla dorosłych, a dla osób powyżej 65 lat mieszankę ćwiczeń równowagi i siły w co najmniej 3 dni. Dwadzieścia do trzydziestu minut w zupełności wystarczy.",
         points: [
           "Wstań z krzesła bez pomocy rąk 8–12 razy. Odpocznij i powtórz raz lub dwa razy.",
           "Wspięcia na palce z podparciem o blat, pompki o ścianę i wiosłowanie z gumą oporową.",
@@ -261,9 +279,9 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
       },
       {
         t: "Spaceruj codziennie, w świetle dziennym",
-        lead: "Spacer po posiłku pomaga cukrowi we krwi, a poranne światło pomaga na sen i nastrój.",
+        lead: "WHO sugeruje 150–300 minut umiarkowanej aktywności tygodniowo, czyli mniej więcej 20–40 minut dziennie. Codzienny spacer to najprostsza droga, by to osiągnąć.",
         points: [
-          "Celuj w 20–30 minut we własnym tempie. Trzy razy po dziesięć minut też działa.",
+          "Celuj w 20–40 minut we własnym tempie. Po dziesięć minut też działa.",
           "Wybieraj schody, gdy to tylko kilka pięter.",
           "Zaproś kogoś. Dostajesz w pakiecie dobre towarzystwo.",
         ],
@@ -272,22 +290,22 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
       },
       {
         t: "Sen i dobre towarzystwo",
-        lead: "Podczas snu organizm odbudowuje mięśnie, a mózg porządkuje wspomnienia. Kontakty z ludźmi wiążą się z ostrzejszym myśleniem i lepszym nastrojem.",
+        lead: "Dorosłym zaleca się co najmniej 7 godzin snu na dobę. Duży przegląd badań wykazał też, że osoby z silnymi więziami społecznymi żyją dłużej niż te bez nich.",
         points: [
-          "Kładź się i wstawaj mniej więcej o tej samej porze. 7–8 godzin pasuje większości dorosłych.",
+          "Kładź się i wstawaj mniej więcej o tej samej porze.",
           "Przygaś ekrany i jasne światło w ostatniej godzinie.",
           "Zaplanuj jedną rzecz z innymi co tydzień: kawę, spacer, chór, rozmowę telefoniczną.",
         ],
       },
     ],
     suppTitle: "Suplementy: mały dodatek, nigdy główny punkt",
-    suppLead: "Najpierw jedzenie, ruch i sen. To opcje do omówienia z lekarzem na podstawie twoich własnych wyników. Niczego nie sprzedajemy i nie linkujemy do produktów.",
+    suppLead: "Najpierw jedzenie, ruch i sen. To opcje z najlepszą dokumentacją, do omówienia z lekarzem na podstawie twoich własnych wyników. Żadna z nich nie leczy ani nie odwraca rozwiniętej demencji. Niczego nie sprzedajemy i nie linkujemy do produktów.",
     supp: [
-      { t: "Monohydrat kreatyny", b: "3–5 g dziennie, wymieszane z wodą, kawą lub jogurtem, o dowolnej porze dnia. Badania sugerują, że może wspierać mięśnie, siłę i energię umysłową, zwłaszcza w połączeniu z treningiem siłowym. Przy chorobie nerek najpierw skonsultuj się z lekarzem." },
-      { t: "Omega-3 (EPA i DHA)", b: "Przydatna opcja, jeśli rzadko jesz tłuste ryby. Na etykiecie szukaj EPA + DHA, a nie tylko „oleju rybiego”. Wyższe dawki mogą mieć znaczenie przy lekach rozrzedzających krew, więc najpierw zapytaj." },
-      { t: "Witamina D", b: "Warto o niej pomyśleć w ciemnych miesiącach, najlepiej kierując się własnym badaniem krwi. Liczy się zakres referencyjny twojego laboratorium." },
-      { t: "Witaminy z grupy B", b: "Zwłaszcza B12 może spadać z wiekiem, przy diecie roślinnej lub niektórych lekach. Przyjmuj, jeśli sugeruje to twój wynik lub lekarz." },
-      { t: "Magnez", b: "Pomaga niektórym, na przykład przy nocnych skurczach lub słabym śnie. Nie dla każdego konieczny, a przy chorobie nerek najpierw zapytaj lekarza." },
+      { t: "Monohydrat kreatyny", evidence: "Dowody: dobre dla mięśni razem z treningiem, wczesne dla pamięci", b: "3–5 g dziennie, wymieszane z wodą, kawą lub jogurtem, o dowolnej porze dnia. U starszych osób trenujących z obciążeniem dało to około 1,4 kg więcej beztłuszczowej masy ciała niż sam trening. Wczesne badania sugerują niewielką korzyść dla pamięci. Uznawana za bezpieczną dla zdrowych osób; przy chorobie nerek najpierw zapytaj lekarza." },
+      { t: "Omega-3 (EPA i DHA)", evidence: "Dowody: rozsądny zamiennik ryb", b: "Warto rozważyć, jeśli rzadko jesz tłuste ryby. EFSA uznaje 250–500 mg EPA + DHA dziennie za rozsądny cel dla dorosłych, a suplementy do 5 g dziennie nie budzą obaw o bezpieczeństwo. Na etykiecie szukaj EPA + DHA, a przy lekach rozrzedzających krew zapytaj lekarza." },
+      { t: "Witamina D", evidence: "Dowody: mocne tam, gdzie poziom jest niski", b: "W Norwegii zalecenie to 10 µg dziennie, a po 75. roku życia 20 µg dziennie. Celem jest poziom we krwi powyżej 50 nmol/L, więc najważniejszy jest twój własny wynik. Wysokie dawki rzadko są potrzebne." },
+      { t: "Witaminy z grupy B (B12, folian)", evidence: "Dowody: mocne przy niedoborze, słabe dla pamięci", b: "Osoby starsze gorzej przyswajają B12 z pożywienia, ale B12 z suplementów i produktów wzbogacanych nadal się wchłania. Witaminy z grupy B obniżają homocysteinę, jednak badania nie wykazały, że chroni to myślenie u zdrowych starszych osób. Warto, gdy sugeruje to twój wynik lub lekarz." },
+      { t: "Magnez", evidence: "Dowody: ograniczone", b: "Może pomóc niektórym, ale dowody na lepszy sen u osób starszych są skąpe i niskiej jakości. Europejska górna granica dla magnezu z suplementów to 250 mg dziennie. Najpierw zapytaj lekarza, zwłaszcza przy chorobie nerek." },
     ],
     suppImgAlt: "Szara miarka leżąca w drobnym białym proszku.",
     kidneyWarn: "Twój profil wspomina o chorobie nerek. Nie zaczynaj kreatyny ani magnezu bez zgody lekarza.",
@@ -298,7 +316,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
   },
 };
 
-function SectionCard({ s, photo }: { s: Section; photo: string }) {
+function SectionCard({ s, photo, src, label }: { s: Section; photo: string; src: SourceId[]; label: string }) {
   return (
     <article className="card-surface p-5 sm:p-6">
       {s.img ? <div className="mb-4"><GuideFigure img={s.img} alt={s.imgAlt ?? ""} photoLabel={photo} /></div> : null}
@@ -307,6 +325,7 @@ function SectionCard({ s, photo }: { s: Section; photo: string }) {
       <ul className="mt-3 list-disc space-y-1 pl-5 text-sm">
         {s.points.map((p) => <li key={p}>{p}</li>)}
       </ul>
+      <SourceLine ids={src} label={label} />
     </article>
   );
 }
@@ -321,11 +340,11 @@ export default function ProGuidance({ lang }: { lang: Lang }) {
     <div className="mt-6 space-y-8">
       <div className="space-y-4">
         <h3 className="text-2xl">{c.foodTitle}</h3>
-        {c.food.map((s) => <SectionCard key={s.t} s={s} photo={c.photo} />)}
+        {c.food.map((s, i) => <SectionCard key={s.t} s={s} photo={c.photo} src={FOOD_SRC[i] ?? []} label={c.sources} />)}
       </div>
       <div className="space-y-4">
         <h3 className="text-2xl">{c.moveTitle}</h3>
-        {c.move.map((s) => <SectionCard key={s.t} s={s} photo={c.photo} />)}
+        {c.move.map((s, i) => <SectionCard key={s.t} s={s} photo={c.photo} src={MOVE_SRC[i] ?? []} label={c.sources} />)}
       </div>
       <div className="space-y-4">
         <h3 className="text-2xl">{c.suppTitle}</h3>
@@ -337,15 +356,17 @@ export default function ProGuidance({ lang }: { lang: Lang }) {
         ) : null}
         <article className="card-surface p-5 sm:p-6">
           <div className="mb-4"><GuideFigure img="scoop" alt={c.suppImgAlt} photoLabel={c.photo} /></div>
-          <ul className="space-y-3">
-            {c.supp.map((s) => (
+          <ul className="space-y-5">
+            {c.supp.map((s, i) => (
               <li key={s.t}>
                 <p className="font-semibold">{s.t}</p>
-                <p className="text-sm text-muted-foreground">{s.b}</p>
+                <p className="text-xs font-medium text-primary">{s.evidence}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{s.b}</p>
+                <SourceLine ids={SUPP_SRC[i] ?? []} label={c.sources} />
               </li>
             ))}
           </ul>
-          <p className="mt-4 text-xs text-muted-foreground">{c.noSell} {c.suppFoot}</p>
+          <p className="mt-5 text-xs text-muted-foreground">{c.noSell} {c.suppFoot}</p>
         </article>
       </div>
     </div>
