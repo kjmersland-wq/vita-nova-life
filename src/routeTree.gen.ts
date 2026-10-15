@@ -24,6 +24,7 @@ import { Route as Char123LangChar125PricingRouteImport } from './routes/{-$lang}
 import { Route as Char123LangChar125ProgramRouteImport } from './routes/{-$lang}/program'
 import { Route as Char123LangChar125ResultsRouteImport } from './routes/{-$lang}/results'
 import { Route as Char123LangChar125StartRouteImport } from './routes/{-$lang}/start'
+import { Route as ApiPublicCreemWebhookRouteImport } from './routes/api/public/creem-webhook'
 import { Route as Char123LangChar125LegalIndexRouteImport } from './routes/{-$lang}/legal.index'
 import { Route as Char123LangChar125LegalDpaRouteImport } from './routes/{-$lang}/legal.dpa'
 import { Route as Char123LangChar125LegalPrivacyRouteImport } from './routes/{-$lang}/legal.privacy'
@@ -112,6 +113,11 @@ const Char123LangChar125StartRoute = Char123LangChar125StartRouteImport.update({
   path: '/start',
   getParentRoute: () => Char123LangChar125RouteRoute,
 } as any)
+const ApiPublicCreemWebhookRoute = ApiPublicCreemWebhookRouteImport.update({
+  id: '/api/public/creem-webhook',
+  path: '/api/public/creem-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const Char123LangChar125LegalIndexRoute =
   Char123LangChar125LegalIndexRouteImport.update({
     id: '/legal/',
@@ -153,6 +159,7 @@ export interface FileRoutesByFullPath {
   '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
   '/{-$lang}/start': typeof Char123LangChar125StartRoute
   '/{-$lang}/': typeof Char123LangChar125IndexRoute
+  '/api/public/creem-webhook': typeof ApiPublicCreemWebhookRoute
   '/{-$lang}/legal/dpa': typeof Char123LangChar125LegalDpaRoute
   '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
   '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
@@ -173,6 +180,7 @@ export interface FileRoutesByTo {
   '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
   '/{-$lang}/start': typeof Char123LangChar125StartRoute
   '/{-$lang}': typeof Char123LangChar125IndexRoute
+  '/api/public/creem-webhook': typeof ApiPublicCreemWebhookRoute
   '/{-$lang}/legal/dpa': typeof Char123LangChar125LegalDpaRoute
   '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
   '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
@@ -195,6 +203,7 @@ export interface FileRoutesById {
   '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
   '/{-$lang}/start': typeof Char123LangChar125StartRoute
   '/{-$lang}/': typeof Char123LangChar125IndexRoute
+  '/api/public/creem-webhook': typeof ApiPublicCreemWebhookRoute
   '/{-$lang}/legal/dpa': typeof Char123LangChar125LegalDpaRoute
   '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
   '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
@@ -218,6 +227,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/results'
     | '/{-$lang}/start'
     | '/{-$lang}/'
+    | '/api/public/creem-webhook'
     | '/{-$lang}/legal/dpa'
     | '/{-$lang}/legal/privacy'
     | '/{-$lang}/legal/terms'
@@ -238,6 +248,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/results'
     | '/{-$lang}/start'
     | '/{-$lang}'
+    | '/api/public/creem-webhook'
     | '/{-$lang}/legal/dpa'
     | '/{-$lang}/legal/privacy'
     | '/{-$lang}/legal/terms'
@@ -259,6 +270,7 @@ export interface FileRouteTypes {
     | '/{-$lang}/results'
     | '/{-$lang}/start'
     | '/{-$lang}/'
+    | '/api/public/creem-webhook'
     | '/{-$lang}/legal/dpa'
     | '/{-$lang}/legal/privacy'
     | '/{-$lang}/legal/terms'
@@ -267,6 +279,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   Char123LangChar125RouteRoute: typeof Char123LangChar125RouteRouteWithChildren
+  ApiPublicCreemWebhookRoute: typeof ApiPublicCreemWebhookRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -376,6 +389,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LangChar125StartRouteImport
       parentRoute: typeof Char123LangChar125RouteRoute
     }
+    '/api/public/creem-webhook': {
+      id: '/api/public/creem-webhook'
+      path: '/api/public/creem-webhook'
+      fullPath: '/api/public/creem-webhook'
+      preLoaderRoute: typeof ApiPublicCreemWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/{-$lang}/legal/': {
       id: '/{-$lang}/legal/'
       path: '/legal'
@@ -457,6 +477,7 @@ const Char123LangChar125RouteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   Char123LangChar125RouteRoute: Char123LangChar125RouteRouteWithChildren,
+  ApiPublicCreemWebhookRoute: ApiPublicCreemWebhookRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
