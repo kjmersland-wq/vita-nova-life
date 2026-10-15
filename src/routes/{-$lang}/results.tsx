@@ -15,6 +15,7 @@ import sleepImg from "@/assets/vita-sofa.jpg";
 import walkImg from "@/assets/vita-walk.jpg";
 import type { Finding } from "@/lib/engine/types";
 import { Button } from "@/components/ui/button";
+import { DailyGuidance } from "@/components/daily-guidance";
 
 const ACTION_IMG = { daylight: daylightImg, food: foodImg, labs: labsImg } as const;
 const SLOT_FALLBACK = { drink: foodImg, sleep: sleepImg, move: walkImg } as const;
@@ -515,6 +516,8 @@ function ResultsPage() {
         </section>
 
         {!analysis.doctorGate ? <img src={daylightImg} alt="" loading="lazy" width={1440} height={960} className="mb-8 aspect-[21/9] w-full rounded-md object-cover" /> : null}
+
+        {!analysis.doctorGate ? <DailyGuidance /> : null}
 
         <div className="mb-10 flex flex-wrap gap-3">
           <Button onClick={() => {

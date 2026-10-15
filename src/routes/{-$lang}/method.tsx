@@ -3,6 +3,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LangLink, toLang, useDict, useLangNavigate } from "@/lib/i18n";
 import { Page, StepHeader, ImageSlot } from "@/components/site";
 import tableImg from "@/assets/vita-table.jpg";
+import { GuidanceIntro } from "@/components/daily-guidance";
 
 
 const T = {
@@ -446,6 +447,7 @@ function MethodPage() {
         </div>
         <p className="mt-8 border-l-2 border-accent/60 pl-5 text-sm leading-relaxed text-muted-foreground">{t.foodNote}</p>
         <p className="mt-4 border-l-2 border-accent/60 pl-5 text-sm leading-relaxed text-muted-foreground">{t.movementNote}</p>
+        <GuidanceIntro />
         <div className="card-surface mt-10 p-6">
           <h2 className="text-2xl">{t.whyTitle}</h2>
           <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{t.whyBody}</p>
