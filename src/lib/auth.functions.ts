@@ -5,16 +5,14 @@
 //
 // Environment:
 //   SESSION_SECRET  required, 32+ characters
-//   RESEND_API_KEY  API key for https://resend.com (sends the code)
-//   RESEND_FROM     sender, e.g. "Vita Nova Life <login@vitanovalife.com>"
-//   AUTH_DEV_CODE   set to 1 ONLY on a local machine without RESEND_API_KEY: the code is printed
+//   The code is e-mailed through Lovable's managed e-mail (notify.vitanovalife.com).
+//   AUTH_DEV_CODE   set to 1 ONLY on a local machine: if sending fails the code is printed
 //                   to the server log and returned to the page so the flow can be tried.
 // Without a key and without AUTH_DEV_CODE the request fails closed.
 
 import { createServerFn } from "@tanstack/react-start";
 import { useSession } from "@tanstack/react-start/server";
 import { createHmac, randomInt, timingSafeEqual } from "node:crypto";
-import { AUTH_MAIL } from "./auth-email";
 import { toLang } from "./i18n";
 
 const CODE_TTL_MS = 10 * 60 * 1000;
@@ -44,28 +42,18 @@ function safeEqual(a: string, b: string): boolean {
   return x.length === y.length && timingSafeEqual(x, y);
 }
 
-function escapeHtml(s: string): string {
-  return s.replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c]!);
-}
-
 async function sendCodeMail(email: string, code: string, lang: ReturnType<typeof toLang>): Promise<boolean> {
-  const key = process.env["RESEND_API_KEY"];
-  if (!key) return false;
-  const m = AUTH_MAIL[lang];
-  const text = `${m.hello}\n\n${m.yourCode}\n\n${code}\n\n${m.valid}\n${m.ignore}\n\n${m.signoff}`;
-  const html = `<div style="font-family:system-ui,sans-serif;max-width:480px;margin:auto;line-height:1.5;color:#1b2b24"><p>${escapeHtml(m.hello)}</p><p>${escapeHtml(m.yourCode)}</p><p style="font-size:32px;font-weight:700;letter-spacing:6px;margin:16px 0">${code}</p><p>${escapeHtml(m.valid)}<br>${escapeHtml(m.ignore)}</p><p>${escapeHtml(m.signoff)}</p></div>`;
-  const res = await fetch("https://api.resend.com/emails", {
-    method: "POST",
-    headers: { Authorization: `Bearer ${key}`, "Content-Type": "application/json" },
-    body: JSON.stringify({
-      from: process.env["RESEND_FROM"] ?? "Vita Nova Life <login@vitanovalife.com>",
-      to: [email],
-      subject: m.subject(code),
-      text,
-      html,
-    }),
-  });
-  return res.ok;
+  try {
+    const { sendTemplateEmail } = await import("./email-templates/send-email");
+    const r = await sendTemplateEmail("sign-in-code", email, {
+      templateData: { code, lang },
+      idempotencyKey: `sign-in-code-${hashCode(email, code).slice(0, 32)}`,
+    });
+    return r.sent;
+  } catch (e) {
+    console.error("[auth] sending sign-in code failed", e);
+    return false;
+  }
 }
 
 export type RequestCodeResult =
@@ -94,7 +82,7 @@ export const requestCode = createServerFn({ method: "POST" })
 
     const sent = await sendCodeMail(data.email, code, data.lang);
     if (sent) return { ok: true };
-    if (process.env["AUTH_DEV_CODE"] === "1" && !process.env["RESEND_API_KEY"]) {
+    if (process.env["AUTH_DEV_CODE"] === "1") {
       console.log(`[auth] sign-in code for ${data.email}: ${code}`);
       return { ok: true, devCode: code };
     }
