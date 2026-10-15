@@ -14,7 +14,63 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      payment_events: {
+        Row: {
+          email: string | null
+          event_type: string
+          id: string
+          payload: Json
+          received_at: string
+        }
+        Insert: {
+          email?: string | null
+          event_type: string
+          id: string
+          payload: Json
+          received_at?: string
+        }
+        Update: {
+          email?: string | null
+          event_type?: string
+          id?: string
+          payload?: Json
+          received_at?: string
+        }
+        Relationships: []
+      }
+      subscriptions: {
+        Row: {
+          creem_customer_id: string | null
+          creem_subscription_id: string | null
+          current_period_end: string | null
+          email: string
+          plan: string
+          product_id: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          creem_customer_id?: string | null
+          creem_subscription_id?: string | null
+          current_period_end?: string | null
+          email: string
+          plan: string
+          product_id?: string | null
+          status: string
+          updated_at?: string
+        }
+        Update: {
+          creem_customer_id?: string | null
+          creem_subscription_id?: string | null
+          current_period_end?: string | null
+          email?: string
+          plan?: string
+          product_id?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
