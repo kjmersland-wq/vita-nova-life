@@ -1,6 +1,16 @@
 import { socialMeta } from "@/lib/social";
 import { createFileRoute } from "@tanstack/react-router";
-import { LangLink, toLang, useDict, useLangNavigate } from "@/lib/i18n";
+import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
+import { useEffect, useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { createCheckout, getEntitlement } from "@/lib/billing.functions";
+
+const PLAN_KEYS = ["essential", "premium", "annual"] as const;
+const BUY = {
+  en: { intro: "Start free. If you want more, pick a plan below. Payment is handled securely by Creem, in euros.", buy: "Choose plan", busy: "Opening checkout…", current: "Your current plan", signIn: "Sign in first with your e-mail code, then choose a plan.", failed: "Checkout could not open. Please try again in a moment.", notConfigured: "Payment is not switched on yet.", success: "Thank you. Your plan is being activated — it can take a minute." },
+  no: { intro: "Start gratis. Vil du ha mer, velger du en plan under. Betalingen håndteres trygt av Creem, i euro.", buy: "Velg plan", busy: "Åpner betaling …", current: "Din nåværende plan", signIn: "Logg inn med e-postkoden først, og velg så en plan.", failed: "Betalingen kunne ikke åpnes. Prøv igjen om litt.", notConfigured: "Betaling er ikke slått på ennå.", success: "Takk. Planen din aktiveres nå — det kan ta et minutt." },
+  pl: { intro: "Zacznij za darmo. Jeśli chcesz więcej, wybierz plan poniżej. Płatność bezpiecznie obsługuje Creem, w euro.", buy: "Wybierz plan", busy: "Otwieram płatność…", current: "Twój obecny plan", signIn: "Najpierw zaloguj się kodem z e-maila, potem wybierz plan.", failed: "Nie udało się otworzyć płatności. Spróbuj ponownie za chwilę.", notConfigured: "Płatności nie są jeszcze włączone.", success: "Dziękujemy. Twój plan jest aktywowany — może to potrwać minutę." },
+};
 import { Page, StepHeader } from "@/components/site";
 
 const T = {
@@ -638,13 +648,44 @@ export const Route = createFileRoute("/{-$lang}/pricing")({
 
 function PricingPage() {
   const t = useDict(T);
+  const lang = useLang();
+  const b = (BUY as Record<string, (typeof BUY)["en"]>)[lang] ?? BUY.en;
+  const navigate = useLangNavigate();
+  const checkout = useServerFn(createCheckout);
+  const entitlement = useServerFn(getEntitlement);
+  const [access, setAccess] = useState<"free" | "essential" | "premium">("free");
+  const [busy, setBusy] = useState<string | null>(null);
+  const [msg, setMsg] = useState<string | null>(null);
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get("checkout") === "success") setMsg(b.success);
+    entitlement().then((r) => setAccess(r.access)).catch(() => {});
+  }, []);
+  async function buy(plan: (typeof PLAN_KEYS)[number]) {
+    setBusy(plan);
+    setMsg(null);
+    try {
+      const r = await checkout({ data: { plan, lang } });
+      if (r.ok) {
+        window.location.href = r.url;
+        return;
+      }
+      if (r.error === "notSignedIn") {
+        navigate({ to: "/enter", search: { redirect: "/pricing" } } as never);
+        return;
+      }
+      setMsg(r.error === "notConfigured" ? b.notConfigured : b.failed);
+    } catch {
+      setMsg(b.failed);
+    }
+    setBusy(null);
+  }
   return (
     <Page>
       <div className="container-page max-w-5xl py-12">
         <StepHeader
           step={t.step}
           title={t.title}
-          intro={t.intro}
+          intro={b.intro ?? t.intro}
         />
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground">{t.freeHeading}</h2>
         <div className="grid gap-4 sm:max-w-md">
@@ -670,8 +711,9 @@ function PricingPage() {
           ))}
         </div>
         <h2 className="mb-3 mt-10 text-sm font-bold uppercase tracking-wide text-muted-foreground">{t.paidHeading}</h2>
+        {msg && <p className="mb-4 text-sm text-muted-foreground" role="status">{msg}</p>}
         <div className="grid gap-4 md:grid-cols-3">
-          {t.paid.map((tier) => (
+          {t.paid.map((tier, i) => (
             <div
               key={tier.name}
               className={`card-surface flex flex-col p-6 ${"highlight" in tier && tier.highlight ? "border-primary/50" : ""}`}
@@ -688,13 +730,20 @@ function PricingPage() {
                   </li>
                 ))}
               </ul>
-              <button
-                type="button"
-                disabled
-                className="mt-6 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground disabled:opacity-40"
-              >
-                {t.soon}
-              </button>
+              {(() => {
+                const key = PLAN_KEYS[i]!;
+                const isCurrent = access !== "free" && (key === "essential" ? access === "essential" : access === "premium");
+                return (
+                  <button
+                    type="button"
+                    disabled={busy !== null || isCurrent}
+                    onClick={() => buy(key)}
+                    className="mt-6 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground disabled:opacity-40"
+                  >
+                    {isCurrent ? b.current : busy === key ? b.busy : b.buy}
+                  </button>
+                );
+              })()}
             </div>
           ))}
         </div>
