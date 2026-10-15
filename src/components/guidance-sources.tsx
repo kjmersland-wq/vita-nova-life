@@ -24,6 +24,8 @@ export type SourceId =
   | "cochraneFolate"
   | "magnesiumSleep"
   | "efsaUl"
+  | "efsaVitD"
+  | "euFish"
   | "dogActivity"
   | "ahaPets"
   | "petsAging";
@@ -42,7 +44,7 @@ export const SOURCES: Record<SourceId, Source> = {
     href: "https://www.ncbi.nlm.nih.gov/pmc/articles/PMC10770649/",
   },
   helsedirFish: {
-    short: "Helsedirektoratet: fisk og sjømat",
+    short: "Helsedirektoratet: fish (Norwegian example)",
     full: "Helsedirektoratet. Nasjonale kostråd og utviklingen i norsk kosthold: fisk og sjømat (300–450 g i uken, minst 200 g fet fisk).",
     href: "https://www.helsedirektoratet.no/rapporter/utviklingen-i-norsk-kosthold-2025/matvarer/fisk-og-sjomat",
   },
@@ -97,7 +99,7 @@ export const SOURCES: Record<SourceId, Source> = {
     href: "https://doi.org/10.2903/j.efsa.2010.1461",
   },
   helsedirVitD: {
-    short: "Helsedirektoratet: Vitamin D i Norge",
+    short: "Helsedirektoratet: vitamin D (Norwegian example)",
     full: "Helsedirektoratet. Vitamin D i Norge: behov for tiltak for å sikre god vitamin D-status (10 µg per dag, 20 µg over 75 år).",
     href: "https://www.helsedirektoratet.no/rapporter/vitamin-d-i-norge-behov-for-tiltak-for-a-sikre-god-vitamin-d-status",
   },
@@ -125,6 +127,16 @@ export const SOURCES: Record<SourceId, Source> = {
     short: "Mah & Pitre 2021, magnesium and sleep",
     full: "Mah J, Pitre T. Oral magnesium supplementation for insomnia in older adults: a systematic review and meta-analysis. BMC Complement Med Ther 2021;21:125.",
     href: "https://pubmed.ncbi.nlm.nih.gov/33865376/",
+  },
+  efsaVitD: {
+    short: "EFSA 2016: vitamin D reference values",
+    full: "EFSA Panel on Dietetic Products, Nutrition and Allergies. Dietary reference values for vitamin D. EFSA Journal 2016;14(10):4547 (adequate intake 15 µg per day for adults; EFSA keeps the upper limit at 100 µg per day).",
+    href: "https://efsa.europa.eu/en/efsajournal/pub/4547",
+  },
+  euFish: {
+    short: "EU: food-based dietary guidelines for fish",
+    full: "European Commission, Knowledge4Policy. Summary of food-based dietary guidelines recommendations for fish for the EU, Iceland, Norway, Switzerland and the United Kingdom (national advice varies).",
+    href: "https://knowledge4policy.ec.europa.eu/health-promotion-knowledge-gateway/food-based-dietary-guidelines-europe-table-9_en",
   },
   efsaUl: {
     short: "EFSA: upper intake levels, magnesium",

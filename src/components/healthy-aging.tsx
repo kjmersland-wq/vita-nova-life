@@ -39,9 +39,9 @@ type Copy = {
 
 /** Same order as `map`: vitamin D, B12 and folate, omega-3, creatine, magnesium. */
 const MAP_SRC: SourceId[][] = [
-  ["helsedirVitD", "tidsskriftVitD"],
+  ["efsaVitD", "helsedirVitD", "tidsskriftVitD"],
   ["odsB12", "cochraneFolate"],
-  ["helsedirFish", "efsaDri"],
+  ["euFish", "helsedirFish", "efsaDri"],
   ["creatineOlder", "protAge"],
   ["magnesiumSleep"],
 ];
@@ -67,9 +67,9 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     whenLabel: "Relevant when",
     behindLabel: "What may lie behind it",
     map: [
-      { t: "Vitamin D", when: "Your result is below your lab's range, or you are over 75.", behind: "Little daylight in the dark months. In Norway the recommendation is 10 µg a day, and 20 µg over 75." },
+      { t: "Vitamin D", when: "Your result is below your lab's range, or you are older and get little daylight.", behind: "Little daylight in the darker months. Recommendations vary by country, mostly around 10–20 µg a day and often higher for older adults. EFSA's adequate intake for adults is 15 µg." },
       { t: "Vitamin B12 and folate", when: "Your result is low, you follow a plant-based diet, or your doctor wants to look at homocysteine.", behind: "Older adults absorb B12 from food less well, and some medicines, such as metformin and acid reducers, lower absorption." },
-      { t: "Omega-3 (EPA, DHA)", when: "You rarely eat fatty fish.", behind: "Mostly a question of what is on the plate. 300–450 g of fish a week, at least 200 g of it fatty, covers it for most." },
+      { t: "Omega-3 (EPA, DHA)", when: "You rarely eat fatty fish.", behind: "Mostly a question of what is on the plate. Fish once or twice a week or more, including fatty fish, covers it for many." },
       { t: "Creatine", when: "You train with weights, or want to protect muscle as you age.", behind: "Muscle loss with age responds first to strength training and enough protein. Creatine is a small extra on top." },
       { t: "Magnesium", when: "Poor sleep, once the basics are in place, and with modest expectations.", behind: "Sleep habits come first. The evidence for magnesium is small and of low quality." },
     ],
@@ -101,9 +101,9 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     whenLabel: "Relevant når",
     behindLabel: "Hva som kan ligge bak",
     map: [
-      { t: "Vitamin D", when: "Prøvesvaret ligger under laboratoriets område, eller du er over 75 år.", behind: "Lite dagslys i den mørke årstiden. I Norge er anbefalingen 10 µg om dagen, og 20 µg over 75 år." },
+      { t: "Vitamin D", when: "Prøvesvaret ligger under laboratoriets område, eller du er eldre og får lite dagslys.", behind: "Lite dagslys i den mørke årstiden. Anbefalingene varierer fra land til land, stort sett rundt 10–20 µg om dagen og ofte høyere for eldre. EFSAs tilstrekkelige inntak for voksne er 15 µg." },
       { t: "Vitamin B12 og folat", when: "Prøvesvaret er lavt, du spiser plantebasert, eller legen din vil se på homocystein.", behind: "Eldre tar opp B12 fra mat dårligere, og enkelte medisiner, som metformin og syrehemmere, gir lavere opptak." },
-      { t: "Omega-3 (EPA, DHA)", when: "Du spiser sjelden fet fisk.", behind: "Mest et spørsmål om hva som ligger på tallerkenen. 300–450 g fisk i uken, minst 200 g av det fet, dekker det for de fleste." },
+      { t: "Omega-3 (EPA, DHA)", when: "Du spiser sjelden fet fisk.", behind: "Mest et spørsmål om hva som ligger på tallerkenen. Fisk én til to ganger i uken eller mer, også fet fisk, dekker det for mange." },
       { t: "Kreatin", when: "Du styrketrener, eller vil ta vare på musklene når du blir eldre.", behind: "Muskeltap med alderen svarer først på styrketrening og nok protein. Kreatin er et lite ekstra på toppen." },
       { t: "Magnesium", when: "Dårlig søvn, når grunnlaget er på plass, og med beskjedne forventninger.", behind: "Søvnvaner kommer først. Dokumentasjonen for magnesium er liten og av lav kvalitet." },
     ],
@@ -135,9 +135,9 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     whenLabel: "Ma sens, gdy",
     behindLabel: "Co może za tym stać",
     map: [
-      { t: "Witamina D", when: "Wynik jest poniżej zakresu twojego laboratorium albo masz ponad 75 lat.", behind: "Mało światła dziennego w ciemnych miesiącach. W Norwegii zalecenie to 10 µg dziennie, a po 75. roku życia 20 µg." },
+      { t: "Witamina D", when: "Wynik jest poniżej zakresu twojego laboratorium albo jesteś starszą osobą i masz mało światła dziennego.", behind: "Mało światła dziennego w ciemniejszych miesiącach. Zalecenia różnią się w zależności od kraju, najczęściej około 10–20 µg dziennie, a dla starszych często więcej. Wystarczające spożycie EFSA dla dorosłych to 15 µg." },
       { t: "Witamina B12 i folian", when: "Wynik jest niski, jesz roślinnie albo lekarz chce sprawdzić homocysteinę.", behind: "Osoby starsze gorzej przyswajają B12 z pożywienia, a niektóre leki, jak metformina i leki zmniejszające kwasowość, obniżają wchłanianie." },
-      { t: "Omega-3 (EPA, DHA)", when: "Rzadko jesz tłuste ryby.", behind: "Najczęściej kwestia tego, co jest na talerzu. 300–450 g ryb tygodniowo, z czego co najmniej 200 g tłustych, wystarcza większości." },
+      { t: "Omega-3 (EPA, DHA)", when: "Rzadko jesz tłuste ryby.", behind: "Najczęściej kwestia tego, co jest na talerzu. Ryby raz lub dwa razy w tygodniu albo częściej, w tym tłuste, wystarczają wielu osobom." },
       { t: "Kreatyna", when: "Trenujesz z obciążeniem albo chcesz chronić mięśnie z wiekiem.", behind: "Utrata mięśni z wiekiem reaguje najpierw na trening siłowy i odpowiednią ilość białka. Kreatyna to mały dodatek na wierzchu." },
       { t: "Magnez", when: "Słaby sen, gdy podstawy są już zadbane, i z umiarkowanymi oczekiwaniami.", behind: "Najpierw nawyki snu. Dowody dla magnezu są skąpe i niskiej jakości." },
     ],

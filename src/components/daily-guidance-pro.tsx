@@ -29,13 +29,13 @@ type Copy = {
   noSell: string;
 };
 
-const FOOD_SRC: SourceId[][] = [["protAge", "nnrProtein"], ["helsedirFish"], ["whoSugars", "malik"]];
+const FOOD_SRC: SourceId[][] = [["protAge", "nnrProtein"], ["euFish", "helsedirFish"], ["whoSugars", "malik"]];
 const MOVE_SRC: SourceId[][] = [["whoActivity"], ["whoActivity"], ["sleep", "social"]];
 /** creatine, omega-3, vitamin D, B vitamins, magnesium */
 const SUPP_SRC: SourceId[][] = [
   ["issnCreatine", "creatineOlder", "creatineMemory"],
   ["efsaDri", "efsaOmega3"],
-  ["helsedirVitD", "tidsskriftVitD"],
+  ["efsaVitD", "helsedirVitD", "tidsskriftVitD"],
   ["odsB12", "cochraneFolate", "cochraneCognition"],
   ["magnesiumSleep", "efsaUl"],
 ];
@@ -63,7 +63,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
         lead: "Aim for something colourful at most meals. Frozen berries and vegetables are just as good and easy to keep at home.",
         points: [
           "Vegetables, berries and fruit every day. Half the plate at dinner is a lovely rule of thumb.",
-          "Fish: the Norwegian advice is 300–450 g a week, at least 200 g of it fatty fish such as salmon, mackerel or herring.",
+          "Fish: most European guidelines advise fish once or twice a week or more, including fatty fish such as salmon, mackerel or herring. National advice varies; Norway, for example, suggests 300–450 g a week, at least 200 g of it fatty.",
           "Olive or rapeseed oil, nuts and seeds as your everyday fats.",
           "Whole grains and beans for steady energy and a happy gut.",
         ],
@@ -121,7 +121,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     supp: [
       { t: "Creatine monohydrate", evidence: "Evidence: good for muscle alongside training, early for memory", b: "3–5 g a day, stirred into water, coffee or yoghurt, any time of day. In older adults who trained with weights, it added about 1.4 kg of lean mass compared with training alone. Early studies suggest a small benefit for memory. It is considered safe for healthy people; with kidney disease, ask your doctor first." },
       { t: "Omega-3 (EPA and DHA)", evidence: "Evidence: a sound stand-in for fish", b: "Worth a thought if you rarely eat fatty fish. EFSA sees 250–500 mg EPA + DHA a day as a sensible target for adults, and supplements up to 5 g a day raise no safety concern. Check the label for EPA + DHA, and ask your doctor if you use blood thinners." },
-      { t: "Vitamin D", evidence: "Evidence: strong where levels are low", b: "In Norway the recommendation is 10 µg a day, and 20 µg a day over 75. The aim is a blood level above 50 nmol/L, so your own result matters most. High doses are rarely needed." },
+      { t: "Vitamin D", evidence: "Evidence: strong where levels are low", b: "Recommendations vary across Europe, mostly around 10–20 µg a day and often higher for older adults. EFSA uses 15 µg a day as an adequate intake for adults and sets 100 µg a day as the upper limit. The aim is a blood level above 50 nmol/L, so your own result matters most. Your doctor or local health authority can confirm the right dose for you. High doses are rarely needed." },
       { t: "B vitamins (B12, folate)", evidence: "Evidence: strong for fixing a shortfall, weak for memory", b: "Older adults absorb B12 from food less well, but the B12 in supplements and fortified food is still absorbed. B vitamins lower homocysteine, yet trials have not shown that this protects thinking in healthy older people. Worth it when your result or your doctor says so." },
       { t: "Magnesium", evidence: "Evidence: limited", b: "May help some, but the evidence for better sleep in older adults is small and of low quality. The EU upper limit for supplemental magnesium is 250 mg a day. Ask your doctor first, especially with kidney disease." },
     ],
@@ -154,7 +154,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
         lead: "Sikt på noe fargerikt til de fleste måltider. Frosne bær og grønnsaker er like gode og enkle å ha i huset.",
         points: [
           "Grønnsaker, bær og frukt hver dag. Halve tallerkenen til middag er en fin tommelfingerregel.",
-          "Fisk: det norske rådet er 300–450 g i uken, minst 200 g av det fet fisk som laks, makrell eller sild.",
+          "Fisk: de fleste europeiske retningslinjer anbefaler fisk én til to ganger i uken eller mer, også fet fisk som laks, makrell eller sild. Rådene varierer fra land til land; i Norge er rådet for eksempel 300–450 g i uken, minst 200 g av det fet fisk.",
           "Olivenolje eller rapsolje, nøtter og frø som daglige fettkilder.",
           "Fullkorn og bønner gir jevn energi og glad mage.",
         ],
@@ -212,7 +212,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     supp: [
       { t: "Kreatinmonohydrat", evidence: "Dokumentasjon: god for muskler sammen med trening, tidlig for hukommelse", b: "3–5 g om dagen, rørt ut i vann, kaffe eller yoghurt, når som helst på dagen. Hos eldre som trente med vekter ga det omtrent 1,4 kg mer muskelmasse enn trening alene. Tidlige studier tyder på en liten gevinst for hukommelsen. Regnes som trygt for friske; ved nyresykdom bør du spørre legen først." },
       { t: "Omega-3 (EPA og DHA)", evidence: "Dokumentasjon: et godt alternativ til fisk", b: "Verdt en tanke hvis du sjelden spiser fet fisk. EFSA mener 250–500 mg EPA + DHA om dagen er et fornuftig mål for voksne, og tilskudd opptil 5 g om dagen gir ingen sikkerhetsbekymring. Se etter EPA + DHA på etiketten, og spør legen hvis du bruker blodfortynnende." },
-      { t: "Vitamin D", evidence: "Dokumentasjon: sterk når nivået er lavt", b: "I Norge er anbefalingen 10 µg om dagen, og 20 µg om dagen over 75 år. Målet er et blodnivå over 50 nmol/L, så ditt eget prøvesvar betyr mest. Høye doser trengs sjelden." },
+      { t: "Vitamin D", evidence: "Dokumentasjon: sterk når nivået er lavt", b: "Anbefalingene varierer i Europa, stort sett rundt 10–20 µg om dagen og ofte høyere for eldre. EFSA bruker 15 µg om dagen som tilstrekkelig inntak for voksne, og setter 100 µg om dagen som øvre grense. Målet er et blodnivå over 50 nmol/L, så ditt eget prøvesvar betyr mest. Legen din eller helsemyndighetene i landet ditt kan bekrefte riktig dose for deg. Høye doser trengs sjelden." },
       { t: "B-vitaminer (B12, folat)", evidence: "Dokumentasjon: sterk for å rette opp mangel, svak for hukommelse", b: "Eldre tar opp B12 fra mat dårligere, men B12 i tilskudd og beriket mat tas fortsatt opp. B-vitaminer senker homocystein, men studier har ikke vist at det beskytter tenkningen hos friske eldre. Verdt det når prøvesvaret eller legen din tilsier det." },
       { t: "Magnesium", evidence: "Dokumentasjon: begrenset", b: "Kan hjelpe noen, men dokumentasjonen for bedre søvn hos eldre er liten og av lav kvalitet. Den europeiske øvre grensen for tilskudd av magnesium er 250 mg om dagen. Spør legen først, særlig ved nyresykdom." },
     ],
@@ -245,7 +245,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
         lead: "Staraj się, by przy większości posiłków było coś kolorowego. Mrożone jagody i warzywa są równie dobre i łatwo je mieć w domu.",
         points: [
           "Warzywa, jagody i owoce codziennie. Połowa talerza na obiad to piękna zasada.",
-          "Ryby: norweskie zalecenie to 300–450 g tygodniowo, z czego co najmniej 200 g tłustych ryb, takich jak łosoś, makrela czy śledź.",
+          "Ryby: większość europejskich wytycznych zaleca ryby raz lub dwa razy w tygodniu albo częściej, także tłuste, takie jak łosoś, makrela czy śledź. Zalecenia krajowe się różnią; Norwegia na przykład sugeruje 300–450 g tygodniowo, z czego co najmniej 200 g tłustych.",
           "Oliwa lub olej rzepakowy, orzechy i nasiona jako codzienne tłuszcze.",
           "Pełne ziarna i strączki dla stabilnej energii i szczęśliwego brzucha.",
         ],
@@ -303,7 +303,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     supp: [
       { t: "Monohydrat kreatyny", evidence: "Dowody: dobre dla mięśni razem z treningiem, wczesne dla pamięci", b: "3–5 g dziennie, wymieszane z wodą, kawą lub jogurtem, o dowolnej porze dnia. U starszych osób trenujących z obciążeniem dało to około 1,4 kg więcej beztłuszczowej masy ciała niż sam trening. Wczesne badania sugerują niewielką korzyść dla pamięci. Uznawana za bezpieczną dla zdrowych osób; przy chorobie nerek najpierw zapytaj lekarza." },
       { t: "Omega-3 (EPA i DHA)", evidence: "Dowody: rozsądny zamiennik ryb", b: "Warto rozważyć, jeśli rzadko jesz tłuste ryby. EFSA uznaje 250–500 mg EPA + DHA dziennie za rozsądny cel dla dorosłych, a suplementy do 5 g dziennie nie budzą obaw o bezpieczeństwo. Na etykiecie szukaj EPA + DHA, a przy lekach rozrzedzających krew zapytaj lekarza." },
-      { t: "Witamina D", evidence: "Dowody: mocne tam, gdzie poziom jest niski", b: "W Norwegii zalecenie to 10 µg dziennie, a po 75. roku życia 20 µg dziennie. Celem jest poziom we krwi powyżej 50 nmol/L, więc najważniejszy jest twój własny wynik. Wysokie dawki rzadko są potrzebne." },
+      { t: "Witamina D", evidence: "Dowody: mocne tam, gdzie poziom jest niski", b: "Zalecenia różnią się w Europie, najczęściej około 10–20 µg dziennie, a dla osób starszych często więcej. EFSA przyjmuje 15 µg dziennie jako wystarczające spożycie dla dorosłych, a 100 µg dziennie jako górną granicę. Celem jest poziom we krwi powyżej 50 nmol/L, więc najważniejszy jest twój własny wynik. Lekarz lub lokalne władze zdrowotne potwierdzą właściwą dawkę. Wysokie dawki rzadko są potrzebne." },
       { t: "Witaminy z grupy B (B12, folian)", evidence: "Dowody: mocne przy niedoborze, słabe dla pamięci", b: "Osoby starsze gorzej przyswajają B12 z pożywienia, ale B12 z suplementów i produktów wzbogacanych nadal się wchłania. Witaminy z grupy B obniżają homocysteinę, jednak badania nie wykazały, że chroni to myślenie u zdrowych starszych osób. Warto, gdy sugeruje to twój wynik lub lekarz." },
       { t: "Magnez", evidence: "Dowody: ograniczone", b: "Może pomóc niektórym, ale dowody na lepszy sen u osób starszych są skąpe i niskiej jakości. Europejska górna granica dla magnezu z suplementów to 250 mg dziennie. Najpierw zapytaj lekarza, zwłaszcza przy chorobie nerek." },
     ],

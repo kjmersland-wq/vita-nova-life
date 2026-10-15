@@ -96,7 +96,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     suppBoxLead: "Food, movement and sleep come first. If you and your doctor decide to add something, these have the most behind them.",
     suppBox: [
       { t: "Creatine monohydrate", level: "Good for muscle with training", line: "Best documented as a support alongside strength training in older adults. Early evidence for memory. Considered safe for healthy people; check with your doctor if you have kidney disease." },
-      { t: "Vitamin D", level: "Strong where levels are low", line: "Especially relevant in Norway. The recommendation is higher over 75, and your own blood test shows if you need it." },
+      { t: "Vitamin D", level: "Strong where levels are low", line: "Relevant across Europe, especially in the darker months and for older adults. Recommendations vary by country, mostly around 10–20 µg a day and often higher for older adults. Your own blood test shows if you need it." },
       { t: "Vitamin B12", level: "Strong for fixing a shortfall", line: "Older adults absorb B12 from food less well. Useful when a result shows a shortfall." },
       { t: "Omega-3 (EPA, DHA)", level: "A stand-in for fish", line: "Relevant if you rarely eat fatty fish. Fish itself does the job well." },
       { t: "Magnesium", level: "Limited", line: "Evidence for better sleep in older adults is small and of low quality. Not for everyone." },
@@ -152,7 +152,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     suppBoxLead: "Mat, bevegelse og søvn kommer først. Hvis du og legen din bestemmer dere for å legge til noe, er dette det som har mest bak seg.",
     suppBox: [
       { t: "Kreatinmonohydrat", level: "God for muskler sammen med trening", line: "Best dokumentert som støtte sammen med styrketrening hos eldre. Tidlige tegn på effekt for hukommelsen. Regnes som trygt for friske; sjekk med legen ved nyresykdom." },
-      { t: "Vitamin D", level: "Sterk når nivået er lavt", line: "Særlig relevant i Norge. Anbefalingen er høyere over 75 år, og din egen blodprøve viser om du trenger det." },
+      { t: "Vitamin D", level: "Sterk når nivået er lavt", line: "Relevant over hele Europa, særlig i den mørke årstiden og for eldre. Anbefalingene varierer fra land til land, stort sett rundt 10–20 µg om dagen og ofte høyere for eldre. Din egen blodprøve viser om du trenger det." },
       { t: "Vitamin B12", level: "Sterk for å rette opp mangel", line: "Eldre tar opp B12 fra mat dårligere. Nyttig når et prøvesvar viser mangel." },
       { t: "Omega-3 (EPA, DHA)", level: "Et alternativ til fisk", line: "Relevant hvis du sjelden spiser fet fisk. Fisk i seg selv gjør jobben godt." },
       { t: "Magnesium", level: "Begrenset", line: "Dokumentasjonen for bedre søvn hos eldre er liten og av lav kvalitet. Ikke for alle." },
@@ -208,7 +208,7 @@ const COPY: Record<"en" | "no" | "pl", Copy> = {
     suppBoxLead: "Najpierw jedzenie, ruch i sen. Jeśli ty i twój lekarz zdecydujecie się coś dodać, te mają za sobą najwięcej badań.",
     suppBox: [
       { t: "Monohydrat kreatyny", level: "Dobry dla mięśni z treningiem", line: "Najlepiej udokumentowany jako wsparcie treningu siłowego u osób starszych. Wczesne dowody dla pamięci. Uznawany za bezpieczny dla zdrowych osób; przy chorobie nerek skonsultuj się z lekarzem." },
-      { t: "Witamina D", level: "Mocne dowody przy niskim poziomie", line: "Szczególnie ważna w Norwegii. Zalecenie jest wyższe po 75. roku życia, a twoje własne badanie krwi pokaże, czy jej potrzebujesz." },
+      { t: "Witamina D", level: "Mocne dowody przy niskim poziomie", line: "Ważna w całej Europie, zwłaszcza w ciemniejszych miesiącach i dla osób starszych. Zalecenia różnią się w zależności od kraju, najczęściej około 10–20 µg dziennie, a dla starszych często więcej. Twoje własne badanie krwi pokaże, czy jej potrzebujesz." },
       { t: "Witamina B12", level: "Mocne dowody przy niedoborze", line: "Osoby starsze gorzej przyswajają B12 z pożywienia. Przydatna, gdy wynik pokazuje niedobór." },
       { t: "Omega-3 (EPA, DHA)", level: "Zamiennik ryb", line: "Ma sens, jeśli rzadko jesz tłuste ryby. Same ryby świetnie robią swoje." },
       { t: "Magnez", level: "Ograniczone", line: "Dowody na lepszy sen u osób starszych są skąpe i niskiej jakości. Nie dla każdego." },
@@ -224,7 +224,7 @@ export function guidanceCopy(lang: Lang): Copy {
 const ProGuidance = lazy(() => import("@/components/daily-guidance-pro"));
 
 export const PILLAR_SRC: SourceId[] = ["protAge", "nnrProtein", "helsedirFish", "whoSugars", "whoActivity", "sleep", "social"];
-const SUPP_BOX_SRC: SourceId[][] = [["issnCreatine", "creatineOlder"], ["helsedirVitD"], ["odsB12"], ["efsaOmega3"], ["magnesiumSleep", "efsaUl"]];
+const SUPP_BOX_SRC: SourceId[][] = [["issnCreatine", "creatineOlder"], ["efsaVitD", "helsedirVitD"], ["odsB12"], ["efsaOmega3"], ["magnesiumSleep", "efsaUl"]];
 
 export function NuanceBox({ c }: { c: Copy }) {
   return (
