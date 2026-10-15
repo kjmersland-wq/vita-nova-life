@@ -2,6 +2,7 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { signOut } from "@/lib/auth.functions";
+import { PasswordCard } from "@/components/password-card";
 import { requireAuth } from "@/lib/auth.guard";
 import { LangLink, langParam, toLang, useDict, useLang } from "@/lib/i18n";
 import { DisclaimerNote, Field, Page, StepHeader, inputClass } from "@/components/site";
@@ -413,6 +414,8 @@ function DashboardPage() {
         <div className="mb-10 flex flex-wrap gap-3">
           <Button variant="outline" onClick={logOut}>{t.signOut}</Button>
         </div>
+
+        <PasswordCard />
 
         <section className="card-surface p-5 sm:p-6">
           <h2 className="text-2xl">{t.logTitle}</h2>
