@@ -3,6 +3,9 @@ import { toLang, useDict } from "@/lib/i18n";
 import { Page, StepHeader, Field, inputClass } from "@/components/site";
 import { Button } from "@/components/ui/button";
 import { SUPPORT_EMAIL } from "@/components/legal-doc";
+import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { sendContactMessage } from "@/lib/contact.functions";
 
 const T = {
   en: {
@@ -16,7 +19,10 @@ const T = {
     email: "Your e-mail",
     message: "Message",
     send: "Send message",
-    hint: "This opens your e-mail app with the message ready to send to our support address.",
+    hint: "Your message goes straight to our support inbox. We reply by e-mail.",
+    sent: "Thank you. Your message is on its way to us.",
+    failed: "Something went wrong. Please try again, or e-mail us directly.",
+    busy: "Sending…",
     privacy: "Please do not include lab values or other health details in your message.",
     subject: "Message from Vita Nova Life",
   },
@@ -31,7 +37,10 @@ const T = {
     email: "E-postadressen din",
     message: "Melding",
     send: "Send melding",
-    hint: "Dette åpner e-postprogrammet ditt med meldingen klar til å sendes til støtteadressen vår.",
+    hint: "Meldingen går rett til support-innboksen vår. Vi svarer på e-post.",
+    sent: "Takk! Meldingen din er på vei til oss.",
+    failed: "Noe gikk galt. Prøv igjen, eller send oss en e-post direkte.",
+    busy: "Sender …",
     privacy: "Ikke ta med laboratorieverdier eller andre helseopplysninger i meldingen.",
     subject: "Melding fra Vita Nova Life",
   },
@@ -46,7 +55,10 @@ const T = {
     email: "Twój adres e-mail",
     message: "Wiadomość",
     send: "Wyślij wiadomość",
-    hint: "Otworzy się Twoja aplikacja pocztowa z wiadomością gotową do wysłania na nasz adres wsparcia.",
+    hint: "Wiadomość trafia prosto do naszej skrzynki wsparcia. Odpowiemy e-mailem.",
+    sent: "Dziękujemy! Twoja wiadomość jest już w drodze do nas.",
+    failed: "Coś poszło nie tak. Spróbuj ponownie albo napisz do nas bezpośrednio.",
+    busy: "Wysyłanie…",
     privacy: "Prosimy nie podawać w wiadomości wartości laboratoryjnych ani innych danych zdrowotnych.",
     subject: "Wiadomość z Vita Nova Life",
   },
@@ -61,7 +73,10 @@ const T = {
     email: "Din mailadresse",
     message: "Besked",
     send: "Send besked",
-    hint: "Det åbner dit mailprogram med beskeden klar til at blive sendt til vores supportadresse.",
+    hint: "Beskeden går direkte til vores support-indbakke. Vi svarer på mail.",
+    sent: "Tak! Din besked er på vej til os.",
+    failed: "Noget gik galt. Prøv igen, eller skriv direkte til os.",
+    busy: "Sender …",
     privacy: "Skriv gerne ikke laboratorieværdier eller andre helbredsoplysninger i beskeden.",
     subject: "Besked fra Vita Nova Life",
   },
@@ -76,7 +91,10 @@ const T = {
     email: "Din e-postadress",
     message: "Meddelande",
     send: "Skicka meddelande",
-    hint: "Det öppnar ditt e-postprogram med meddelandet färdigt att skickas till vår supportadress.",
+    hint: "Meddelandet går direkt till vår supportinkorg. Vi svarar via e-post.",
+    sent: "Tack! Ditt meddelande är på väg till oss.",
+    failed: "Något gick fel. Försök igen eller mejla oss direkt.",
+    busy: "Skickar …",
     privacy: "Ta gärna inte med laboratorievärden eller andra hälsouppgifter i meddelandet.",
     subject: "Meddelande från Vita Nova Life",
   },
@@ -91,7 +109,10 @@ const T = {
     email: "Sähköpostiosoitteesi",
     message: "Viesti",
     send: "Lähetä viesti",
-    hint: "Tämä avaa sähköpostiohjelmasi niin, että viesti on valmiina lähetettäväksi tukiosoitteeseemme.",
+    hint: "Viesti menee suoraan tukipostiimme. Vastaamme sähköpostilla.",
+    sent: "Kiitos! Viestisi on matkalla meille.",
+    failed: "Jokin meni pieleen. Yritä uudelleen tai lähetä meille sähköpostia suoraan.",
+    busy: "Lähetetään…",
     privacy: "Älä liitä viestiin laboratorioarvoja tai muita terveystietoja.",
     subject: "Viesti Vita Nova Lifelta",
   },
@@ -106,7 +127,10 @@ const T = {
     email: "Deine E-Mail-Adresse",
     message: "Nachricht",
     send: "Nachricht senden",
-    hint: "Dadurch öffnet sich dein E-Mail-Programm mit der Nachricht, fertig zum Senden an unsere Support-Adresse.",
+    hint: "Deine Nachricht geht direkt an unser Support-Postfach. Wir antworten per E-Mail.",
+    sent: "Danke! Deine Nachricht ist auf dem Weg zu uns.",
+    failed: "Etwas ist schiefgelaufen. Versuch es noch einmal oder schreib uns direkt.",
+    busy: "Wird gesendet …",
     privacy: "Bitte schreib keine Laborwerte oder andere Gesundheitsdaten in deine Nachricht.",
     subject: "Nachricht von Vita Nova Life",
   },
@@ -121,7 +145,10 @@ const T = {
     email: "Votre adresse e-mail",
     message: "Message",
     send: "Envoyer le message",
-    hint: "Cela ouvre votre application de messagerie avec le message prêt à être envoyé à notre adresse d'assistance.",
+    hint: "Votre message arrive directement dans notre boîte d\'assistance. Nous répondons par e-mail.",
+    sent: "Merci ! Votre message est en route vers nous.",
+    failed: "Un problème est survenu. Réessayez ou écrivez-nous directement.",
+    busy: "Envoi…",
     privacy: "Merci de ne pas inclure de valeurs d'analyses ni d'autres informations de santé dans votre message.",
     subject: "Message depuis Vita Nova Life",
   },
@@ -136,7 +163,10 @@ const T = {
     email: "Je e-mailadres",
     message: "Bericht",
     send: "Bericht versturen",
-    hint: "Dit opent je e-mailprogramma met het bericht klaar om naar ons supportadres te sturen.",
+    hint: "Je bericht gaat direct naar onze support-inbox. We antwoorden per e-mail.",
+    sent: "Bedankt! Je bericht is onderweg naar ons.",
+    failed: "Er ging iets mis. Probeer het opnieuw of mail ons rechtstreeks.",
+    busy: "Versturen…",
     privacy: "Zet geen bloedwaarden of andere gezondheidsgegevens in je bericht.",
     subject: "Bericht van Vita Nova Life",
   },
@@ -153,14 +183,30 @@ export const Route = createFileRoute("/{-$lang}/contact")({
 function ContactPage() {
   const t = useDict(T);
 
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const send = useServerFn(sendContactMessage);
+  const [status, setStatus] = useState<"idle" | "busy" | "sent" | "failed">("idle");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const f = new FormData(e.currentTarget);
-    const name = String(f.get("name") ?? "").trim();
-    const email = String(f.get("email") ?? "").trim();
-    const message = String(f.get("message") ?? "").trim();
-    const body = `${message}\n\n— ${name}${email ? ` <${email}>` : ""}`;
-    window.location.href = `mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(t.subject)}&body=${encodeURIComponent(body)}`;
+    const form = e.currentTarget;
+    const f = new FormData(form);
+    setStatus("busy");
+    try {
+      const r = await send({
+        data: {
+          name: String(f.get("name") ?? ""),
+          email: String(f.get("email") ?? ""),
+          message: String(f.get("message") ?? ""),
+          website: String(f.get("website") ?? ""),
+        },
+      });
+      if (r.ok) {
+        form.reset();
+        setStatus("sent");
+      } else setStatus("failed");
+    } catch {
+      setStatus("failed");
+    }
   }
 
   return (
@@ -185,9 +231,10 @@ function ContactPage() {
           <Field label={t.message} hint={t.privacy}>
             <textarea name="message" required rows={6} className={`${inputClass} h-auto resize-y`} />
           </Field>
-          <Button type="submit">{t.send}</Button>
+          <input name="website" type="text" tabIndex={-1} autoComplete="off" aria-hidden="true" className="hidden" />
+          <Button type="submit" disabled={status === "busy"}>{status === "busy" ? t.busy : t.send}</Button>
           <p role="status" className="text-xs text-muted-foreground">
-            {t.hint}
+            {status === "sent" ? t.sent : status === "failed" ? t.failed : t.hint}
           </p>
         </form>
       </div>
