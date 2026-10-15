@@ -25,7 +25,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 type Pending = { email: string; hash: string; exp: number; sentAt: number; tries: number };
 type AuthSession = { email?: string | undefined; pending?: Pending | undefined };
 
-function sessionConfig() {
+export function sessionConfig() {
   return {
     password: process.env["SESSION_SECRET"]!,
     name: "vn-s",
