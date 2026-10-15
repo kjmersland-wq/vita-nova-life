@@ -12,7 +12,7 @@ async function hashPw(pw: string, salt: string): Promise<string> {
   return pbkdf2Sync(pw, salt, 100_000, 32, "sha256").toString("hex");
 }
 
-type S = { email?: string; pwTries?: number; pwLockUntil?: number };
+type S = { email?: string | undefined; pwTries?: number | undefined; pwLockUntil?: number | undefined };
 
 export const hasPassword = createServerFn({ method: "GET" }).handler(async () => {
   const s = await useSession<S>(sessionConfig());
