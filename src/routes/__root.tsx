@@ -15,7 +15,6 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LANG_META, langFromPath } from "../lib/i18n";
 import { seoLinks, seoMeta } from "../lib/seo";
-import { CookieConsent } from "../components/cookie-consent";
 
 const SYS_T = {
   en: { nf: "Page not found", nfBody: "The page you're looking for doesn't exist or has been moved.", home: "Go home", err: "This page didn't load", errBody: "Something went wrong on our end. You can try refreshing or head back home.", retry: "Try again" },
@@ -134,8 +133,8 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     ],
   }),
   scripts: () => [
-    { defer: true, src: "https://km-techlabs.com/t.js", "data-site": "vitanovalife.com" },
-    // Google Analytics loads only after consent — see CookieConsent.
+    // Cookie-free traffic measurement (no cookies, no consent banner needed).
+    { defer: true, src: "/tracker.js", "data-site": "vitanovalife.com" },
   ],
   shellComponent: RootShell,
   component: RootComponent,
@@ -172,7 +171,6 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
-      <CookieConsent />
     </QueryClientProvider>
   );
 }
