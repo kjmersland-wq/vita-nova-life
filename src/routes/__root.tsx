@@ -134,6 +134,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   }),
   scripts: () => [
     { defer: true, src: "https://km-techlabs.com/t.js", "data-site": "vitanovalife.com" },
+    // Google tag (gtag.js)
+    { async: true, src: "https://www.googletagmanager.com/gtag/js?id=G-2FKYFQ2FVC" },
+    {
+      type: "text/javascript",
+      children:
+        "window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-2FKYFQ2FVC');",
+    },
   ],
   shellComponent: RootShell,
   component: RootComponent,
