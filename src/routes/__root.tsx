@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LANG_META, langFromPath } from "../lib/i18n";
 import { seoLinks, seoMeta } from "../lib/seo";
+import { CookieConsent } from "../components/cookie-consent";
 
 const SYS_T = {
   en: { nf: "Page not found", nfBody: "The page you're looking for doesn't exist or has been moved.", home: "Go home", err: "This page didn't load", errBody: "Something went wrong on our end. You can try refreshing or head back home.", retry: "Try again" },
@@ -134,13 +135,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
   }),
   scripts: () => [
     { defer: true, src: "https://km-techlabs.com/t.js", "data-site": "vitanovalife.com" },
-    // Google tag (gtag.js)
-    { async: true, src: "https://www.googletagmanager.com/gtag/js?id=G-2FKYFQ2FVC" },
-    {
-      type: "text/javascript",
-      children:
-        "window.dataLayer = window.dataLayer || [];\nfunction gtag(){dataLayer.push(arguments);}\ngtag('js', new Date());\ngtag('config', 'G-2FKYFQ2FVC');",
-    },
+    // Google Analytics loads only after consent — see CookieConsent.
   ],
   shellComponent: RootShell,
   component: RootComponent,
@@ -177,6 +172,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <Outlet />
+      <CookieConsent />
     </QueryClientProvider>
   );
 }
