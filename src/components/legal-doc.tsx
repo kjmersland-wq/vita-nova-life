@@ -89,7 +89,7 @@ export const LEGAL_PAGES = {
           b: [
             "W obecnej wersji profil, wartości laboratoryjne i wyniki są przechowywane lokalnie w przeglądarce użytkownika i nie są wysyłane na nasze serwery.",
             "Nigdy nie sprzedajemy danych zdrowotnych i nie udostępniamy ich reklamodawcom.",
-            "Płatności obsługuje nasz dostawca płatności przy finalizacji zakupu; nie przechowujemy danych kart.",
+            "Płatności obsługuje Stripe przy finalizacji zakupu; nie przechowujemy danych kart.",
           ],
         },
         {
@@ -269,7 +269,7 @@ export const LEGAL_PAGES = {
           b: [
             "In de huidige versie worden profiel, bloedwaarden en resultaten lokaal in de eigen browser van de gebruiker opgeslagen en niet naar onze servers verstuurd.",
             "We verkopen nooit gezondheidsgegevens en delen ze nooit met adverteerders.",
-            "Betalingen worden bij het afrekenen afgehandeld door onze betaalprovider; we slaan geen kaartgegevens op.",
+            "Betalingen worden bij het afrekenen afgehandeld door Stripe; we slaan geen kaartgegevens op.",
           ],
         },
         {
