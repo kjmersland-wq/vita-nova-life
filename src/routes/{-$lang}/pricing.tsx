@@ -655,27 +655,46 @@ function PricingPage() {
   const navigate = useLangNavigate();
   const checkout = useServerFn(createCheckout);
   const entitlement = useServerFn(getEntitlement);
+  const portal = useServerFn(createPortal);
   const [access, setAccess] = useState<"free" | "essential" | "premium">("free");
   const [busy, setBusy] = useState<string | null>(null);
   const [msg, setMsg] = useState<string | null>(null);
+  const [secret, setSecret] = useState<string | null>(null);
+  const [isTest, setIsTest] = useState(false);
   useEffect(() => {
     if (new URLSearchParams(window.location.search).get("checkout") === "success") setMsg(b.success);
-    entitlement().then((r) => setAccess(r.access)).catch(() => {});
+    if (!paymentsConfigured()) return;
+    const environment = getStripeEnvironment();
+    setIsTest(environment === "sandbox");
+    entitlement({ data: { environment } }).then((r) => setAccess(r.access)).catch(() => {});
   }, []);
+  const returnUrl = () => `${window.location.origin}${lang === "en" ? "" : `/${lang}`}/pricing?checkout=success`;
   async function buy(plan: (typeof PLAN_KEYS)[number]) {
-    setBusy(plan);
     setMsg(null);
+    if (!paymentsConfigured()) return setMsg(b.notConfigured);
+    setBusy(plan);
     try {
-      const r = await checkout({ data: { plan, lang } });
-      if (r.ok) {
-        window.location.href = r.url;
-        return;
-      }
-      if (r.error === "notSignedIn") {
+      const r = await checkout({ data: { plan, environment: getStripeEnvironment(), returnUrl: returnUrl() } });
+      if ("clientSecret" in r) {
+        setSecret(r.clientSecret);
+      } else if (r.error === "notSignedIn") {
         navigate({ to: "/enter", search: { redirect: "/pricing" } } as never);
         return;
+      } else {
+        console.error("[checkout]", r.error);
+        setMsg(b.failed);
       }
-      setMsg(r.error === "notConfigured" ? b.notConfigured : b.failed);
+    } catch {
+      setMsg(b.failed);
+    }
+    setBusy(null);
+  }
+  async function manage() {
+    setBusy("portal");
+    try {
+      const r = await portal({ data: { environment: getStripeEnvironment(), returnUrl: returnUrl().replace("?checkout=success", "") } });
+      if ("url" in r) window.open(r.url, "_blank", "noopener");
+      else setMsg(b.failed);
     } catch {
       setMsg(b.failed);
     }
@@ -684,11 +703,27 @@ function PricingPage() {
   return (
     <Page>
       <div className="container-page max-w-5xl py-12">
+        {isTest && <p className="mb-6 rounded-md border border-border bg-muted px-4 py-2 text-center text-sm text-muted-foreground">{b.testMode}</p>}
         <StepHeader
           step={t.step}
           title={t.title}
           intro={b.intro ?? t.intro}
         />
+        {secret && (
+          <div className="mb-10 rounded-md border border-border bg-card p-4">
+            <div className="mb-3 flex justify-end">
+              <button type="button" onClick={() => setSecret(null)} className="text-sm underline">{b.close}</button>
+            </div>
+            <EmbeddedCheckoutProvider key={secret} stripe={getStripe()} options={{ fetchClientSecret: async () => secret }}>
+              <EmbeddedCheckout />
+            </EmbeddedCheckoutProvider>
+          </div>
+        )}
+        {access !== "free" && (
+          <button type="button" onClick={manage} disabled={busy !== null} className="mb-8 rounded-full border border-border px-5 py-2.5 text-sm hover:border-primary/50 disabled:opacity-40">
+            {b.manage}
+          </button>
+        )}
         <h2 className="mb-3 text-sm font-bold uppercase tracking-wide text-muted-foreground">{t.freeHeading}</h2>
         <div className="grid gap-4 sm:max-w-md">
           {t.tiers.map((tier) => (
