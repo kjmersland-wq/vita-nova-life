@@ -12,7 +12,7 @@ Status per 15. oktober 2026, basert på koden i `main`. Dette er en teknisk og p
 ## A. Må på plass før noen betaler
 
 ### A1. Betalingsleverandør og kjøpsflyt
-- Velg leverandør og aktiver kjøp. FAQ-en sier i dag at betaling håndteres av Creem.io, i euro, med mva. Bekreft at dette fortsatt er valget, og at teksten stemmer med det som faktisk settes opp.
+- Betaling går via innebygd Stripe (Lovable Payments), i euro, med mva. Fullfør go-live i Payments-fanen før ekte kjøp.
 - Opprett produkter og priser: Essential (9,90 €/mnd), Premium (19,90 €/mnd), Annual Premium (149 €/år).
 - Bygg kasse/checkout-flyt fra prisiden, med innlogget bruker (e-post sendes med inn i kjøpet).
 - Returside etter betaling (suksess, avbrutt, feilet).

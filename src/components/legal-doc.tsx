@@ -29,7 +29,7 @@ export const LEGAL_PAGES = {
           b: [
             "In the current version, profile, lab values and results are stored locally in the user's own browser and are not sent to our servers.",
             "We never sell health data and never share it with advertisers.",
-            "Payments are handled by our payment provider at checkout; we do not store card details.",
+            "Payments are handled by Stripe at checkout; we do not store card details.",
           ],
         },
         {
@@ -59,7 +59,7 @@ export const LEGAL_PAGES = {
           b: [
             "I den nåværende versjonen lagres profil, laboratorieverdier og resultater lokalt i brukerens egen nettleser og sendes ikke til våre servere.",
             "Vi selger aldri helsedata og deler dem aldri med annonsører.",
-            "Betaling håndteres av betalingsleverandøren vår ved utsjekk; vi lagrer ikke kortopplysninger.",
+            "Betaling håndteres av Stripe ved utsjekk; vi lagrer ikke kortopplysninger.",
           ],
         },
         {
@@ -89,7 +89,7 @@ export const LEGAL_PAGES = {
           b: [
             "W obecnej wersji profil, wartości laboratoryjne i wyniki są przechowywane lokalnie w przeglądarce użytkownika i nie są wysyłane na nasze serwery.",
             "Nigdy nie sprzedajemy danych zdrowotnych i nie udostępniamy ich reklamodawcom.",
-            "Płatności obsługuje nasz dostawca płatności przy finalizacji zakupu; nie przechowujemy danych kart.",
+            "Płatności obsługuje Stripe przy finalizacji zakupu; nie przechowujemy danych kart.",
           ],
         },
         {
@@ -119,7 +119,7 @@ export const LEGAL_PAGES = {
           b: [
             "I den nuværende version gemmes profil, laboratorieværdier og resultater lokalt i brugerens egen browser og sendes ikke til vores servere.",
             "Vi sælger aldrig sundhedsdata og deler dem aldrig med annoncører.",
-            "Betaling håndteres af vores betalingsudbyder ved checkout, og vi gemmer ikke kortoplysninger.",
+            "Betaling håndteres af Stripe ved checkout, og vi gemmer ikke kortoplysninger.",
           ],
         },
         {
@@ -269,7 +269,7 @@ export const LEGAL_PAGES = {
           b: [
             "In de huidige versie worden profiel, bloedwaarden en resultaten lokaal in de eigen browser van de gebruiker opgeslagen en niet naar onze servers verstuurd.",
             "We verkopen nooit gezondheidsgegevens en delen ze nooit met adverteerders.",
-            "Betalingen worden bij het afrekenen afgehandeld door onze betaalprovider; we slaan geen kaartgegevens op.",
+            "Betalingen worden bij het afrekenen afgehandeld door Stripe; we slaan geen kaartgegevens op.",
           ],
         },
         {

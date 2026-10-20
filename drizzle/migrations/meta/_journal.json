@@ -15,6 +15,13 @@
       "when": 1792071453559,
       "tag": "0001_user_passwords",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1792504427883,
+      "tag": "0002_add_stripe_subscriptions",
+      "breakpoints": true
     }
   ]
 }
