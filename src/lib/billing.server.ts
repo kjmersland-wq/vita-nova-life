@@ -1,56 +1,60 @@
-// Server-only Creem helpers. Never imported by client code.
+// Server-only billing helpers. Never imported by client code.
+import type { StripeEnv } from "./stripe.server";
+
 export type PlanKey = "essential" | "premium" | "annual";
 export type Access = "free" | "essential" | "premium";
 
 export const SITE = "vitanovalife.com";
 
-export function creemBase(): string {
-  const key = process.env["CREEM_API_KEY"] ?? "";
-  return key.startsWith("creem_test_") ? "https://test-api.creem.io" : "https://api.creem.io";
-}
+/** Human-readable price IDs (Stripe lookup keys), stable across test and live. */
+export const PRICE_FOR_PLAN: Record<PlanKey, string> = {
+  essential: "essential_monthly",
+  premium: "premium_monthly",
+  annual: "premium_yearly",
+};
 
-/** Product IDs from Creem, set as environment variables. */
-export function productFor(plan: PlanKey): string | undefined {
-  const map: Record<PlanKey, string> = {
-    essential: "CREEM_PRODUCT_ESSENTIAL",
-    premium: "CREEM_PRODUCT_PREMIUM",
-    annual: "CREEM_PRODUCT_ANNUAL",
-  };
-  return process.env[map[plan]];
-}
-
-/** Which access level a Creem product gives. Annual Premium = premium. */
-export function accessForProduct(productId: string | undefined | null): "essential" | "premium" | null {
-  if (!productId) return null;
-  if (productId === process.env["CREEM_PRODUCT_ESSENTIAL"]) return "essential";
-  if (productId === process.env["CREEM_PRODUCT_PREMIUM"] || productId === process.env["CREEM_PRODUCT_ANNUAL"]) return "premium";
+/** Which access level a price gives. Annual Premium = premium. */
+export function accessForPrice(priceId: string | null | undefined): "essential" | "premium" | null {
+  if (priceId === "essential_monthly") return "essential";
+  if (priceId === "premium_monthly" || priceId === "premium_yearly") return "premium";
   return null;
 }
 
-type SubRow = { plan: string; status: string; current_period_end: string | null } | null;
+type SubRow = { price_id: string; status: string; current_period_end: string | null };
 
-/** The single rule for "does this e-mail have paid access right now". */
-export function accessFromRow(row: SubRow): Access {
+/** The single rule for "does this row give paid access right now". */
+export function accessFromRow(row: SubRow | null | undefined, now = Date.now()): Access {
   if (!row) return "free";
-  const plan = row.plan === "premium" ? "premium" : "essential";
-  if (["active", "trialing", "paid"].includes(row.status)) return plan;
+  const plan = accessForPrice(row.price_id);
+  if (!plan) return "free";
+  const end = row.current_period_end ? new Date(row.current_period_end).getTime() : null;
+  if (["active", "trialing", "past_due"].includes(row.status)) return end === null || end > now ? plan : "free";
   // Cancelled: keep access until the period that was paid for ends.
-  if ((row.status === "canceled" || row.status === "scheduled_cancel") && row.current_period_end) {
-    return new Date(row.current_period_end).getTime() > Date.now() ? plan : "free";
-  }
+  if (row.status === "canceled" && end !== null && end > now) return plan;
   return "free";
+}
+
+/** Best access across all of a person's subscriptions. */
+export function bestAccess(rows: SubRow[], now = Date.now()): Access {
+  let best: Access = "free";
+  for (const r of rows) {
+    const a = accessFromRow(r, now);
+    if (a === "premium") return "premium";
+    if (a === "essential") best = "essential";
+  }
+  return best;
 }
 
 /** Owner accounts get full Premium access without paying (server-side only). */
 const OWNER_EMAILS = ["kjmersland@gmail.com"];
 
-export async function getAccessForEmail(email: string): Promise<Access> {
+export async function getAccessForEmail(email: string, env: StripeEnv): Promise<Access> {
   if (OWNER_EMAILS.includes(email.toLowerCase())) return "premium";
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { data } = await supabaseAdmin
-    .from("subscriptions")
-    .select("plan,status,current_period_end")
+    .from("stripe_subscriptions")
+    .select("price_id,status,current_period_end")
     .eq("email", email.toLowerCase())
-    .maybeSingle();
-  return accessFromRow(data);
+    .eq("environment", env);
+  return bestAccess(data ?? []);
 }
