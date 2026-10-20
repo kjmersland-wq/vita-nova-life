@@ -26,11 +26,11 @@ import { Route as Char123LangChar125PricingRouteImport } from './routes/{-$lang}
 import { Route as Char123LangChar125ProgramRouteImport } from './routes/{-$lang}/program'
 import { Route as Char123LangChar125ResultsRouteImport } from './routes/{-$lang}/results'
 import { Route as Char123LangChar125StartRouteImport } from './routes/{-$lang}/start'
-import { Route as ApiPublicCreemWebhookRouteImport } from './routes/api/public/creem-webhook'
 import { Route as Char123LangChar125LegalIndexRouteImport } from './routes/{-$lang}/legal.index'
 import { Route as Char123LangChar125LegalDpaRouteImport } from './routes/{-$lang}/legal.dpa'
 import { Route as Char123LangChar125LegalPrivacyRouteImport } from './routes/{-$lang}/legal.privacy'
 import { Route as Char123LangChar125LegalTermsRouteImport } from './routes/{-$lang}/legal.terms'
+import { Route as ApiPublicPaymentsWebhookRouteImport } from './routes/api/public/payments/webhook'
 import { Route as LovableEmailTransactionalPreviewRouteImport } from './routes/lovable/email/transactional/preview'
 
 const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
@@ -126,11 +126,6 @@ const Char123LangChar125StartRoute = Char123LangChar125StartRouteImport.update({
   path: '/start',
   getParentRoute: () => Char123LangChar125RouteRoute,
 } as any)
-const ApiPublicCreemWebhookRoute = ApiPublicCreemWebhookRouteImport.update({
-  id: '/api/public/creem-webhook',
-  path: '/api/public/creem-webhook',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const Char123LangChar125LegalIndexRoute =
   Char123LangChar125LegalIndexRouteImport.update({
     id: '/legal/',
@@ -154,6 +149,12 @@ const Char123LangChar125LegalTermsRoute =
     id: '/legal/terms',
     path: '/legal/terms',
     getParentRoute: () => Char123LangChar125RouteRoute,
+  } as any)
+const ApiPublicPaymentsWebhookRoute =
+  ApiPublicPaymentsWebhookRouteImport.update({
+    id: '/api/public/payments/webhook',
+    path: '/api/public/payments/webhook',
+    getParentRoute: () => rootRouteImport,
   } as any)
 const LovableEmailTransactionalPreviewRoute =
   LovableEmailTransactionalPreviewRouteImport.update({
@@ -180,11 +181,11 @@ export interface FileRoutesByFullPath {
   '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
   '/{-$lang}/start': typeof Char123LangChar125StartRoute
   '/{-$lang}/': typeof Char123LangChar125IndexRoute
-  '/api/public/creem-webhook': typeof ApiPublicCreemWebhookRoute
   '/{-$lang}/legal/dpa': typeof Char123LangChar125LegalDpaRoute
   '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
   '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
   '/{-$lang}/legal/': typeof Char123LangChar125LegalIndexRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesByTo {
@@ -204,11 +205,11 @@ export interface FileRoutesByTo {
   '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
   '/{-$lang}/start': typeof Char123LangChar125StartRoute
   '/{-$lang}': typeof Char123LangChar125IndexRoute
-  '/api/public/creem-webhook': typeof ApiPublicCreemWebhookRoute
   '/{-$lang}/legal/dpa': typeof Char123LangChar125LegalDpaRoute
   '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
   '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
   '/{-$lang}/legal': typeof Char123LangChar125LegalIndexRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRoutesById {
@@ -230,11 +231,11 @@ export interface FileRoutesById {
   '/{-$lang}/results': typeof Char123LangChar125ResultsRoute
   '/{-$lang}/start': typeof Char123LangChar125StartRoute
   '/{-$lang}/': typeof Char123LangChar125IndexRoute
-  '/api/public/creem-webhook': typeof ApiPublicCreemWebhookRoute
   '/{-$lang}/legal/dpa': typeof Char123LangChar125LegalDpaRoute
   '/{-$lang}/legal/privacy': typeof Char123LangChar125LegalPrivacyRoute
   '/{-$lang}/legal/terms': typeof Char123LangChar125LegalTermsRoute
   '/{-$lang}/legal/': typeof Char123LangChar125LegalIndexRoute
+  '/api/public/payments/webhook': typeof ApiPublicPaymentsWebhookRoute
   '/lovable/email/transactional/preview': typeof LovableEmailTransactionalPreviewRoute
 }
 export interface FileRouteTypes {
@@ -257,11 +258,11 @@ export interface FileRouteTypes {
     | '/{-$lang}/results'
     | '/{-$lang}/start'
     | '/{-$lang}/'
-    | '/api/public/creem-webhook'
     | '/{-$lang}/legal/dpa'
     | '/{-$lang}/legal/privacy'
     | '/{-$lang}/legal/terms'
     | '/{-$lang}/legal/'
+    | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -281,11 +282,11 @@ export interface FileRouteTypes {
     | '/{-$lang}/results'
     | '/{-$lang}/start'
     | '/{-$lang}'
-    | '/api/public/creem-webhook'
     | '/{-$lang}/legal/dpa'
     | '/{-$lang}/legal/privacy'
     | '/{-$lang}/legal/terms'
     | '/{-$lang}/legal'
+    | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   id:
     | '__root__'
@@ -306,11 +307,11 @@ export interface FileRouteTypes {
     | '/{-$lang}/results'
     | '/{-$lang}/start'
     | '/{-$lang}/'
-    | '/api/public/creem-webhook'
     | '/{-$lang}/legal/dpa'
     | '/{-$lang}/legal/privacy'
     | '/{-$lang}/legal/terms'
     | '/{-$lang}/legal/'
+    | '/api/public/payments/webhook'
     | '/lovable/email/transactional/preview'
   fileRoutesById: FileRoutesById
 }
@@ -318,7 +319,7 @@ export interface RootRouteChildren {
   Char123LangChar125RouteRoute: typeof Char123LangChar125RouteRouteWithChildren
   RobotsDottxtRoute: typeof RobotsDottxtRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  ApiPublicCreemWebhookRoute: typeof ApiPublicCreemWebhookRoute
+  ApiPublicPaymentsWebhookRoute: typeof ApiPublicPaymentsWebhookRoute
   LovableEmailTransactionalPreviewRoute: typeof LovableEmailTransactionalPreviewRoute
 }
 
@@ -443,13 +444,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char123LangChar125StartRouteImport
       parentRoute: typeof Char123LangChar125RouteRoute
     }
-    '/api/public/creem-webhook': {
-      id: '/api/public/creem-webhook'
-      path: '/api/public/creem-webhook'
-      fullPath: '/api/public/creem-webhook'
-      preLoaderRoute: typeof ApiPublicCreemWebhookRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/{-$lang}/legal/': {
       id: '/{-$lang}/legal/'
       path: '/legal'
@@ -477,6 +471,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/{-$lang}/legal/terms'
       preLoaderRoute: typeof Char123LangChar125LegalTermsRouteImport
       parentRoute: typeof Char123LangChar125RouteRoute
+    }
+    '/api/public/payments/webhook': {
+      id: '/api/public/payments/webhook'
+      path: '/api/public/payments/webhook'
+      fullPath: '/api/public/payments/webhook'
+      preLoaderRoute: typeof ApiPublicPaymentsWebhookRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/lovable/email/transactional/preview': {
       id: '/lovable/email/transactional/preview'
@@ -540,7 +541,7 @@ const rootRouteChildren: RootRouteChildren = {
   Char123LangChar125RouteRoute: Char123LangChar125RouteRouteWithChildren,
   RobotsDottxtRoute: RobotsDottxtRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  ApiPublicCreemWebhookRoute: ApiPublicCreemWebhookRoute,
+  ApiPublicPaymentsWebhookRoute: ApiPublicPaymentsWebhookRoute,
   LovableEmailTransactionalPreviewRoute: LovableEmailTransactionalPreviewRoute,
 }
 export const routeTree = rootRouteImport

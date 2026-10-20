@@ -3,13 +3,15 @@ import { createFileRoute } from "@tanstack/react-router";
 import { LangLink, toLang, useDict, useLang, useLangNavigate } from "@/lib/i18n";
 import { useEffect, useState } from "react";
 import { useServerFn } from "@tanstack/react-start";
-import { createCheckout, getEntitlement } from "@/lib/billing.functions";
+import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
+import { createCheckout, createPortal, getEntitlement } from "@/lib/billing.functions";
+import { getStripe, getStripeEnvironment, paymentsConfigured } from "@/lib/stripe";
 
 const PLAN_KEYS = ["essential", "premium", "annual"] as const;
 const BUY = {
-  en: { intro: "Start free. If you want more, pick a plan below. Payment is handled securely by Creem, in euros.", buy: "Choose plan", busy: "Opening checkout…", current: "Your current plan", signIn: "Sign in first with your e-mail code, then choose a plan.", failed: "Checkout could not open. Please try again in a moment.", notConfigured: "Payment is not switched on yet.", success: "Thank you. Your plan is being activated — it can take a minute." },
-  no: { intro: "Start gratis. Vil du ha mer, velger du en plan under. Betalingen håndteres trygt av Creem, i euro.", buy: "Velg plan", busy: "Åpner betaling …", current: "Din nåværende plan", signIn: "Logg inn med e-postkoden først, og velg så en plan.", failed: "Betalingen kunne ikke åpnes. Prøv igjen om litt.", notConfigured: "Betaling er ikke slått på ennå.", success: "Takk. Planen din aktiveres nå — det kan ta et minutt." },
-  pl: { intro: "Zacznij za darmo. Jeśli chcesz więcej, wybierz plan poniżej. Płatność bezpiecznie obsługuje Creem, w euro.", buy: "Wybierz plan", busy: "Otwieram płatność…", current: "Twój obecny plan", signIn: "Najpierw zaloguj się kodem z e-maila, potem wybierz plan.", failed: "Nie udało się otworzyć płatności. Spróbuj ponownie za chwilę.", notConfigured: "Płatności nie są jeszcze włączone.", success: "Dziękujemy. Twój plan jest aktywowany — może to potrwać minutę." },
+  en: { intro: "Start free. If you want more, pick a plan below. Payment is handled securely by Stripe, in euros.", buy: "Choose plan", busy: "Opening checkout…", current: "Your current plan", manage: "Manage subscription", close: "Close", testMode: "Test mode: no real money is charged here.", signIn: "Sign in first with your e-mail code, then choose a plan.", failed: "Checkout could not open. Please try again in a moment.", notConfigured: "Payment is not switched on yet.", success: "Thank you. Your plan is being activated — it can take a minute." },
+  no: { intro: "Start gratis. Vil du ha mer, velger du en plan under. Betalingen håndteres trygt av Stripe, i euro.", buy: "Velg plan", busy: "Åpner betaling …", current: "Din nåværende plan", manage: "Administrer abonnement", close: "Lukk", testMode: "Testmodus: her trekkes ingen ekte penger.", signIn: "Logg inn med e-postkoden først, og velg så en plan.", failed: "Betalingen kunne ikke åpnes. Prøv igjen om litt.", notConfigured: "Betaling er ikke slått på ennå.", success: "Takk. Planen din aktiveres nå — det kan ta et minutt." },
+  pl: { intro: "Zacznij za darmo. Jeśli chcesz więcej, wybierz plan poniżej. Płatność bezpiecznie obsługuje Stripe, w euro.", buy: "Wybierz plan", busy: "Otwieram płatność…", current: "Twój obecny plan", manage: "Zarządzaj subskrypcją", close: "Zamknij", testMode: "Tryb testowy: nie pobieramy tu prawdziwych pieniędzy.", signIn: "Najpierw zaloguj się kodem z e-maila, potem wybierz plan.", failed: "Nie udało się otworzyć płatności. Spróbuj ponownie za chwilę.", notConfigured: "Płatności nie są jeszcze włączone.", success: "Dziękujemy. Twój plan jest aktywowany — może to potrwać minutę." },
 };
 import { Page, StepHeader } from "@/components/site";
 
