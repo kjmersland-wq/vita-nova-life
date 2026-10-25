@@ -4,6 +4,7 @@ import type Stripe from "stripe";
 import { sessionConfig } from "./auth.functions";
 import { getAccessForEmail, PRICE_FOR_PLAN, SITE, type Access, type PlanKey } from "./billing.server";
 import { createStripeClient, getStripeErrorMessage, type StripeEnv } from "./stripe.server";
+import { newCheckoutAllowed, PAYMENTS_PAUSED, PAUSED_PORTAL_FEATURES } from "./payments-pause";
 
 async function sessionEmail(): Promise<string | null> {
   const s = await useSession<{ email?: string }>(sessionConfig());
@@ -43,6 +44,7 @@ export const createCheckout = createServerFn({ method: "POST" })
     return { plan: d.plan as PlanKey, environment: toEnv(d.environment), returnUrl: safeReturnUrl(d.returnUrl) };
   })
   .handler(async ({ data }): Promise<CheckoutResult> => {
+    if (!newCheckoutAllowed()) return { error: "paymentsPaused" };
     const email = await sessionEmail();
     if (!email) return { error: "notSignedIn" };
     if ((await getAccessForEmail(email, data.environment)) !== "free") return { error: "alreadySubscribed" };
@@ -89,7 +91,18 @@ export const createPortal = createServerFn({ method: "POST" })
     if (!row?.stripe_customer_id) return { error: "noSubscription" };
     try {
       const stripe = createStripeClient(data.environment);
-      const portal = await stripe.billingPortal.sessions.create({ customer: row.stripe_customer_id, return_url: data.returnUrl });
+      // Keep existing account management available without allowing paid plan changes during the pause.
+      const configuration = PAYMENTS_PAUSED
+        ? await stripe.billingPortal.configurations.create({
+            business_profile: { headline: "Vita Nova Life" },
+            features: PAUSED_PORTAL_FEATURES,
+          })
+        : undefined;
+      const portal = await stripe.billingPortal.sessions.create({
+        customer: row.stripe_customer_id,
+        return_url: data.returnUrl,
+        ...(configuration ? { configuration: configuration.id } : {}),
+      });
       return { url: portal.url };
     } catch (error) {
       return { error: getStripeErrorMessage(error) };

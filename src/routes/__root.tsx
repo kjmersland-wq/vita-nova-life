@@ -15,6 +15,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { LANG_META, langFromPath } from "../lib/i18n";
 import { seoLinks, seoMeta } from "../lib/seo";
+import { PaymentsPausedNotice } from "@/components/payments-paused-notice";
 
 const SYS_T = {
   en: { nf: "Page not found", nfBody: "The page you're looking for doesn't exist or has been moved.", home: "Go home", err: "This page didn't load", errBody: "Something went wrong on our end. You can try refreshing or head back home.", retry: "Try again" },
@@ -157,6 +158,7 @@ function RootShell({ children }: { children: ReactNode }) {
         ))}
       </head>
       <body>
+        <PaymentsPausedNotice />
         {children}
         <Scripts />
       </body>

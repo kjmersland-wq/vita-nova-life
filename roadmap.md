@@ -13,3 +13,5 @@
 - [x] Add English, Norwegian and Polish sharing images and platform sharing buttons.
 - [x] Verify branding, localized metadata and sharing without exposing health data.
 - [ ] Verify social-platform previews after publication and public access; blocked by the existing site-wide sign-in gate.
+- [ ] Add localized site-wide payment pause and block new checkout while preserving existing access.
+- [ ] Verify paused pricing, server guard and desktop/mobile notice.
