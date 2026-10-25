@@ -711,7 +711,7 @@ function PricingPage() {
         <StepHeader
           step={t.step}
           title={t.title}
-          intro={PAYMENTS_PAUSED ? undefined : b.intro ?? t.intro}
+          {...(!PAYMENTS_PAUSED ? { intro: b.intro ?? t.intro } : {})}
         />
         {secret && !PAYMENTS_PAUSED && (
           <div className="mb-10 rounded-md border border-border bg-card p-4">
