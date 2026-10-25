@@ -11,6 +11,8 @@
 
 ## Architecture rules
 
+- Temporary payment pauses use the single switch in `src/lib/payments-pause.ts` for the global notice, pricing controls, server checkout guard and restricted customer portal; existing entitlement reads and renewals stay unchanged.
+
 - All clinical logic lives in `src/lib/engine/` (`markers.ts` thresholds, `rules.ts` scoring/actions, `program.ts` weeks) — kept deterministic and separate so thresholds can be edited without touching UI.
 - App state is a single localStorage-backed store in `src/lib/store.ts` (`useSyncExternalStore`) — no backend in v1, health data stays on-device.
 - Language lives in the URL: all pages sit under `src/routes/{-$lang}/` (optional /no, /pl prefix); link with `LangLink`/`useLangNavigate` from `src/lib/i18n.tsx`, texts as per-file `{en,no,pl}` dictionaries, engine functions take a `lang` param — keeps URLs shareable and translations next to their UI.

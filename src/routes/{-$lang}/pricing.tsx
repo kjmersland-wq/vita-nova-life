@@ -6,6 +6,9 @@ import { useServerFn } from "@tanstack/react-start";
 import { EmbeddedCheckout, EmbeddedCheckoutProvider } from "@stripe/react-stripe-js";
 import { createCheckout, createPortal, getEntitlement } from "@/lib/billing.functions";
 import { getStripe, getStripeEnvironment, paymentsConfigured } from "@/lib/stripe";
+import { PAYMENTS_PAUSED } from "@/lib/payments-pause";
+import { PAYMENT_PAUSE_TEXT } from "@/components/payments-paused-notice";
+import { Button } from "@/components/ui/button";
 
 const PLAN_KEYS = ["essential", "premium", "annual"] as const;
 const BUY = {
@@ -670,6 +673,7 @@ function PricingPage() {
   }, []);
   const returnUrl = () => `${window.location.origin}${lang === "en" ? "" : `/${lang}`}/pricing?checkout=success`;
   async function buy(plan: (typeof PLAN_KEYS)[number]) {
+    if (PAYMENTS_PAUSED) return;
     setMsg(null);
     if (!paymentsConfigured()) return setMsg(b.notConfigured);
     setBusy(plan);
@@ -703,13 +707,13 @@ function PricingPage() {
   return (
     <Page>
       <div className="container-page max-w-5xl py-12">
-        {isTest && <p className="mb-6 rounded-md border border-border bg-muted px-4 py-2 text-center text-sm text-muted-foreground">{b.testMode}</p>}
+        {isTest && !PAYMENTS_PAUSED && <p className="mb-6 rounded-md border border-border bg-muted px-4 py-2 text-center text-sm text-muted-foreground">{b.testMode}</p>}
         <StepHeader
           step={t.step}
           title={t.title}
-          intro={b.intro ?? t.intro}
+          {...(!PAYMENTS_PAUSED ? { intro: b.intro ?? t.intro } : {})}
         />
-        {secret && (
+        {secret && !PAYMENTS_PAUSED && (
           <div className="mb-10 rounded-md border border-border bg-card p-4">
             <div className="mb-3 flex justify-end">
               <button type="button" onClick={() => setSecret(null)} className="text-sm underline">{b.close}</button>
@@ -768,17 +772,18 @@ function PricingPage() {
                 ))}
               </ul>
               {(() => {
-                const key = PLAN_KEYS[i]!;
+                const key = PLAN_KEYS[i];
+                if (!key) return null;
                 const isCurrent = access !== "free" && (key === "essential" ? access === "essential" : access === "premium");
                 return (
-                  <button
+                  <Button
                     type="button"
-                    disabled={busy !== null || isCurrent}
+                    disabled={PAYMENTS_PAUSED || busy !== null || isCurrent}
                     onClick={() => buy(key)}
                     className="mt-6 rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-primary-foreground disabled:opacity-40"
                   >
-                    {isCurrent ? b.current : busy === key ? b.busy : b.buy}
-                  </button>
+                    {isCurrent ? b.current : PAYMENTS_PAUSED ? PAYMENT_PAUSE_TEXT[lang].label : busy === key ? b.busy : b.buy}
+                  </Button>
                 );
               })()}
             </div>
